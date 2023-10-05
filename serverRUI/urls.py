@@ -33,4 +33,6 @@ urlpatterns = [
     path('info/descarga', views.generarExcel),
     path('registro/insertR', views.insert_rescates),
     path('registro/insertC', views.insert_conteo),
+    path('descargas/', views.servirApps),
+    path('descargas/apk', views.downloadAPK, name="descarga_android"),
 ]

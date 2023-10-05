@@ -651,100 +651,22 @@ def generarExcel(request):
             response = HttpResponse(content = save_virtual_workbook(workbook), content_type='vnd.openxmlformats-officedocument.spreadsheetml.sheet')
             response['Content-Disposition'] = 'attachment; filename={fecha}.xlsx'.format(fecha = fechaR)
 
-            # response = HttpResponse(content_type ='text/csv')
-            # response['Content-Disposition'] = 'attachment; filename={fecha}.csv'.format(fecha = fechaR)
-            # writer = csv.writer(response)
-
-            # writer.writerow(['Rescates Totales: ', valores.count()])
-            # writer.writerow(['Oficina de Representación', 
-            #                  'Fecha', 
-            #                  'Hora', 
-            #                  'Aeropuerto', 
-            #                  'Carretero', 
-            #                  'Tipo de Vehículo', 
-            #                  'Linea / Empresa', 
-            #                  'No. Economico', 
-            #                  'Placas', 
-            #                  'Vehículo Asegurado', 
-            #                  'Casa de Seguridad', 
-            #                  'Central de Autobus', 
-            #                  'Ferrocarril', 
-            #                  'Empresa', 
-            #                  'Hotel', 
-            #                  'Nombre del Hotel', 
-            #                  'Puestos a Disposición', 
-            #                  'Juéz Calificador', 
-            #                  'Reclusorio', 
-            #                  'Policía Federal', 
-            #                  'DIF', 
-            #                  'Plicía Estatal', 
-            #                  'Policía Municipal', 
-            #                  'Guardia Nacional', 
-            #                  'Fiscalia', 
-            #                  'Otras Autoridades', 
-            #                  'Voluntarios', 
-            #                  'Otro', 
-            #                  'Presentos Delincuentes', 
-            #                  'No. de Presuntos Delincuentes', 
-            #                  'Municipio', 
-            #                  'Punto Estratégico', 
-            #                  'Nacionalidad', 
-            #                  'ISO', 
-            #                  'Nombre', 
-            #                  'Apellidos',
-            #                  'No de Documento',
-            #                  'Parentesco',
-            #                  'Fecha de Nacimiento',
-            #                  'Sexo',
-            #                  'No. de Familia',
-            #                  'Edad',
-            #                  ])
-            # for valor in valores:
-            #     writer.writerow([valor.oficinaRepre, 
-            #                      valor.fecha,
-            #                      valor.hora,
-            #                      valor.aeropuerto,
-            #                      valor.carretero,
-            #                      valor.tipoVehic,
-            #                      valor.lineaAutobus,
-            #                      valor.numeroEcono,
-            #                      valor.placas,
-            #                      valor.vehiculoAseg,
-            #                      valor.casaSeguridad,
-            #                      valor.centralAutobus,
-            #                      valor.ferrocarril,
-            #                      valor.empresa,
-            #                      valor.hotel,
-            #                      valor.nombreHotel,
-            #                      valor.puestosADispo,
-            #                      valor.juezCalif,
-            #                      valor.reclusorio,
-            #                      valor.policiaFede,
-            #                      valor.dif,
-            #                      valor.policiaEsta,
-            #                      valor.policiaMuni,
-            #                      valor.guardiaNaci,
-            #                      valor.fiscalia,
-            #                      valor.otrasAuto,
-            #                      valor.voluntarios,
-            #                      valor.otro,
-            #                      valor.presuntosDelincuentes,
-            #                      valor.numPresuntosDelincuentes,
-            #                      valor.municipio,
-            #                      valor.puntoEstra,
-            #                      valor.nacionalidad,
-            #                      valor.iso3,
-            #                      valor.nombre,
-            #                      valor.apellidos,
-            #                      valor.noIdentidad,
-            #                      valor.parentesco,
-            #                      valor.fechaNacimiento,
-            #                      "Hombre" if valor.sexo else "Mujer",
-            #                      valor.numFamilia,
-            #                      valor.edad,
-            #                      ])
-
             return response
     else:
         form = ExcelForm()
     return render(request, "generarExcel/generarArchivoExcel.html", {"form" : form})
+
+
+def servirApps(request):
+    return render(request, "descargas/descargar_Apps.html", {
+        
+    })
+
+@csrf_exempt
+def downloadAPK(request):
+    if request.method == 'GET':
+        appAndroid = open('tmp/ruie.apk', 'rb')
+
+        response = HttpResponse(appAndroid, content_type="application/vnd.android.package-archive")
+        response["Content-disposition"] = "attachment; filename='ruie.apk'"
+        return response
