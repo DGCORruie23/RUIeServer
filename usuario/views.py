@@ -5,7 +5,7 @@ from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
 from .serializers import UserGetSerializer, UserGetSerializerC, PaisesGetSerializer, EstadoFuerzaGetSerializer, FrasesGetSerializer, ListRescatePuntoSerializer, RescatePuntoSerializer
 from .serializers import MunicipiosGetSerializer, PuntosInterGetSerializer, ConteoRapidoSerializer
-from .models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto
+from .models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto, ConteoRapidoPunto
 from .forms import CargarArchivoForm, ExcelForm
 import openpyxl as opxl
 from openpyxl.writer.excel import save_virtual_workbook
@@ -541,7 +541,7 @@ def convertirU(coordenadas):
 
 
 @csrf_exempt
-def generarExcel(request):
+def generarExcelNombres(request):
     if(request.method == "POST"):
         form = ExcelForm(request.POST)
         if(form.is_valid()):
@@ -562,7 +562,8 @@ def generarExcel(request):
 
             worksheet.append(['Oficina de Representación', 
                              'Fecha', 
-                             'Hora', 
+                             'Hora',
+                             'AGENTE',
                              'Aeropuerto', 
                              'Carretero', 
                              'Tipo de Vehículo', 
@@ -607,6 +608,7 @@ def generarExcel(request):
                 worksheet.append([valor.oficinaRepre, 
                                  valor.fecha,
                                  valor.hora,
+                                 valor.nombreAgente.upper(),
                                  "1" if valor.aeropuerto else "",
                                  "1" if valor.carretero else "",
                                  valor.tipoVehic.upper(),
@@ -654,12 +656,156 @@ def generarExcel(request):
             return response
     else:
         form = ExcelForm()
-    return render(request, "generarExcel/generarArchivoExcel.html", {"form" : form})
+    return render(request, "generarExcel/generarArchivoExcelNombres.html", {"form" : form})
+
+
+@csrf_exempt
+def generarExcelConteo(request):
+    if(request.method == "POST"):
+        form = ExcelForm(request.POST)
+        if(form.is_valid()):
+            # print(request.POST)
+            # Nota: "archivo" este campo se llama como se llama en el form  
+            dia = request.POST["fechaDescarga_day"]
+            mes = request.POST["fechaDescarga_month"]
+            year = request.POST["fechaDescarga_year"]
+
+            fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+
+            valores = ConteoRapidoPunto.objects.filter(fecha= fechaR)
+            
+            workbook = opxl.Workbook()
+            worksheet = workbook.active
+
+            worksheet.append(['Eventos Totales: ', valores.count(), 'Adulto No Acompañado = ANA', '', '','Adulto Acompañado = AA'])
+
+            worksheet.append(['Oficina de Representación', 
+                             'Fecha', 
+                             'Hora',
+                             'AGENTE',
+                             'Aeropuerto', 
+                             'Carretero', 
+                             'Tipo de Vehículo', 
+                             'Linea / Empresa', 
+                             'No. Economico', 
+                             'Placas', 
+                             'Vehículo Asegurado', 
+                             'Casa de Seguridad', 
+                             'Central de Autobus', 
+                             'Ferrocarril', 
+                             'Empresa', 
+                             'Hotel', 
+                             'Nombre del Hotel', 
+                             'Puestos a Disposición', 
+                             'Juéz Calificador', 
+                             'Reclusorio', 
+                             'Policía Federal', 
+                             'DIF', 
+                             'Plicía Estatal', 
+                             'Policía Municipal', 
+                             'Guardia Nacional', 
+                             'Fiscalia', 
+                             'Otras Autoridades', 
+                             'Voluntarios', 
+                             'Otro', 
+                             'Presuntos Delincuentes', 
+                             'No. de Presuntos Delincuentes', 
+                             'Municipio', 
+                             'Punto Estratégico',
+
+                             'Nacionalidad', 
+                             'ISO', 
+                             
+                             'ANA Hombre(s)', 
+                             'ANA Mujer(es)',
+                             'ANA Mujer No Embarazada(s)',
+                             
+                             'Nucleos Familiares',
+                             'AA Hombre(s)', 
+                             'AA Mujer(es)',
+                             'AA Mujer No Embarazada(s)',
+                             'NNAA Hombre(s)', 
+                             'NNAA Mujer(es)',
+                             'NNAA Mujer No Embarazada(s)',
+                             
+                             'NNANA Hombre(s)', 
+                             'NNANA Mujer(es)',
+                             'NNANA Mujer No Embarazada(s)',
+                             'Masivo'
+                             ])
+            for valor in valores:
+                masivoD = (valor.AS_hombres + valor.AS_mujeresNoEmb +valor.AS_mujeresEmb +
+                           valor.AA_hombres + valor.AA_mujeresNoEmb + valor.AA_mujeresEmb +
+                           valor.NNA_A_hombres + valor.NNA_A_mujeresNoEmb + valor.NNA_A_mujeresEmb +
+                           valor.NNA_S_hombres + valor.NNA_S_mujeresNoEmb + valor.NNA_S_mujeresEmb
+                           )
+                worksheet.append([valor.oficinaRepre, 
+                                 valor.fecha,
+                                 valor.hora,
+                                 valor.nombreAgente.upper(),
+                                 "1" if valor.aeropuerto else "",
+                                 "1" if valor.carretero else "",
+                                 valor.tipoVehic.upper(),
+                                 valor.lineaAutobus.upper(),
+                                 valor.numeroEcono.upper(),
+                                 valor.placas.upper(),
+                                 "1" if valor.vehiculoAseg else "",
+                                 "1" if valor.casaSeguridad else "",
+                                 "1" if valor.centralAutobus else "",
+                                 "1" if valor.ferrocarril else "",
+                                 valor.empresa,
+                                 "1" if valor.hotel else "",
+                                 valor.nombreHotel,
+                                 "1" if valor.puestosADispo else "",
+                                 "1" if valor.juezCalif else "",
+                                 "1" if valor.reclusorio else "",
+                                 "1" if valor.policiaFede else "",
+                                 "1" if valor.dif else "",
+                                 "1" if valor.policiaEsta else "",
+                                 "1" if valor.policiaMuni else "",
+                                 "1" if valor.guardiaNaci else "",
+                                 "1" if valor.fiscalia else "",
+                                 "1" if valor.otrasAuto else "",
+                                 "1" if valor.voluntarios else "",
+                                 "1" if valor.otro else "",
+                                 "1" if valor.presuntosDelincuentes else "",
+                                 valor.numPresuntosDelincuentes if valor.numPresuntosDelincuentes != 0 else "",
+                                 valor.municipio.upper(),
+                                 valor.puntoEstra.upper(),
+                                 valor.nacionalidad.upper(),
+                                 valor.iso3,
+
+                                 valor.AS_hombres,
+                                 valor.AS_mujeresNoEmb,
+                                 valor.AS_mujeresEmb,
+
+                                 valor.nucleosFamiliares,
+                                 valor.AA_hombres,
+                                 valor.AA_mujeresNoEmb,
+                                 valor.AA_mujeresEmb,
+                                 valor.NNA_A_hombres,
+                                 valor.NNA_A_mujeresNoEmb,
+                                 valor.NNA_A_mujeresEmb,
+
+                                 valor.NNA_S_hombres,
+                                 valor.NNA_S_mujeresNoEmb,
+                                 valor.NNA_S_mujeresEmb,
+
+                                 "1" if masivoD >= 40 else "",
+                                 ])
+            
+            response = HttpResponse(content = save_virtual_workbook(workbook), content_type='vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename=rapido {fecha}.xlsx'.format(fecha = fechaR)
+
+            return response
+    else:
+        form = ExcelForm()
+    return render(request, "generarExcel/generarArchivoExcelConteo.html", {"form" : form})
 
 
 def servirApps(request):
     return render(request, "descargas/descargar_Apps.html", {
-        
+
     })
 
 @csrf_exempt
@@ -668,5 +814,5 @@ def downloadAPK(request):
         appAndroid = open('tmp/ruie.apk', 'rb')
 
         response = HttpResponse(appAndroid, content_type="application/vnd.android.package-archive")
-        response["Content-disposition"] = "attachment; filename='ruie.apk'"
+        response["Content-disposition"] = "attachment; filename=ruie.apk"
         return response

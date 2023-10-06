@@ -87,6 +87,8 @@ class RescatePuntoSerializer(ModelSerializer):
 			'oficinaRepre',
 			'fecha',
 			'hora',
+			'nombreAgente',
+
 			'aeropuerto',
 			'carretero',
 			'tipoVehic',
@@ -145,6 +147,8 @@ class ConteoRapidoSerializer(ModelSerializer):
 			'oficinaRepre',
 			'fecha',
 			'hora',
+			'nombreAgente',
+
 			'aeropuerto',
 			'carretero',
 			'tipoVehic',

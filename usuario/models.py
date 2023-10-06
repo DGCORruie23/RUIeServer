@@ -130,6 +130,8 @@ class RescatePunto(models.Model):
     oficinaRepre = models.CharField(max_length=50)
     fecha = models.CharField(max_length=10)
     hora = models.CharField(max_length=5)
+    
+    nombreAgente = models.CharField(max_length=300,blank=True)
 
     aeropuerto = models.BooleanField(default=False)
     carretero = models.BooleanField(default=False)
@@ -216,6 +218,8 @@ class ConteoRapidoPunto(models.Model):
     oficinaRepre = models.CharField(max_length=50)
     fecha = models.CharField(max_length=10)
     hora = models.CharField(max_length=5)
+
+    nombreAgente = models.CharField(max_length=300, blank=True)
 
     aeropuerto = models.BooleanField(default=False)
     carretero = models.BooleanField(default=False)
