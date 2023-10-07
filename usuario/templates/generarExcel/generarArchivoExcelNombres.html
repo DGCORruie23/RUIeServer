@@ -6,21 +6,21 @@
     <title>Descargar Archivo Rescate por días</title>
 </head>
 <body>
+    {% if user.is_authenticated %}
     <center>
         <h3>
             Ingresa la fecha para descargar la información
         </h3>
         <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
             <p>
-                {{form.fechaDescarga}}
+                {{form.fechaDescarga}} 
             </p>
+            <p>{{form.oficina}}</p>
             <p>
                 <input type="submit" value="Descargar" />
             </p>
         </form>
     </center>
-    
-    
-
+    {% endif %}
 </body>
 </html>

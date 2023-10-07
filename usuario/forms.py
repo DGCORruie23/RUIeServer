@@ -14,8 +14,43 @@ class ExcelForm(forms.Form):
         f = int(year) - i
         YEARS.append(str(f))
 
+    types_ORS = [
+        ("AGUASCALIENTES", "AGUASCALIENTES"),
+        ("BAJA CALIFORNIA", "BAJA CALIFORNIA"),
+        ("BAJA CALIFORNIA SUR", "BAJA CALIFORNIA SUR"),
+        ("CAMPECHE", "CAMPECHE"),
+        ("COAHUILA", "COAHUILA"),
+        ("COLIMA", "COLIMA"),
+        ("CHIAPAS", "CHIAPAS"),
+        ("CHIHUAHUA", "CHIHUAHUA"),
+        ("CDMX", "CDMX"),
+        ("DURANGO", "DURANGO"),
+        ("GUANAJUATO", "GUANAJUATO"),
+        ("GUERRERO", "GUERRERO"),
+        ("HIDALGO", "HIDALGO"),
+        ("JALISCO", "JALISCO"),
+        ("EDOMEX", "EDOMEX"),
+        ("MICHOACÁN", "MICHOACÁN"),
+        ("MORELOS", "MORELOS"),
+        ("NAYARIT", "NAYARIT"),
+        ("NUEVO LEÓN", "NUEVO LEÓN"),
+        ("OAXACA", "OAXACA"),
+        ("PUEBLA", "PUEBLA"),
+        ("QUERÉTARO", "QUERÉTARO"),
+        ("QUINTANA ROO", "QUINTANA ROO"),
+        ("SAN LUIS POTOSÍ", "SAN LUIS POTOSÍ"),
+        ("SINALOA", "SINALOA"),
+        ("SONORA", "SONORA"),
+        ("TABASCO", "TABASCO"),
+        ("TAMAULIPAS", "TAMAULIPAS"),
+        ("TLAXCALA", "TLAXCALA"),
+        ("VERACRUZ", "VERACRUZ"),
+        ("YUCATÁN", "YUCATÁN"),
+        ("ZACATECAS", "ZACATECAS"),
+    ]
     fechaDescarga = forms.DateField(
     widget=forms.SelectDateWidget(
         years=YEARS
     ))
+    oficina = forms.ChoiceField(choices=types_ORS)
     # fechaDescarga2 = forms.DateField(widget=forms.SelectDateWidget)

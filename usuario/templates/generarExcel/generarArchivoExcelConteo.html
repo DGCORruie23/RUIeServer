@@ -6,6 +6,8 @@
     <title>Descargar Archivo Conteo por días</title>
 </head>
 <body>
+
+    {% if user.is_authenticated %}
     <center>
         <h3>
             Ingresa la fecha para descargar la información
@@ -19,8 +21,7 @@
             </p>
         </form>
     </center>
-    
-    
+    {% endif %}
 
 </body>
 </html>
