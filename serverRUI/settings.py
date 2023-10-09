@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-1@t2z1-64=lw%hcy^bt)_0i5v+^0a%%d_^0o_v&!c^r4yov70_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ruie.dgcvm.com', 'www.ruie.dgcvm.com', "192.168.8.2"]
+ALLOWED_HOSTS = ['ruie.dgcor.com', 'www.ruie.dgcor.com', "192.168.8.2"]
 
 
 # Application definition
@@ -119,7 +119,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = '/home/dgcvmcom/ruie.dgcvm.com/static'
+STATIC_ROOT = '/home/dgcorcom/ruie.dgcor.com/static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
