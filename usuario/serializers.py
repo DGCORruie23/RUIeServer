@@ -128,6 +128,7 @@ class RescatePuntoSerializer(ModelSerializer):
 			'parentesco',
 			'fechaNacimiento',
 			'sexo',
+			'embarazo',
 			'numFamilia',
 			'edad',
 			]

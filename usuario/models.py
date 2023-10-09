@@ -174,6 +174,7 @@ class RescatePunto(models.Model):
     parentesco = models.CharField(max_length=50, blank=True)
     fechaNacimiento = models.CharField(max_length=10)
     sexo = models.BooleanField(default=False)
+    embarazo = models.BooleanField(default=False)
     numFamilia = models.IntegerField(blank=True)
     edad = models.IntegerField()
 

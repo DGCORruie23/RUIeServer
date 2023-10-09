@@ -6,6 +6,7 @@
     <title>Cargar Estado de Fuerza</title>
 </head>
 <body>
+    {% if user.is_authenticated %}
     <center>
         <h3>
             Carga el archivo de los Paises
@@ -19,5 +20,6 @@
             <input type="submit" value="Cargar" />
         </p>
     </form>
+    {% endif %}
 </body>
 </html>
