@@ -555,55 +555,54 @@ def generarExcelNombres(request):
 
             valores = RescatePunto.objects.filter(fecha= fechaR)
             
-            workbook = opxl.Workbook()
+            workbook = opxl.load_workbook('tmp/dup.xlsm', read_only=False, keep_vba=True)
             worksheet = workbook.active
-
-            worksheet.append(['Rescates Totales: ', valores.count()])
-
-            worksheet.append(['Oficina de Representación', 
-                             'Fecha', 
-                             'Hora',
-                             'AGENTE',
-                             'Aeropuerto', 
-                             'Carretero', 
-                             'Tipo de Vehículo', 
-                             'Linea / Empresa', 
-                             'No. Economico', 
-                             'Placas', 
-                             'Vehículo Asegurado', 
-                             'Casa de Seguridad', 
-                             'Central de Autobus', 
-                             'Ferrocarril', 
-                             'Empresa', 
-                             'Hotel', 
-                             'Nombre del Hotel', 
-                             'Puestos a Disposición', 
-                             'Juéz Calificador', 
-                             'Reclusorio', 
-                             'Policía Federal', 
-                             'DIF', 
-                             'Plicía Estatal', 
-                             'Policía Municipal', 
-                             'Guardia Nacional', 
-                             'Fiscalia', 
-                             'Otras Autoridades', 
-                             'Voluntarios', 
-                             'Otro', 
-                             'Presuntos Delincuentes', 
-                             'No. de Presuntos Delincuentes', 
-                             'Municipio', 
-                             'Punto Estratégico', 
-                             'Nacionalidad', 
-                             'ISO', 
-                             'Nombre', 
-                             'Apellidos',
-                             'No de Documento',
-                             'Parentesco',
-                             'Fecha de Nacimiento',
-                             'Sexo',
-                             'No. de Familia',
-                             'Edad',
-                             ])
+            
+            # worksheet.append(['Oficina de Representación', 
+            #                  'Fecha', 
+            #                  'Hora',
+            #                  'AGENTE',
+            #                  'Aeropuerto', 
+            #                  'Carretero', 
+            #                  'Tipo de Vehículo', 
+            #                  'Linea / Empresa', 
+            #                  'No. Economico', 
+            #                  'Placas', 
+            #                  'Vehículo Asegurado', 
+            #                  'Casa de Seguridad', 
+            #                  'Central de Autobus', 
+            #                  'Ferrocarril', 
+            #                  'Empresa', 
+            #                  'Hotel', 
+            #                  'Nombre del Hotel', 
+            #                  'Puestos a Disposición', 
+            #                  'Juéz Calificador', 
+            #                  'Reclusorio', 
+            #                  'Policía Federal', 
+            #                  'DIF', 
+            #                  'Plicía Estatal', 
+            #                  'Policía Municipal', 
+            #                  'Guardia Nacional', 
+            #                  'Fiscalia', 
+            #                  'Otras Autoridades', 
+            #                  'Voluntarios', 
+            #                  'Otro', 
+            #                  'Presuntos Delincuentes', 
+            #                  'No. de Presuntos Delincuentes', 
+            #                  'Municipio', 
+            #                  'Punto Estratégico', 
+            #                  'Nacionalidad', 
+            #                  'ISO', 
+            #                  'Nombre', 
+            #                  'Apellidos',
+            #                  'No de Documento',
+            #                  'Parentesco',
+            #                  'Fecha de Nacimiento',
+            #                  'Sexo',
+            #                  'Embarazada',
+            #                  'No. de Familia',
+            #                  'Edad',
+            #                  ])
             for valor in valores:
                 worksheet.append([valor.oficinaRepre, 
                                  valor.fecha,
@@ -646,12 +645,15 @@ def generarExcelNombres(request):
                                  valor.parentesco.upper(),
                                  valor.fechaNacimiento,
                                  "Hombre" if valor.sexo else "Mujer",
+                                 "1" if valor.embarazo else "",
                                  valor.numFamilia if valor.numFamilia != 0 else "",
                                  valor.edad,
                                  ])
             
-            response = HttpResponse(content = save_virtual_workbook(workbook), content_type='vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-            response['Content-Disposition'] = 'attachment; filename={fecha}.xlsx'.format(fecha = fechaR)
+            worksheet.append(['Rescates Totales: ', valores.count()])
+
+            response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
+            response['Content-Disposition'] = 'attachment; filename={fecha}.xlsm'.format(fecha = fechaR)
 
             return response
     else:
