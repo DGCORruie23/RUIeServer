@@ -1,0 +1,74 @@
+from usuario.models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto, ConteoRapidoPunto
+from django.db.models import Max, Count
+import datetime
+
+fechaR = datetime.datetime.strptime(f"09/10/2023", "%d/%m/%Y").strftime('%d-%m-%y')
+
+register = RescatePunto.objects.values("iso3", "nombre", "apellidos", "fechaNacimiento").annotate(records=Count("nombre")).filter(records__gt=1)
+for reg in register:
+    RescatePunto.objects.filter(iso3=reg['iso3'], nombre=reg['nombre'])[1:].update(duplicate=True)
+
+register1 = RescatePunto.objects.raw("SELECT * FROM usuario_rescatepunto")
+
+register1 = RescatePunto.objects.raw("SELECT * FROM usuario_rescatepunto GROUP BY usuario_rescatepunto.nombre, usuario_rescatepunto.apellidos HAVING COUNT(*) > 1")
+
+register3 = RescatePunto.objects.values("iso3", "nombre", "apellidos", "fechaNacimiento").annotate(records=Count("*")).filter(records__gt=1)
+duplicados = []
+for reg in register3:
+    for registro in RescatePunto.objects.filter(iso3=reg['iso3'], nombre=reg['nombre'], apellidos = reg['apellidos'], fechaNacimiento=reg['fechaNacimiento']):
+        duplicados.append(registro)
+for i in duplicados:
+    print(i)
+
+#Insomnia json
+
+[
+{
+	"oficinaRepre" : "TABASCO",
+	"fecha" : "09-10-23",
+	"hora" : "23:07",
+	"nombreAgente" : "Eduars Santillan",
+	"aeropuerto" : false,
+			"carretero" : true,
+			"tipoVehic" : "",
+			"lineaAutobus" : "",
+			"numeroEcono" : "",
+			"placas" : "",
+
+			"vehiculoAseg" : false,
+			"casaSeguridad" : false,
+			"centralAutobus" : false,
+			"ferrocarril" : false,
+			"empresa": "",
+			"hotel" : false,
+			"nombreHotel" : "",
+			"puestosADispo" : false,
+			"juezCalif" : false,
+			"reclusorio" : false,
+			"policiaFede" : false,
+			"dif" : false,
+			"policiaEsta" : false,
+			"policiaMuni" : false,
+			"guardiaNaci" : false,
+			"fiscalia" : false,
+			"otrasAuto" : false,
+			"voluntarios" : false,
+			"otro" : false,
+			"presuntosDelincuentes" : false,
+			"numPresuntosDelincuentes" : 0,
+			"municipio" : "",
+			"puntoEstra" : "El Ceibo",
+
+			"nacionalidad" : "Guatemala",
+			"iso3" : "GTM",
+			"nombre" : "JUANA",
+			"apellidos" : "JOSE",
+			"noIdentidad" : "00",
+			"parentesco" : "",
+			"fechaNacimiento" : "16/04/1985",
+			"sexo" : false,
+			"embarazo" : false,
+			"numFamilia" : 0,
+			"edad" : 38
+}
+	]

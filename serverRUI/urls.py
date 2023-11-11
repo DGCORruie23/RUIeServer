@@ -32,6 +32,8 @@ urlpatterns = [
     path('info/frases', views.infoFrases),
     path('info/descargaN', views.generarExcelNombres),
     path('info/descargaC', views.generarExcelConteo),
+    path('info/descargaD', views.pagDuplicados),
+    path('info/descargaD_a', views.downloadDuplicados, name="descarga_duplicados"),
     path('registro/insertR', views.insert_rescates),
     path('registro/insertC', views.insert_conteo),
     path('descargas/', views.servirApps),

@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Max, Count
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
@@ -665,6 +666,7 @@ def generarExcelNombres(request):
 def generarExcelConteo(request):
     if(request.method == "POST"):
         form = ExcelForm(request.POST)
+        print("entro")
         if(form.is_valid()):
             # print(request.POST)
             # Nota: "archivo" este campo se llama como se llama en el form  
@@ -676,65 +678,65 @@ def generarExcelConteo(request):
 
             valores = ConteoRapidoPunto.objects.filter(fecha= fechaR)
             
-            workbook = opxl.Workbook()
+            workbook = opxl.load_workbook('tmp/dup.xlsm', read_only=False, keep_vba=True)
             worksheet = workbook.active
 
-            worksheet.append(['Eventos Totales: ', valores.count(), 'Adulto No Acompañado = ANA', '', '','Adulto Acompañado = AA'])
+            # worksheet.append(['Eventos Totales: ', valores.count(), 'Adulto No Acompañado = ANA', '', '','Adulto Acompañado = AA'])
 
-            worksheet.append(['Oficina de Representación', 
-                             'Fecha', 
-                             'Hora',
-                             'AGENTE',
-                             'Aeropuerto', 
-                             'Carretero', 
-                             'Tipo de Vehículo', 
-                             'Linea / Empresa', 
-                             'No. Economico', 
-                             'Placas', 
-                             'Vehículo Asegurado', 
-                             'Casa de Seguridad', 
-                             'Central de Autobus', 
-                             'Ferrocarril', 
-                             'Empresa', 
-                             'Hotel', 
-                             'Nombre del Hotel', 
-                             'Puestos a Disposición', 
-                             'Juéz Calificador', 
-                             'Reclusorio', 
-                             'Policía Federal', 
-                             'DIF', 
-                             'Plicía Estatal', 
-                             'Policía Municipal', 
-                             'Guardia Nacional', 
-                             'Fiscalia', 
-                             'Otras Autoridades', 
-                             'Voluntarios', 
-                             'Otro', 
-                             'Presuntos Delincuentes', 
-                             'No. de Presuntos Delincuentes', 
-                             'Municipio', 
-                             'Punto Estratégico',
+            # worksheet.append(['Oficina de Representación', 
+            #                  'Fecha', 
+            #                  'Hora',
+            #                  'AGENTE',
+            #                  'Aeropuerto', 
+            #                  'Carretero', 
+            #                  'Tipo de Vehículo', 
+            #                  'Linea / Empresa', 
+            #                  'No. Economico', 
+            #                  'Placas', 
+            #                  'Vehículo Asegurado', 
+            #                  'Casa de Seguridad', 
+            #                  'Central de Autobus', 
+            #                  'Ferrocarril', 
+            #                  'Empresa', 
+            #                  'Hotel', 
+            #                  'Nombre del Hotel', 
+            #                  'Puestos a Disposición', 
+            #                  'Juéz Calificador', 
+            #                  'Reclusorio', 
+            #                  'Policía Federal', 
+            #                  'DIF', 
+            #                  'Plicía Estatal', 
+            #                  'Policía Municipal', 
+            #                  'Guardia Nacional', 
+            #                  'Fiscalia', 
+            #                  'Otras Autoridades', 
+            #                  'Voluntarios', 
+            #                  'Otro', 
+            #                  'Presuntos Delincuentes', 
+            #                  'No. de Presuntos Delincuentes', 
+            #                  'Municipio', 
+            #                  'Punto Estratégico',
 
-                             'Nacionalidad', 
-                             'ISO', 
+            #                  'Nacionalidad', 
+            #                  'ISO', 
                              
-                             'ANA Hombre(s)', 
-                             'ANA Mujer(es)',
-                             'ANA Mujer No Embarazada(s)',
+            #                  'ANA Hombre(s)', 
+            #                  'ANA Mujer(es)',
+            #                  'ANA Mujer No Embarazada(s)',
                              
-                             'Nucleos Familiares',
-                             'AA Hombre(s)', 
-                             'AA Mujer(es)',
-                             'AA Mujer No Embarazada(s)',
-                             'NNAA Hombre(s)', 
-                             'NNAA Mujer(es)',
-                             'NNAA Mujer No Embarazada(s)',
+            #                  'Nucleos Familiares',
+            #                  'AA Hombre(s)', 
+            #                  'AA Mujer(es)',
+            #                  'AA Mujer No Embarazada(s)',
+            #                  'NNAA Hombre(s)', 
+            #                  'NNAA Mujer(es)',
+            #                  'NNAA Mujer No Embarazada(s)',
                              
-                             'NNANA Hombre(s)', 
-                             'NNANA Mujer(es)',
-                             'NNANA Mujer No Embarazada(s)',
-                             'Masivo'
-                             ])
+            #                  'NNANA Hombre(s)', 
+            #                  'NNANA Mujer(es)',
+            #                  'NNANA Mujer No Embarazada(s)',
+            #                  'Masivo'
+            #                  ])
             for valor in valores:
                 masivoD = (valor.AS_hombres + valor.AS_mujeresNoEmb +valor.AS_mujeresEmb +
                            valor.AA_hombres + valor.AA_mujeresNoEmb + valor.AA_mujeresEmb +
@@ -796,9 +798,8 @@ def generarExcelConteo(request):
                                  "1" if masivoD >= 40 else "",
                                  ])
             
-            response = HttpResponse(content = save_virtual_workbook(workbook), content_type='vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-            response['Content-Disposition'] = 'attachment; filename=rapido {fecha}.xlsx'.format(fecha = fechaR)
-
+            response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
+            response['Content-Disposition'] = 'attachment; filename=rapido {fecha}.xlsm'.format(fecha = fechaR)
             return response
     else:
         form = ExcelForm()
@@ -817,4 +818,75 @@ def downloadAPK(request):
 
         response = HttpResponse(appAndroid, content_type="application/vnd.android.package-archive")
         response["Content-disposition"] = "attachment; filename=ruie.apk"
+        return response
+    
+@csrf_exempt
+def pagDuplicados(request):
+    if request.method == 'GET':
+        return render(request, "descargas/descargar_duplicados.html", {})
+    
+@csrf_exempt
+def downloadDuplicados(request):
+    if request.method == 'GET':
+
+        workbook = opxl.load_workbook('tmp/dup.xlsm', read_only=False, keep_vba=True)
+        worksheet = workbook.active
+
+        fechaR = datetime.datetime.today().strftime('%d-%m-%y')
+
+        register3 = RescatePunto.objects.values("iso3", "nombre", "apellidos", "fechaNacimiento").annotate(records=Count("*")).filter(records__gt=1)
+        duplicados = []
+        for reg in register3:
+            for registro in RescatePunto.objects.filter(iso3=reg['iso3'], nombre=reg['nombre'], apellidos = reg['apellidos'], fechaNacimiento=reg['fechaNacimiento']):
+                duplicados.append(registro)
+                
+        for valor in duplicados:
+            worksheet.append([valor.oficinaRepre, 
+                              valor.fecha,
+                              valor.hora,
+                              valor.nombreAgente.upper(),
+                              "1" if valor.aeropuerto else "",
+                              "1" if valor.carretero else "",
+                              valor.tipoVehic.upper(),
+                              valor.lineaAutobus.upper(),
+                              valor.numeroEcono.upper(),
+                              valor.placas.upper(),
+                              "1" if valor.vehiculoAseg else "",
+                              "1" if valor.casaSeguridad else "",
+                              "1" if valor.centralAutobus else "",
+                              "1" if valor.ferrocarril else "",
+                              valor.empresa,
+                              "1" if valor.hotel else "",
+                              valor.nombreHotel,
+                              "1" if valor.puestosADispo else "",
+                              "1" if valor.juezCalif else "",
+                              "1" if valor.reclusorio else "",
+                              "1" if valor.policiaFede else "",
+                              "1" if valor.dif else "",
+                              "1" if valor.policiaEsta else "",
+                              "1" if valor.policiaMuni else "",
+                              "1" if valor.guardiaNaci else "",
+                              "1" if valor.fiscalia else "",
+                              "1" if valor.otrasAuto else "",
+                              "1" if valor.voluntarios else "",
+                              "1" if valor.otro else "",
+                              "1" if valor.presuntosDelincuentes else "",
+                              valor.numPresuntosDelincuentes if valor.numPresuntosDelincuentes != 0 else "",
+                              valor.municipio.upper(),valor.puntoEstra.upper(),
+                              valor.nacionalidad.upper(),
+                              valor.iso3,
+                              valor.nombre.upper(),
+                              valor.apellidos.upper(),
+                              valor.noIdentidad,
+                              valor.parentesco.upper(),
+                              valor.fechaNacimiento,
+                              "Hombre" if valor.sexo else "Mujer",
+                              "1" if valor.embarazo else "",
+                              valor.numFamilia if valor.numFamilia != 0 else "",
+                              valor.edad,
+                              ])
+
+        response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
+        response['Content-Disposition'] = 'attachment; filename={fecha}.xlsm'.format(fecha = fechaR)
+
         return response
