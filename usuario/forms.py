@@ -54,3 +54,20 @@ class ExcelForm(forms.Form):
     ))
     oficina = forms.ChoiceField(choices=types_ORS)
     # fechaDescarga2 = forms.DateField(widget=forms.SelectDateWidget)
+
+class ExcelFormOr(forms.Form):
+    year = (datetime.date.today()).strftime("%Y")
+    YEARS = []
+    for i in range(10):
+        f = int(year) - i
+        YEARS.append(str(f))
+
+    fechaDescarga = forms.DateField(
+    widget=forms.SelectDateWidget(
+        years=YEARS
+    ))
+
+class ExcelFormOrs(forms.Form):
+    fechaDescarga = forms.DateField()
+    oficina = forms.CharField()
+    # fechaDescarga2 = forms.DateField(widget=forms.SelectDateWidget)

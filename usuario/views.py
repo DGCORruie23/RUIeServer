@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import make_password, check_password
 from .serializers import UserGetSerializer, UserGetSerializerC, PaisesGetSerializer, EstadoFuerzaGetSerializer, FrasesGetSerializer, ListRescatePuntoSerializer, RescatePuntoSerializer
 from .serializers import MunicipiosGetSerializer, PuntosInterGetSerializer, ConteoRapidoSerializer
 from .models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto, ConteoRapidoPunto
-from .forms import CargarArchivoForm, ExcelForm
+from .forms import CargarArchivoForm, ExcelForm, ExcelFormOr, ExcelFormOrs
 import openpyxl as opxl
 from openpyxl.writer.excel import save_virtual_workbook
 import datetime
@@ -890,3 +890,156 @@ def downloadDuplicados(request):
         response['Content-Disposition'] = 'attachment; filename={fecha}.xlsm'.format(fecha = fechaR)
 
         return response
+
+
+@csrf_exempt
+def generarExcelTab(request):
+    if(request.method == "POST"):
+        form = ExcelFormOr(request.POST)
+        if(form.is_valid()):
+            dia = request.POST["fechaDescarga_day"]
+            mes = request.POST["fechaDescarga_month"]
+            year = request.POST["fechaDescarga_year"]
+
+            fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+
+            valores = valores = RescatePunto.objects.filter(fecha= fechaR).filter( oficinaRepre="TABASCO")
+            
+            workbook = opxl.load_workbook('tmp/dup.xlsm', read_only=False, keep_vba=True)
+            worksheet = workbook.active
+            
+            for valor in valores:
+                worksheet.append([valor.oficinaRepre, 
+                                 valor.fecha,
+                                 valor.hora,
+                                 valor.nombreAgente.upper(),
+                                 "1" if valor.aeropuerto else "",
+                                 "1" if valor.carretero else "",
+                                 valor.tipoVehic.upper(),
+                                 valor.lineaAutobus.upper(),
+                                 valor.numeroEcono.upper(),
+                                 valor.placas.upper(),
+                                 "1" if valor.vehiculoAseg else "",
+                                 "1" if valor.casaSeguridad else "",
+                                 "1" if valor.centralAutobus else "",
+                                 "1" if valor.ferrocarril else "",
+                                 valor.empresa,
+                                 "1" if valor.hotel else "",
+                                 valor.nombreHotel,
+                                 "1" if valor.puestosADispo else "",
+                                 "1" if valor.juezCalif else "",
+                                 "1" if valor.reclusorio else "",
+                                 "1" if valor.policiaFede else "",
+                                 "1" if valor.dif else "",
+                                 "1" if valor.policiaEsta else "",
+                                 "1" if valor.policiaMuni else "",
+                                 "1" if valor.guardiaNaci else "",
+                                 "1" if valor.fiscalia else "",
+                                 "1" if valor.otrasAuto else "",
+                                 "1" if valor.voluntarios else "",
+                                 "1" if valor.otro else "",
+                                 "1" if valor.presuntosDelincuentes else "",
+                                 valor.numPresuntosDelincuentes if valor.numPresuntosDelincuentes != 0 else "",
+                                 valor.municipio.upper(),
+                                 valor.puntoEstra.upper(),
+                                 valor.nacionalidad.upper(),
+                                 valor.iso3,
+                                 valor.nombre.upper(),
+                                 valor.apellidos.upper(),
+                                 valor.noIdentidad,
+                                 valor.parentesco.upper(),
+                                 valor.fechaNacimiento,
+                                 "Hombre" if valor.sexo else "Mujer",
+                                 "1" if valor.embarazo else "",
+                                 valor.numFamilia if valor.numFamilia != 0 else "",
+                                 valor.edad,
+                                 ])
+            
+            worksheet.append(['Rescates Totales: ', valores.count()])
+
+            response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
+            response['Content-Disposition'] = 'attachment; filename={fecha}.xlsm'.format(fecha = fechaR)
+
+            return response
+    else:
+        form = ExcelFormOr()
+    return render(request, "generarExcel/generarArchivoExcelOrs.html", {"form" : form})
+
+@csrf_exempt
+def generarExcelORs(request):
+    if(request.method == "POST"):
+        form = ExcelFormOrs(request.POST)
+        # print(request.POST["fechaDescarga"])
+        # print(request.POST["oficina"])
+        # dia = request.POST["fechaDescarga_day"]
+        # mes = request.POST["fechaDescarga_month"]
+        # year = request.POST["fechaDescarga_year"]
+        fechaR = request.POST["fechaDescarga"]
+
+        oficinaR = request.POST["oficina"]
+
+        # fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+        # fechaR = datetime.datetime.strptime(f"{fechaFun}", "%d/%m/%Y").strftime('%d-%m-%y')
+
+        valores = valores = RescatePunto.objects.filter(fecha= fechaR).filter( oficinaRepre=oficinaR)
+        
+        workbook = opxl.load_workbook('tmp/dup.xlsm', read_only=False, keep_vba=True)
+        worksheet = workbook.active
+            
+        for valor in valores:
+            worksheet.append([valor.oficinaRepre, 
+                                valor.fecha,
+                                valor.hora,
+                                valor.nombreAgente.upper(),
+                                "1" if valor.aeropuerto else "",
+                                "1" if valor.carretero else "",
+                                valor.tipoVehic.upper(),
+                                valor.lineaAutobus.upper(),
+                                valor.numeroEcono.upper(),
+                                valor.placas.upper(),
+                                "1" if valor.vehiculoAseg else "",
+                                "1" if valor.casaSeguridad else "",
+                                "1" if valor.centralAutobus else "",
+                                "1" if valor.ferrocarril else "",
+                                valor.empresa,
+                                "1" if valor.hotel else "",
+                                valor.nombreHotel,
+                                "1" if valor.puestosADispo else "",
+                                "1" if valor.juezCalif else "",
+                                "1" if valor.reclusorio else "",
+                                "1" if valor.policiaFede else "",
+                                "1" if valor.dif else "",
+                                "1" if valor.policiaEsta else "",
+                                "1" if valor.policiaMuni else "",
+                                "1" if valor.guardiaNaci else "",
+                                "1" if valor.fiscalia else "",
+                                "1" if valor.otrasAuto else "",
+                                "1" if valor.voluntarios else "",
+                                "1" if valor.otro else "",
+                                "1" if valor.presuntosDelincuentes else "",
+                                valor.numPresuntosDelincuentes if valor.numPresuntosDelincuentes != 0 else "",
+                                valor.municipio.upper(),
+                                valor.puntoEstra.upper(),
+                                valor.nacionalidad.upper(),
+                                valor.iso3,
+                                valor.nombre.upper(),
+                                valor.apellidos.upper(),
+                                valor.noIdentidad,
+                                valor.parentesco.upper(),
+                                valor.fechaNacimiento,
+                                "Hombre" if valor.sexo else "Mujer",
+                                "1" if valor.embarazo else "",
+                                valor.numFamilia if valor.numFamilia != 0 else "",
+                                valor.edad,
+                                ])
+        
+        worksheet.append(['Rescates Totales: ', valores.count()])
+        worksheet.append(['Oficina: ', oficinaR])
+
+        response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
+        response['Content-Disposition'] = 'attachment; filename={fecha}.xlsm'.format(fecha = fechaR)
+
+        return response
+    
+    else:
+        return render(request, "base/error404.html")

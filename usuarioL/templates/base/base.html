@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{% static 'js/tailwind.config.js' %}"></script>
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+<body class="flex flex-col mx-auto md:h-screen">
+    <nav class="flex-none py-5 px-6 flex justify-between bg-inm-verde-100">
+        <a href="/" class="flex items-center text-white hover:text-inm-marron-100">
+            <img class="w-8 h-8 mr-2" src="{% static 'icons/ruie.svg' %}" alt="logo">
+            {% block navigation %} {% endblock navigation %}info 
+        </a>
+        <div class="space-x-4">
+
+            {% block linkSuperior %}{% endblock linkSuperior %}
+        
+            {% comment %} <a href="/" class="py-4 px-6 bg-teal-600 rounded-xl text-white ">Sing in</a> {% endcomment %}
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="py-4 px-6 bg-inm-marron-100 hover:bg-inm-marron-200 rounded-xl text-white ">Dashboard</a>
+                <a href="{% url 'logout' %}" class="py-4 px-6 bg-inm-rojo-100 hover:bg-inm-rojo-200 rounded-xl text-white ">Log out</a>
+            {% else %}
+                <a href="{% url 'descargas' %}" class="py-4 px-6 bg-blue-400 rounded-xl text-white hover:text-inm-verde-100">Descargas</a>
+                <a href="{% url 'log-in' %}" class="py-4 px-6 bg-inm-marron-100 rounded-xl text-white hover:text-inm-verde-100">Log in</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    {% block content %}
+    
+    {% endblock content %}
+
+    <footer class="flex-none py-8 px-6 text-center bg-inm-verde-100">
+        <p class="text-xs text-white">2023 - Informacion RUI</p>
+    </footer>
+</body>
+</html>

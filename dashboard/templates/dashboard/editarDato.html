@@ -1,0 +1,22 @@
+{% extends "base/base.html" %}
+
+{% block title %}
+    Editar Registro
+{% endblock title %}
+
+{% block navigation %}
+    Edición de registros
+{% endblock navigation %}
+
+{% block content %}
+    {% comment %} <h1 class="text-xl">Dashboard de {{usuario.0.oficinaR}} </h1> {% endcomment %}
+    <div class="grow">
+        <form method="post" action="{% url 'mostrar' %}"  enctype="multipart/form-data">{% csrf_token %}
+            {{form.as_p}}
+            <p class="py-4">
+                <input class="py-2 px-2 bg-teal-600 rounded-xl text-white" type="submit" value="Actualizar datos"/>
+            </p>
+        </form>
+    </div>
+
+{% endblock content %}

@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['ruie.dgcor.com', 'www.ruie.dgcor.com', "192.168.8.2","192.168.8.15", "localhost"]
 
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGIN_URL = 'log-in'
+LOGOUT_REDIRECT_URL = 'index'
 
 # Application definition
 
@@ -40,6 +43,8 @@ INSTALLED_APPS = [
     
     'rest_framework',
     'usuario',
+    'usuarioL',
+    'dashboard',
 ]
 
 MIDDLEWARE = [

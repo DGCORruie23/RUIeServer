@@ -17,9 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from usuario import views
+from usuarioL.views import index
+from django.contrib.auth import views as viewsL
 
 urlpatterns = [
+    path('', index, name="index"),
+
     path('admin/', admin.site.urls),
+    path('dashboard/', include('dashboard.urls')),
+    path('log-in/', viewsL.LoginView.as_view(template_name= 'base/log_in.html'), name='log-in'),
+    path('log-out', viewsL.LogoutView.as_view(), name="logout" ),
+
     path('login/', include('usuario.urls')),
     path('info/cargarPais', views.cargarPais),
     path('info/cargarFuerza', views.cargarEdoFuerza),
@@ -34,8 +42,11 @@ urlpatterns = [
     path('info/descargaC', views.generarExcelConteo),
     path('info/descargaD', views.pagDuplicados),
     path('info/descargaD_a', views.downloadDuplicados, name="descarga_duplicados"),
+    path('info/descargaTab22', views.generarExcelTab),
+    path('info/descargaExcel', views.generarExcelORs, name="descarga_excel"),
+
     path('registro/insertR', views.insert_rescates),
     path('registro/insertC', views.insert_conteo),
-    path('descargas/', views.servirApps),
+    path('descargas/', views.servirApps, name="descargas"),
     path('descargas/apk', views.downloadAPK, name="descarga_android"),
 ]

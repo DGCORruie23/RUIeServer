@@ -1,0 +1,47 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+{% block title %}Pagina Index{% endblock title %}
+
+{% block content %}
+<!-- <section class="grow bg-gray-50 dark:bg-gray-900"> -->
+<section class="grow bg-gray-60">
+    <div class="container flex h-full mx-auto">
+        <div class="items-center grid-cols-3 m-auto shadow-2xl lg:grid">
+
+            <div
+                class="m-auto flex items-center justify-center lg:h-[460px] w-80  lg:bg-[url('{% static 'imgs/inami.png' %}')]  bg-cover bg-center ">
+            </div>
+
+            <div class="w-full max-w-sm col-start-2 col-end-4 mx-auto">
+                <div class="p-5 text-3xl font-semibold text-center uppercase">Bienvenidos</div>
+                <label for="username" class="font-medium">Utiliza el RUI electrónico para el registro de datos sobre la población migrante rescatada en México. <br> ¡Únete y contribuye a agilizar la operación migratoria a lo largo del país! </label>
+                
+                <div class="pt-4"><label class="font-medium text-center uppercase">¡Datos puntuales, verificados y accesibles!</label></div>
+                
+                <div class="pt-4"><label class="text-xs text-justify">Dirección General de Coordinación de Oficinas de Representación<br>Dirección General de Control y Verificación Migratoria</label></div>
+            </div>
+        </div>
+
+    </div>
+        
+</section>
+ 
+{% endblock content %}
+
+<div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-full lg:py-0">
+    <div class="columns-2">
+        <!-- <div class="w-full bg-white rounded-lg shadow dark:border sm:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"> -->
+            <div class="">
+                <img class="w-30" src="{% static 'imgs/inami.png' %}" width="250" alt="logo">
+            </div>
+            <div class="">
+                <h1 class="">
+                    Ingresa al sistema
+                </h1>
+
+            </div>
+            </div>
+        <!-- </div> -->
+    </div>
