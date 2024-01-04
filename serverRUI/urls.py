@@ -33,6 +33,7 @@ urlpatterns = [
     path('info/cargarFuerza', views.cargarEdoFuerza),
     path('info/cargarMunicipios', views.cargarMunicipios),
     path('info/cargarPuntosI', views.cargarPuntoI),
+    path('cargar/Usuarios', views.cargaMasivaUser),
     path('info/Paises', views.infoPaises),
     path('info/Fuerza', views.infoEstadoFuerza),
     path('info/Municipios', views.infoMunicipios),

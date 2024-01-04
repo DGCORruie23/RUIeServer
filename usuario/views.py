@@ -452,6 +452,70 @@ def cargarMunicipios(request):
 
 
 @csrf_exempt
+def cargaMasivaUser(request):
+    if(request.method == "POST"):
+        form = CargarArchivoForm(request.POST, request.FILES)
+        if(form.is_valid()):
+            # Nota: "archivo" este campo se llama como se llama en el form  
+            excel_file = request.FILES["archivo"]
+            nombreA = str(excel_file.name)
+            extensionA = (nombreA.split(".")[-1]).lower()
+            # print((nombreA.split(".")[-1]).lower())
+            if( extensionA == "xlsx" 
+               or extensionA == ".xlsm" 
+               or extensionA == ".xlsb" 
+               or extensionA == ".xltx" 
+               or extensionA == ".xltm" 
+               or extensionA == ".xls"):
+                dataWB = opxl.load_workbook(excel_file, data_only=True)
+
+                data = dataWB.worksheets[0]
+
+                # print(data.cell(4,2).value)
+
+                # Se leen los datos del excel
+                municipio = []
+                auxL = []
+            
+                i = 1
+                while not(i == 0):
+
+                    auxL.clear()
+
+                    if(data.cell( i+4, 4).value == None):
+                        i = 0
+                        # print(edoFuerza)
+                    else:
+                        nickname = data.cell(i + 4, 2).value
+                        password = data.cell(i + 4, 3).value
+                        nombres = data.cell(i + 4, 4).value
+                        apellidos = data.cell(i + 4, 5).value
+                        estado = data.cell(i + 4, 6).value
+                        tipo = data.cell(i + 4, 7).value
+
+                        passUpdate = make_password(password)
+
+                        if (Usuario.objects.filter(nickname = nickname).exists()):
+                            Usuario.objects.filter(nickname = nickname).update(password=passUpdate)
+                        else:
+                            Usuario.objects.create(
+                                nickname=nickname, 
+                                nombre=nombres, 
+                                apellido=apellidos, 
+                                password=passUpdate,
+                                estado=estado,
+                                tipo=tipo,
+                            )
+
+                #-----------------------------------
+            return HttpResponseRedirect("cargar/Usuarios")
+    else:
+        form = CargarArchivoForm()
+    return render(request, "cargarExcel/cargarUsuarios.html", {"form" : form})
+
+
+
+@csrf_exempt
 def insert_rescates(request):
 
     if request.method == 'POST':
