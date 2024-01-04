@@ -95,6 +95,13 @@ class ExcelForm(forms.Form):
     ))
     # fechaDescarga2 = forms.DateField(widget=forms.SelectDateWidget)
 
+class ExcelFormORs(forms.Form):
+    fechaDescarga = forms.DateField(
+    widget=forms.SelectDateWidget(
+        years=YEARS
+    ))
+    oficina = forms.ChoiceField(choices=types_ORS)
+
 class RegistroForm(forms.ModelForm):
     # hora = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'hrs:mins','type': 'time'}), label="Hora:")
     # puntoEstra = forms.CharField(widget=forms.TextInput(attrs={}), label="Punto de Rescate:")

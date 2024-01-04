@@ -125,6 +125,57 @@ def editarData(request, pk):
         return redirect('')
 
 def mostrarData(request):
+    
+    # if request.user.is_superuser:
+    #     if request.method == 'POST':
+    #         userDataI = usuarioL.objects.filter(user__username=request.user)
+            
+    #         form = ExcelFormORs(request.POST)
+    #         form1 = RegistroNewForm(request.POST)
+            
+    #         if(form.is_valid()):
+    #             dia = request.POST["fechaDescarga_day"]
+    #             mes = request.POST["fechaDescarga_month"]
+    #             year = request.POST["fechaDescarga_year"]
+                
+    #             ofic = request.POST["oficina"]
+
+    #             fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+
+    #             valores = RescatePunto.objects.filter(fecha=fechaR).filter(oficinaRepre=ofic)
+
+    #             data = {
+    #             'usuario' : userDataI,
+    #             'form': form,
+    #             'values' : valores,
+    #             'fecha_P' : fechaR,
+    #             }
+
+    #             return render(request, "dashboard/datos_dia.html", context=data)
+
+    #         if form1.is_valid():
+    #             fechaR = request.POST["fecha"]
+    #             form1.save()
+    #             valores = RescatePunto.objects.filter(fecha=fechaR).filter(oficinaRepre=userDataI[0].oficinaR)
+
+    #             data = {
+    #             'usuario' : userDataI,
+    #             'form': form,
+    #             'values' : valores,
+    #             }
+    #             messages.success(request, "El registro ha sido modificado")
+    #             return render(request, "dashboard/datos_dia.html", context=data)
+    #         else:
+    #             print("datos erroneos")
+    #             idR = request.POST["idRescate"]
+    #             rescate = RescatePunto.objects.get(idRescate=idR)
+    #             datos = {
+    #             "form" : form1,
+    #             "value": rescate,
+    #             }
+    #             messages.success(request, "Datos Erroneos")
+    #             return render(request, "dashboard/editarDato.html", context=datos )
+    
     if request.user.is_authenticated:
         if request.method == 'POST':
             userDataI = usuarioL.objects.filter(user__username=request.user)
@@ -173,8 +224,6 @@ def mostrarData(request):
                 messages.success(request, "Datos Erroneos")
                 return render(request, "dashboard/editarDato.html", context=datos )
 
-            
-            
 
     else:
         messages.success(request, "Necesitas ingresar para poder modificar la informacion")

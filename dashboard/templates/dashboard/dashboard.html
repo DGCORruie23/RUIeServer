@@ -15,6 +15,30 @@
     {% comment %} <h1 class="text-xl">Dashboard de {{usuario.0.oficinaR}} </h1> {% endcomment %}
 
     <div class="grow">
+        
+        {% if request.user.is_superuser %}
+        <!--<div class="flex flex-col content-center px-5 py-5">-->
+            
+        <!--    <form action="{% url 'mostrar' %}" method="post" enctype="multipart/form-data" class="flex flex-col items-center justify-center">{% csrf_token %}-->
+        <!--        <p>-->
+        <!--            {{form.fechaDescarga}} -->
+        <!--        </p>-->
+        <!--        <p>-->
+        <!--            {{form.oficina}} -->
+        <!--        </p>-->
+        <!--        <p class="py-4">-->
+        <!--            <input class="py-2 px-2 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white" type="submit" value="Visualizar Datos"/>-->
+        <!--        </p>-->
+        <!--    </form>-->
+        <!--</div>-->
+        
+        <div class="flex flex-col content-center px-5 py-5">
+            <center>
+                <a href="{% url 'descarga_duplicados' %}" class="py-4 px-6 bg-inm-marron-100 hover:bg-inm-marron-200 rounded-xl text-white ">Reincidentes</a>
+            </center>
+        </div>
+        {% endif %}
+            
         <div class="flex flex-col content-center px-5 py-5">
             
             <form action="{% url 'mostrar' %}" method="post" enctype="multipart/form-data" class="flex flex-col items-center justify-center">{% csrf_token %}
@@ -27,6 +51,7 @@
                 </p>
             </form>
         </div>
+        
     </div>
     
 {% endblock content %}

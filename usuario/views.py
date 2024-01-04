@@ -825,14 +825,84 @@ def pagDuplicados(request):
     if request.method == 'GET':
         return render(request, "descargas/descargar_duplicados.html", {})
     
+# @csrf_exempt
+# def downloadDuplicados(request):
+#     if request.method == 'GET':
+
+#         workbook = opxl.load_workbook('tmp/rec.xlsm', read_only=False, keep_vba=True)
+#         worksheet = workbook.active
+
+#         fechaR = datetime.datetime.today().strftime('%d-%m-%y')
+        
+#         # duplicados = RescatePunto.objects.all()
+
+#         register3 = RescatePunto.objects.values("iso3", "nombre", "apellidos", "fechaNacimiento").annotate(records=Count("*")).filter(records__gt=1)
+#         duplicados = []
+#         for reg in register3:
+#             for registro in RescatePunto.objects.filter(iso3=reg['iso3'], nombre=reg['nombre'], apellidos = reg['apellidos'], fechaNacimiento=reg['fechaNacimiento']):
+#                 duplicados.append(registro)
+                
+#         for valor in duplicados:
+#             worksheet.append([valor.oficinaRepre, 
+#                               valor.fecha,
+#                               valor.hora,
+#                               valor.nombreAgente.upper(),
+#                               "1" if valor.aeropuerto else "",
+#                               "1" if valor.carretero else "",
+#                               valor.tipoVehic.upper(),
+#                               valor.lineaAutobus.upper(),
+#                               valor.numeroEcono.upper(),
+#                               valor.placas.upper(),
+#                               "1" if valor.vehiculoAseg else "",
+#                               "1" if valor.casaSeguridad else "",
+#                               "1" if valor.centralAutobus else "",
+#                               "1" if valor.ferrocarril else "",
+#                               valor.empresa,
+#                               "1" if valor.hotel else "",
+#                               valor.nombreHotel,
+#                               "1" if valor.puestosADispo else "",
+#                               "1" if valor.juezCalif else "",
+#                               "1" if valor.reclusorio else "",
+#                               "1" if valor.policiaFede else "",
+#                               "1" if valor.dif else "",
+#                               "1" if valor.policiaEsta else "",
+#                               "1" if valor.policiaMuni else "",
+#                               "1" if valor.guardiaNaci else "",
+#                               "1" if valor.fiscalia else "",
+#                               "1" if valor.otrasAuto else "",
+#                               "1" if valor.voluntarios else "",
+#                               "1" if valor.otro else "",
+#                               "1" if valor.presuntosDelincuentes else "",
+#                               valor.numPresuntosDelincuentes if valor.numPresuntosDelincuentes != 0 else "",
+#                               valor.municipio.upper(),valor.puntoEstra.upper(),
+#                               valor.nacionalidad.upper(),
+#                               valor.iso3,
+#                               valor.nombre.upper(),
+#                               valor.apellidos.upper(),
+#                               valor.noIdentidad,
+#                               valor.parentesco.upper(),
+#                               valor.fechaNacimiento,
+#                               "Hombre" if valor.sexo else "Mujer",
+#                               "1" if valor.embarazo else "",
+#                               valor.numFamilia if valor.numFamilia != 0 else "",
+#                               valor.edad,
+#                               ])
+
+#         response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
+#         response['Content-Disposition'] = 'attachment; filename={fecha}.xlsm'.format(fecha = fechaR)
+
+#         return response
+        
 @csrf_exempt
 def downloadDuplicados(request):
     if request.method == 'GET':
 
-        workbook = opxl.load_workbook('tmp/dup.xlsm', read_only=False, keep_vba=True)
+        workbook = opxl.load_workbook('tmp/rec.xlsm', read_only=False, keep_vba=True)
         worksheet = workbook.active
 
         fechaR = datetime.datetime.today().strftime('%d-%m-%y')
+        
+        # duplicados = RescatePunto.objects.all()
 
         register3 = RescatePunto.objects.values("iso3", "nombre", "apellidos", "fechaNacimiento").annotate(records=Count("*")).filter(records__gt=1)
         duplicados = []
@@ -841,49 +911,41 @@ def downloadDuplicados(request):
                 duplicados.append(registro)
                 
         for valor in duplicados:
+            puntoR = ""
+            if valor.aeropuerto:
+                puntoR = 'aeropuerto'
+            elif valor.carretero:
+                puntoR = 'carretero'
+            elif valor.centralAutobus:
+                puntoR = 'central de autobus'
+            elif valor.casaSeguridad:
+                puntoR = 'casa de seguridad'
+            elif valor.ferrocarril:
+                puntoR = 'ferrocarril'
+            elif valor.hotel:
+                puntoR = 'hotel'
+            elif valor.puestosADispo:
+                puntoR = 'puestos a disposicion'
+            elif valor.voluntarios:
+                puntoR = 'voluntarios'
+            else: 
+                puntoR = ''
             worksheet.append([valor.oficinaRepre, 
                               valor.fecha,
                               valor.hora,
                               valor.nombreAgente.upper(),
-                              "1" if valor.aeropuerto else "",
-                              "1" if valor.carretero else "",
-                              valor.tipoVehic.upper(),
-                              valor.lineaAutobus.upper(),
-                              valor.numeroEcono.upper(),
-                              valor.placas.upper(),
-                              "1" if valor.vehiculoAseg else "",
-                              "1" if valor.casaSeguridad else "",
-                              "1" if valor.centralAutobus else "",
-                              "1" if valor.ferrocarril else "",
-                              valor.empresa,
-                              "1" if valor.hotel else "",
-                              valor.nombreHotel,
-                              "1" if valor.puestosADispo else "",
-                              "1" if valor.juezCalif else "",
-                              "1" if valor.reclusorio else "",
-                              "1" if valor.policiaFede else "",
-                              "1" if valor.dif else "",
-                              "1" if valor.policiaEsta else "",
-                              "1" if valor.policiaMuni else "",
-                              "1" if valor.guardiaNaci else "",
-                              "1" if valor.fiscalia else "",
-                              "1" if valor.otrasAuto else "",
-                              "1" if valor.voluntarios else "",
-                              "1" if valor.otro else "",
-                              "1" if valor.presuntosDelincuentes else "",
-                              valor.numPresuntosDelincuentes if valor.numPresuntosDelincuentes != 0 else "",
-                              valor.municipio.upper(),valor.puntoEstra.upper(),
+                              puntoR.upper(),
+                              valor.puntoEstra.upper(),
                               valor.nacionalidad.upper(),
                               valor.iso3,
                               valor.nombre.upper(),
                               valor.apellidos.upper(),
-                              valor.noIdentidad,
                               valor.parentesco.upper(),
                               valor.fechaNacimiento,
+                              valor.edad,
                               "Hombre" if valor.sexo else "Mujer",
                               "1" if valor.embarazo else "",
                               valor.numFamilia if valor.numFamilia != 0 else "",
-                              valor.edad,
                               ])
 
         response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
