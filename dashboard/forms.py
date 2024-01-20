@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.admin import widgets
 import django.forms.widgets 
-from usuario.models import RescatePunto, Paises, EstadoFuerza
+from usuario.models import RescatePunto, Paises, EstadoFuerza, PuntosInternacion, Municipios
 import datetime
 
 
@@ -67,11 +67,11 @@ choice_embarazo = (
     (False, 'No')
 )
 
-puntos_Tab = EstadoFuerza.objects.filter(oficinaR="TABASCO")
+puntosF_ALL = EstadoFuerza.objects.all()
 
 types_PRescate = []
 
-for puntos in puntos_Tab:
+for puntos in puntosF_ALL:
     nomS = str(puntos.nomPuntoRevision)
     nomS1 = ""
     if nomS[0]== " ":
@@ -80,6 +80,28 @@ for puntos in puntos_Tab:
         nomS1 = nomS
 
     types_PRescate.append((nomS1, nomS1))
+
+for puntos in PuntosInternacion.objects.all():
+    nomS = str(puntos.nombrePunto)
+    nomS1 = ""
+    if nomS[0]== " ":
+        nomS1 = nomS[1:]
+    else:
+        nomS1 = nomS
+
+    types_PRescate.append((nomS1, nomS1))
+
+for mun in Municipios.objects.all():
+    nomS = str(mun.nomMunicipio)
+    nomS1 = ""
+    if nomS[0]== " ":
+        nomS1 = nomS[1:]
+    else:
+        nomS1 = nomS
+
+    types_PRescate.append((nomS1, nomS1))
+
+
 
 types_paises = []
 
@@ -222,8 +244,20 @@ class RegistroNewForm(forms.Form):
         paisI = Paises.objects.filter(nombre_pais=db_nacionalid)
         db_iso3 = paisI[0].iso3
 
-        fecha_nacimiento = datetime.datetime.strptime(self.data['fechaNacimiento'], '%d/%m/%Y')
+        fecha_nacimiento = datetime.datetime.strptime(self.data['fechaNacimiento'], '%Y-%m-%d')
         db_edad = datetime.datetime.now().year - fecha_nacimiento.year
+        fecha_nacimiento = fecha_nacimiento.strftime('%d/%m/%Y')
+
+        sexo1 = self.data['sexo'] 
+        embarazo1 = self.data['embarazo']
+
+        if sexo1 == "True":
+            embarazo1 = False
+        elif sexo1 == "False":
+            embarazo1 = self.data['embarazo']
+        else:
+            print(self.data['sexo'])
+            print(embarazo1)
 
         datosActualizados = RescatePunto.objects.filter(pk=self.data['idRescate']).update(
             
@@ -246,9 +280,9 @@ class RegistroNewForm(forms.Form):
             nombre=self.data['nombre'],
             apellidos=self.data['apellidos'],
             parentesco=self.data['parentesco'],
-            fechaNacimiento=self.data['fechaNacimiento'],
+            fechaNacimiento=fecha_nacimiento,
             sexo=self.data['sexo'],
-            embarazo=self.data['embarazo'],
+            embarazo=embarazo1,
             numFamilia=self.data['numFamilia'],
             edad=db_edad,
             )

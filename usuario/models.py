@@ -187,9 +187,9 @@ class RescatePunto(models.Model):
             tipoE = "NNA"
 
         if(self.aeropuerto):
-            tipo = "aeropuerto"
+            tipo = "Aeropuerto"
         elif(self.carretero):
-            tipo= "carretero"
+            tipo= "Carretero"
         elif(self.casaSeguridad):
             tipo= "Casa de Seguridad"
         elif(self.centralAutobus):

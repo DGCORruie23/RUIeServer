@@ -9,14 +9,190 @@
 {% endblock navigation %}
 
 {% block content %}
-    {% comment %} <h1 class="text-xl">Dashboard de {{usuario.0.oficinaR}} </h1> {% endcomment %}
+
     <div class="grow">
+        
+        <form method="post" action="{% url 'mostrar' %}"  enctype="multipart/form-data">{% csrf_token %}
+
+            <p>
+                <input type="hidden" name="idRescate" value="{{datosR.idRescate}}" required="" id="id_idRescate">
+            </p>
+    
+            <p>
+                <input type="hidden" name="fecha" value="{{datosR.fecha}}" required="" id="id_fecha">
+            </p>
+            
+            <p>
+                <label for="id_hora">Hora:</label>
+                <input type="time" name="hora" value="{{datosR.hora}}" placeholder="hrs:mins" required="" id="id_hora">
+            </p>
+            
+            <p>
+                <label for="id_tipo_punto">Tipo de punto de Rescate:</label>
+                <select name="tipo_punto" id="id_tipo_punto" onchange="actualizarTipos()">
+                    <option value="aeropuerto">aeropuerto</option>
+                    <option value="carretero">carretero</option>
+                    <option value="central de autobus">central de autobus</option>
+                    <option value="casa de seguridad">casa de seguridad</option>
+                    <option value="ferrocarril">ferrocarril</option>
+                    <option value="hotel">hotel</option>
+                    <option value="puestos a disposicion">puestos a disposicion</option>
+                    <option value="voluntarios">voluntarios</option>
+                </select>
+            </p>
+            
+            <p>
+                <label for="id_puntoEstra">Nombre punto de Rescate:</label>
+                <select name="puntoEstra" id="id_puntoEstra">
+                </select>
+            </p>
+            
+            <p>
+                <label for="id_nacionalidad">Nacionalidad:</label>
+                <select name="nacionalidad" id="id_nacionalidad">
+                </select>
+            </p>
+            
+            
+            <p>
+                <label for="id_nombre">Nombre:</label>
+                <input type="text" name="nombre" value="{{datosR.nombre}}" maxlength="100" required="" id="id_nombre">
+            </p>
+            
+            
+            <p>
+                <label for="id_apellidos">Apellidos:</label>
+                <input type="text" name="apellidos" value="{{datosR.apellidos}}" maxlength="150" required="" id="id_apellidos">
+            </p>
+            
+            
+            <p>
+                <label for="id_parentesco">Parentesco:</label>
+                <input type="text" name="parentesco" value="{{datosR.parentesco}}" maxlength="50" id="id_parentesco">
+            </p>
+            
+            
+            <p>
+                <label for="id_fechaNacimiento">Fecha de Nacimiento:</label>
+                <input type="date" name="fechaNacimiento" value="{{datosR.fechaNacimiento}}" required="" id="id_fechaNacimiento" min="1920-01-01">
+            </p>
+            
+            
+            <p>
+                <label for="id_sexo">Sexo: :</label>
+                <select name="sexo" id="id_sexo">
+                    <option value="True">Hombre</option>
+                    
+                    <option value="False">Mujer</option>
+                </select>
+            </p>
+            
+            
+            <p>
+                <label for="id_embarazo">Embarazo: :</label>
+                <select name="embarazo" id="id_embarazo">
+                    <option value="True">Si</option>
+                    
+                    <option value="False">No</option>
+                </select>
+            </p>
+            
+            
+            <p>
+                <label for="id_numFamilia">Numero de Familia:</label>
+                <input type="number" name="numFamilia" value="{{datosR.numFamilia}}" required="" id="id_numFamilia">
+            </p>
+
+            <p class="py-4">
+                <input class="py-2 px-2 bg-teal-600 rounded-xl text-white" type="submit" value="Actualizar datos">
+            </p>
+
+        </form>
+    </div>
+
+    <script>
+        var aero = {{ res_aero|safe }};
+        var carre = {{ res_carre|safe }};
+        var central = {{ res_central|safe }};
+        var ferro = {{ res_ferro|safe }};
+        var mun = {{ municipio|safe }};
+        var nacionalidades = {{ nacion|safe }};
+
+        var miSelect = document.getElementById("id_tipo_punto");
+        miSelect.value = "{{datosR.tipo_punto}}";
+
+        actualizarNacio()
+        var miNac = document.getElementById("id_nacionalidad");
+        miNac.value = "{{datosR.nacionalidad}}";
+
+        var sexo = document.getElementById("id_sexo");
+        sexo.value = "{{datosR.sexo}}";
+
+        var embaraz = document.getElementById("id_embarazo");
+        embaraz.value = "{{datosR.embarazo}}";
+        
+        actualizarTipos()
+        nom_puntos = document.getElementById("id_puntoEstra");
+        nom_puntos.value = "{{datosR.puntoEstra}}";
+
+
+
+
+        function actualizarTipos() {
+            tipo_punto = document.getElementById("id_tipo_punto").value;
+            nombres_puntos = document.getElementById("id_puntoEstra");
+            nombres_puntos.innerHTML = ""
+
+            if(tipo_punto === "aeropuerto"){
+                for (var i = 0; i < aero.length; i++) {
+                    agregarOpcion(nombres_puntos, aero[i], aero[i])
+                }
+            } else if (tipo_punto === "carretero"){
+                for (var i = 0; i < carre.length; i++) {
+                    agregarOpcion(nombres_puntos, carre[i], carre[i])
+                } 
+            } else if (tipo_punto === "central de autobus"){
+                for (var i = 0; i < central.length; i++) {
+                    agregarOpcion(nombres_puntos, central[i], central[i])
+                } 
+            } else if (tipo_punto === "casa de seguridad" || tipo_punto === "hotel"){
+                for (var i = 0; i < mun.length; i++) {
+                    agregarOpcion(nombres_puntos, mun[i], mun[i])
+                } 
+            } else if (tipo_punto === "ferrocarril"){
+                for (var i = 0; i < ferro.length; i++) {
+                    agregarOpcion(nombres_puntos, ferro[i], ferro[i])
+                } 
+            }
+        }
+
+        function actualizarNacio(){
+            selec_nac = document.getElementById("id_nacionalidad");
+            selec_nac.innerHTML = ""
+
+            for (var i = 0; i < nacionalidades.length; i++) {
+                agregarOpcion(selec_nac, nacionalidades[i], nacionalidades[i])
+            }
+
+        }
+
+        function agregarOpcion(select, valor, texto) {
+            var opcion = document.createElement("option");
+            opcion.value = valor;
+            opcion.text = texto;
+            select.add(opcion);
+          }
+    </script> 
+    
+    {% comment %} <div class="grow">
         <form method="post" action="{% url 'mostrar' %}"  enctype="multipart/form-data">{% csrf_token %}
             {{form.as_p}}
             <p class="py-4">
                 <input class="py-2 px-2 bg-teal-600 rounded-xl text-white" type="submit" value="Actualizar datos"/>
             </p>
         </form>
-    </div>
+    </div> {% endcomment %}
+
+    {% comment %} <h1 class="text-xl">Dashboard de {{usuario.0.oficinaR}} </h1> {% endcomment %}
 
 {% endblock content %}

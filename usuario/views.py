@@ -506,9 +506,10 @@ def cargaMasivaUser(request):
                                 estado=estado,
                                 tipo=tipo,
                             )
+                        i = i + 1
 
                 #-----------------------------------
-            return HttpResponseRedirect("cargar/Usuarios")
+            return HttpResponseRedirect("/cargar/Usuarios")
     else:
         form = CargarArchivoForm()
     return render(request, "cargarExcel/cargarUsuarios.html", {"form" : form})

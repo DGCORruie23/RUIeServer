@@ -8,7 +8,7 @@
 {% endblock title %}
 
 {% block navigation %}
-    Dashboard de {{usuario.0.oficinaR}}
+    Panel de Control de {{usuario.0.oficinaR}}
 {% endblock navigation %}
 
 {% block linkSuperior %}
@@ -130,7 +130,7 @@
                 <td class="text-xs text-center">Mujer</td>
                 {% endif %}
 
-                {% if val.sexo == embarazo %}
+                {% if val.embarazo == True %}
                 <td class="text-xs text-center">Si</td>
                 {% else %}
                 <td class="text-xs text-center">No</td>
