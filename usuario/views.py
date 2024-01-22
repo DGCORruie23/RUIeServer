@@ -493,9 +493,10 @@ def cargaMasivaUser(request):
                         estado = data.cell(i + 4, 6).value
                         tipo = data.cell(i + 4, 7).value
 
-                        passUpdate = make_password(password)
+                        passUpdate = password                        
 
                         if (Usuario.objects.filter(nickname = nickname).exists()):
+                            passUpdate = make_password(password)
                             Usuario.objects.filter(nickname = nickname).update(password=passUpdate)
                         else:
                             Usuario.objects.create(
