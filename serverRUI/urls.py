@@ -42,6 +42,7 @@ urlpatterns = [
     path('info/descargaN', views.generarExcelNombres),
     path('info/descargaC', views.generarExcelConteo),
     path('info/descargaD', views.pagDuplicados),
+    path('info/fechas', views.generarExcelFechas, name="fechas_descarga"),
     path('info/descargaD_a', views.downloadDuplicados, name="descarga_duplicados"),
     path('info/descargaTab22', views.generarExcelTab),
     path('info/descargaExcel', views.generarExcelORs, name="descarga_excel"),

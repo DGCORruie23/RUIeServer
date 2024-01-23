@@ -37,6 +37,21 @@
                 <a href="{% url 'descarga_duplicados' %}" class="py-4 px-6 bg-inm-marron-100 hover:bg-inm-marron-200 rounded-xl text-white ">Reincidentes</a>
             </center>
         </div>
+
+        <div class="flex flex-col content-center px-5 py-5">
+
+                <h1 class="flex flex-col items-center justify-center">Descarga archivo por fechas</h1>
+                <form action="{% url 'fechas_descarga' %}" method="post" enctype="multipart/form-data" class="flex flex-col items-center justify-center" onsubmit="return validarFechas()">{% csrf_token %}
+                    <label for="fechaInicio">Fecha de inicio:</label>
+                    <input type="date" name="fechaInicio" id="fechaInicio" required="">
+            
+                    <label for="fechaFin">Fecha de fin:</label>
+                    <input type="date" name="fechaFin" id="fechaFin" required="">
+            
+                    <button class="py-2 px-2 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white" type="submit">Descargar</button>
+                </form>
+        </div>
+
         {% endif %}
             
         <div class="flex flex-col content-center px-5 py-5">
@@ -54,6 +69,35 @@
         
     </div>
     
+    <script>
+        // Función para obtener la fecha actual en formato 'YYYY-MM-DD'
+        function obtenerFechaActual() {
+            var hoy = new Date();
+            var dd = String(hoy.getDate()).padStart(2, '0');
+            var mm = String(hoy.getMonth() + 1).padStart(2, '0'); // Enero es 0
+            var yyyy = hoy.getFullYear();
+            return yyyy + '-' + mm + '-' + dd;
+        }
+
+        // Establecer la fecha de fin como la fecha actual al cargar la página
+        document.getElementById('fechaFin').value = obtenerFechaActual();
+
+        function validarFechas() {
+            var fechaInicio = document.getElementById('fechaInicio').value;
+            var fechaFin = document.getElementById('fechaFin').value;
+
+            var fechaInicioObj = new Date(fechaInicio);
+            var fechaFinObj = new Date(fechaFin);
+
+            if (fechaInicioObj > fechaFinObj) {
+                alert('La fecha de inicio no puede ser mayor que la fecha de fin.');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+
 {% endblock content %}
 
 <div class="py-3 flex flex-row center">

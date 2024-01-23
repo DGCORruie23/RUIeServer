@@ -10,7 +10,7 @@ from .models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInt
 from .forms import CargarArchivoForm, ExcelForm, ExcelFormOr, ExcelFormOrs
 import openpyxl as opxl
 from openpyxl.writer.excel import save_virtual_workbook
-import datetime
+from datetime import datetime, timedelta
 
 # Create your views here.
 
@@ -618,58 +618,13 @@ def generarExcelNombres(request):
             mes = request.POST["fechaDescarga_month"]
             year = request.POST["fechaDescarga_year"]
 
-            fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+            fechaR = datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
 
             valores = RescatePunto.objects.filter(fecha= fechaR)
             
             workbook = opxl.load_workbook('tmp/dup.xlsm', read_only=False, keep_vba=True)
             worksheet = workbook.active
             
-            # worksheet.append(['Oficina de Representación', 
-            #                  'Fecha', 
-            #                  'Hora',
-            #                  'AGENTE',
-            #                  'Aeropuerto', 
-            #                  'Carretero', 
-            #                  'Tipo de Vehículo', 
-            #                  'Linea / Empresa', 
-            #                  'No. Economico', 
-            #                  'Placas', 
-            #                  'Vehículo Asegurado', 
-            #                  'Casa de Seguridad', 
-            #                  'Central de Autobus', 
-            #                  'Ferrocarril', 
-            #                  'Empresa', 
-            #                  'Hotel', 
-            #                  'Nombre del Hotel', 
-            #                  'Puestos a Disposición', 
-            #                  'Juéz Calificador', 
-            #                  'Reclusorio', 
-            #                  'Policía Federal', 
-            #                  'DIF', 
-            #                  'Plicía Estatal', 
-            #                  'Policía Municipal', 
-            #                  'Guardia Nacional', 
-            #                  'Fiscalia', 
-            #                  'Otras Autoridades', 
-            #                  'Voluntarios', 
-            #                  'Otro', 
-            #                  'Presuntos Delincuentes', 
-            #                  'No. de Presuntos Delincuentes', 
-            #                  'Municipio', 
-            #                  'Punto Estratégico', 
-            #                  'Nacionalidad', 
-            #                  'ISO', 
-            #                  'Nombre', 
-            #                  'Apellidos',
-            #                  'No de Documento',
-            #                  'Parentesco',
-            #                  'Fecha de Nacimiento',
-            #                  'Sexo',
-            #                  'Embarazada',
-            #                  'No. de Familia',
-            #                  'Edad',
-            #                  ])
             for valor in valores:
                 worksheet.append([valor.oficinaRepre, 
                                  valor.fecha,
@@ -740,69 +695,13 @@ def generarExcelConteo(request):
             mes = request.POST["fechaDescarga_month"]
             year = request.POST["fechaDescarga_year"]
 
-            fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+            fechaR = datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
 
             valores = ConteoRapidoPunto.objects.filter(fecha= fechaR)
             
             workbook = opxl.load_workbook('tmp/dup.xlsm', read_only=False, keep_vba=True)
             worksheet = workbook.active
 
-            # worksheet.append(['Eventos Totales: ', valores.count(), 'Adulto No Acompañado = ANA', '', '','Adulto Acompañado = AA'])
-
-            # worksheet.append(['Oficina de Representación', 
-            #                  'Fecha', 
-            #                  'Hora',
-            #                  'AGENTE',
-            #                  'Aeropuerto', 
-            #                  'Carretero', 
-            #                  'Tipo de Vehículo', 
-            #                  'Linea / Empresa', 
-            #                  'No. Economico', 
-            #                  'Placas', 
-            #                  'Vehículo Asegurado', 
-            #                  'Casa de Seguridad', 
-            #                  'Central de Autobus', 
-            #                  'Ferrocarril', 
-            #                  'Empresa', 
-            #                  'Hotel', 
-            #                  'Nombre del Hotel', 
-            #                  'Puestos a Disposición', 
-            #                  'Juéz Calificador', 
-            #                  'Reclusorio', 
-            #                  'Policía Federal', 
-            #                  'DIF', 
-            #                  'Plicía Estatal', 
-            #                  'Policía Municipal', 
-            #                  'Guardia Nacional', 
-            #                  'Fiscalia', 
-            #                  'Otras Autoridades', 
-            #                  'Voluntarios', 
-            #                  'Otro', 
-            #                  'Presuntos Delincuentes', 
-            #                  'No. de Presuntos Delincuentes', 
-            #                  'Municipio', 
-            #                  'Punto Estratégico',
-
-            #                  'Nacionalidad', 
-            #                  'ISO', 
-                             
-            #                  'ANA Hombre(s)', 
-            #                  'ANA Mujer(es)',
-            #                  'ANA Mujer No Embarazada(s)',
-                             
-            #                  'Nucleos Familiares',
-            #                  'AA Hombre(s)', 
-            #                  'AA Mujer(es)',
-            #                  'AA Mujer No Embarazada(s)',
-            #                  'NNAA Hombre(s)', 
-            #                  'NNAA Mujer(es)',
-            #                  'NNAA Mujer No Embarazada(s)',
-                             
-            #                  'NNANA Hombre(s)', 
-            #                  'NNANA Mujer(es)',
-            #                  'NNANA Mujer No Embarazada(s)',
-            #                  'Masivo'
-            #                  ])
             for valor in valores:
                 masivoD = (valor.AS_hombres + valor.AS_mujeresNoEmb +valor.AS_mujeresEmb +
                            valor.AA_hombres + valor.AA_mujeresNoEmb + valor.AA_mujeresEmb +
@@ -890,74 +789,6 @@ def downloadAPK(request):
 def pagDuplicados(request):
     if request.method == 'GET':
         return render(request, "descargas/descargar_duplicados.html", {})
-    
-# @csrf_exempt
-# def downloadDuplicados(request):
-#     if request.method == 'GET':
-
-#         workbook = opxl.load_workbook('tmp/rec.xlsm', read_only=False, keep_vba=True)
-#         worksheet = workbook.active
-
-#         fechaR = datetime.datetime.today().strftime('%d-%m-%y')
-        
-#         # duplicados = RescatePunto.objects.all()
-
-#         register3 = RescatePunto.objects.values("iso3", "nombre", "apellidos", "fechaNacimiento").annotate(records=Count("*")).filter(records__gt=1)
-#         duplicados = []
-#         for reg in register3:
-#             for registro in RescatePunto.objects.filter(iso3=reg['iso3'], nombre=reg['nombre'], apellidos = reg['apellidos'], fechaNacimiento=reg['fechaNacimiento']):
-#                 duplicados.append(registro)
-                
-#         for valor in duplicados:
-#             worksheet.append([valor.oficinaRepre, 
-#                               valor.fecha,
-#                               valor.hora,
-#                               valor.nombreAgente.upper(),
-#                               "1" if valor.aeropuerto else "",
-#                               "1" if valor.carretero else "",
-#                               valor.tipoVehic.upper(),
-#                               valor.lineaAutobus.upper(),
-#                               valor.numeroEcono.upper(),
-#                               valor.placas.upper(),
-#                               "1" if valor.vehiculoAseg else "",
-#                               "1" if valor.casaSeguridad else "",
-#                               "1" if valor.centralAutobus else "",
-#                               "1" if valor.ferrocarril else "",
-#                               valor.empresa,
-#                               "1" if valor.hotel else "",
-#                               valor.nombreHotel,
-#                               "1" if valor.puestosADispo else "",
-#                               "1" if valor.juezCalif else "",
-#                               "1" if valor.reclusorio else "",
-#                               "1" if valor.policiaFede else "",
-#                               "1" if valor.dif else "",
-#                               "1" if valor.policiaEsta else "",
-#                               "1" if valor.policiaMuni else "",
-#                               "1" if valor.guardiaNaci else "",
-#                               "1" if valor.fiscalia else "",
-#                               "1" if valor.otrasAuto else "",
-#                               "1" if valor.voluntarios else "",
-#                               "1" if valor.otro else "",
-#                               "1" if valor.presuntosDelincuentes else "",
-#                               valor.numPresuntosDelincuentes if valor.numPresuntosDelincuentes != 0 else "",
-#                               valor.municipio.upper(),valor.puntoEstra.upper(),
-#                               valor.nacionalidad.upper(),
-#                               valor.iso3,
-#                               valor.nombre.upper(),
-#                               valor.apellidos.upper(),
-#                               valor.noIdentidad,
-#                               valor.parentesco.upper(),
-#                               valor.fechaNacimiento,
-#                               "Hombre" if valor.sexo else "Mujer",
-#                               "1" if valor.embarazo else "",
-#                               valor.numFamilia if valor.numFamilia != 0 else "",
-#                               valor.edad,
-#                               ])
-
-#         response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
-#         response['Content-Disposition'] = 'attachment; filename={fecha}.xlsm'.format(fecha = fechaR)
-
-#         return response
         
 @csrf_exempt
 def downloadDuplicados(request):
@@ -966,7 +797,7 @@ def downloadDuplicados(request):
         workbook = opxl.load_workbook('tmp/rec.xlsm', read_only=False, keep_vba=True)
         worksheet = workbook.active
 
-        fechaR = datetime.datetime.today().strftime('%d-%m-%y')
+        fechaR = datetime.today().strftime('%d-%m-%y')
         
         # duplicados = RescatePunto.objects.all()
 
@@ -1029,7 +860,7 @@ def generarExcelTab(request):
             mes = request.POST["fechaDescarga_month"]
             year = request.POST["fechaDescarga_year"]
 
-            fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+            fechaR = datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
 
             valores = valores = RescatePunto.objects.filter(fecha= fechaR).filter( oficinaRepre="TABASCO")
             
@@ -1104,12 +935,17 @@ def generarExcelORs(request):
         # year = request.POST["fechaDescarga_year"]
         fechaR = request.POST["fechaDescarga"]
 
-        oficinaR = request.POST["oficina"]
+        if request.user.is_superuser:
+            valores = valores = RescatePunto.objects.filter(fecha= fechaR)
+        else:
+            oficinaR = request.POST["oficina"]
 
-        # fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
-        # fechaR = datetime.datetime.strptime(f"{fechaFun}", "%d/%m/%Y").strftime('%d-%m-%y')
+            # fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+            # fechaR = datetime.datetime.strptime(f"{fechaFun}", "%d/%m/%Y").strftime('%d-%m-%y')
 
-        valores = valores = RescatePunto.objects.filter(fecha= fechaR).filter( oficinaRepre=oficinaR)
+            valores = RescatePunto.objects.filter(fecha= fechaR).filter( oficinaRepre=oficinaR)
+
+        
         
         workbook = opxl.load_workbook('tmp/dup.xlsm', read_only=False, keep_vba=True)
         worksheet = workbook.active
@@ -1168,6 +1004,100 @@ def generarExcelORs(request):
         response['Content-Disposition'] = 'attachment; filename={fecha}.xlsm'.format(fecha = fechaR)
 
         return response
+    
+    else:
+        return render(request, "base/error404.html")
+
+@csrf_exempt    
+def generarExcelFechas(request):
+    if(request.method == "POST"):
+        # print(request.POST)
+        fechaI = request.POST["fechaInicio"]
+        
+        fechaF = request.POST["fechaFin"]
+
+        fechaIN = datetime.strptime(f"{fechaI}", "%Y-%m-%d")
+        fechaFN = datetime.strptime(f"{fechaF}", "%Y-%m-%d")
+
+        # fecha_inicio = datetime(2024, 1, 1)
+        # print(fecha_inicio)
+        print(fechaIN)
+
+        # fecha_inicio = datetime(yearI, mesI, diaI)
+        # fecha_fin = datetime(diaF, mesF, yearF)
+
+        array_fechas = [(fechaIN + timedelta(days=d)).strftime("%d-%m-%y") for d in range((fechaFN - fechaIN).days + 1)]
+
+        # array_fechas = [(fechaIN + timedelta(days=d)).strftime("%d-%m-%y") for d in range((fechaIN - fechaFN).days + 1)]
+
+        # print(array_fechas)
+
+        valores = RescatePunto.objects.filter(fecha__in= array_fechas)
+
+        # if request.user.is_superuser:
+        #     valores = valores = RescatePunto.objects.filter(fecha= fechaR)
+        # else:
+        #     oficinaR = request.POST["oficina"]
+        #     # fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+        #     # fechaR = datetime.datetime.strptime(f"{fechaFun}", "%d/%m/%Y").strftime('%d-%m-%y')
+        
+        workbook = opxl.load_workbook('tmp/dup.xlsm', read_only=False, keep_vba=True)
+        worksheet = workbook.active
+            
+        for valor in valores:
+            worksheet.append([valor.oficinaRepre, 
+                                valor.fecha,
+                                valor.hora,
+                                valor.nombreAgente.upper(),
+                                "1" if valor.aeropuerto else "",
+                                "1" if valor.carretero else "",
+                                valor.tipoVehic.upper(),
+                                valor.lineaAutobus.upper(),
+                                valor.numeroEcono.upper(),
+                                valor.placas.upper(),
+                                "1" if valor.vehiculoAseg else "",
+                                "1" if valor.casaSeguridad else "",
+                                "1" if valor.centralAutobus else "",
+                                "1" if valor.ferrocarril else "",
+                                valor.empresa,
+                                "1" if valor.hotel else "",
+                                valor.nombreHotel,
+                                "1" if valor.puestosADispo else "",
+                                "1" if valor.juezCalif else "",
+                                "1" if valor.reclusorio else "",
+                                "1" if valor.policiaFede else "",
+                                "1" if valor.dif else "",
+                                "1" if valor.policiaEsta else "",
+                                "1" if valor.policiaMuni else "",
+                                "1" if valor.guardiaNaci else "",
+                                "1" if valor.fiscalia else "",
+                                "1" if valor.otrasAuto else "",
+                                "1" if valor.voluntarios else "",
+                                "1" if valor.otro else "",
+                                "1" if valor.presuntosDelincuentes else "",
+                                valor.numPresuntosDelincuentes if valor.numPresuntosDelincuentes != 0 else "",
+                                valor.municipio.upper(),
+                                valor.puntoEstra.upper(),
+                                valor.nacionalidad.upper(),
+                                valor.iso3,
+                                valor.nombre.upper(),
+                                valor.apellidos.upper(),
+                                valor.noIdentidad,
+                                valor.parentesco.upper(),
+                                valor.fechaNacimiento,
+                                "Hombre" if valor.sexo else "Mujer",
+                                "1" if valor.embarazo else "",
+                                valor.numFamilia if valor.numFamilia != 0 else "",
+                                valor.edad,
+                                ])
+        
+        worksheet.append(['Rescates Totales: ', valores.count()])
+
+        response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
+        response['Content-Disposition'] = 'attachment; filename= "Rescates_{fecha1}-{fecha2}.xlsm"'.format(fecha1 = fechaI, fecha2=fechaF)
+
+        return response
+        # return render(request, "base/error404.html")
     
     else:
         return render(request, "base/error404.html")
