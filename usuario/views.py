@@ -497,7 +497,7 @@ def cargaMasivaUser(request):
 
                         if (Usuario.objects.filter(nickname = nickname).exists()):
                             passUpdate = make_password(password)
-                            Usuario.objects.filter(nickname = nickname).update(password=passUpdate)
+                            Usuario.objects.filter(nickname = nickname).update(nombre=nombres, apellido=apellidos, password=passUpdate, estado=estado)
                         else:
                             Usuario.objects.create(
                                 nickname=nickname, 

@@ -31,30 +31,52 @@
         <!--        </p>-->
         <!--    </form>-->
         <!--</div>-->
-        
+
         <div class="flex flex-col content-center px-5 py-5">
+            <center>
+            <h1>Cargar Información de:</h1>
+        </center>
+        </div>
+        <div class="flex flex-col content-center px-5 py-2">
+            
+            <center>
+                <a href="{% url 'cargar_pais' %}" class="py-3 px-5 mx-1 bg-inm-rojo-200 hover:bg-inm-marron-100 rounded-xl text-white ">Estado de Fuerza</a>
+                <a href="{% url 'cargar_fuerza' %}" class="py-3 px-5 mx-1 bg-inm-rojo-200 hover:bg-inm-marron-100 rounded-xl text-white ">Puntos de Internación</a>
+                <a href="{% url 'cargar_municipios' %}" class="py-3 px-5 mx-1 bg-inm-rojo-200 hover:bg-inm-marron-100 rounded-xl text-white ">Municipios</a>
+                <a href="{% url 'cargar_puntoI' %}" class="py-3 px-5 mx-1 bg-inm-rojo-200 hover:bg-inm-marron-100 rounded-xl text-white ">Nacionalidades</a>
+                <a href="{% url 'cargar_usuarios' %}" class="py-3 px-5 mx-1 bg-inm-rojo-200 hover:bg-inm-marron-100 rounded-xl text-white ">Usuarios</a>
+            </center>
+        </div>
+
+        <div class="flex flex-col content-center px-5 py-4">
+            <center>
+            <h1>Mostrar datos de:</h1>
+        </center>
+        </div>
+        
+        <div class="flex flex-col content-center px-5 py-4">
             <center>
                 <a href="{% url 'descarga_duplicados' %}" class="py-4 px-6 bg-inm-marron-100 hover:bg-inm-marron-200 rounded-xl text-white ">Reincidentes</a>
             </center>
         </div>
 
-        <div class="flex flex-col content-center px-5 py-5">
+        <div class="my-6" >
 
                 <h1 class="flex flex-col items-center justify-center">Descarga archivo por fechas</h1>
-                <form action="{% url 'fechas_descarga' %}" method="post" enctype="multipart/form-data" class="flex flex-col items-center justify-center" onsubmit="return validarFechas()">{% csrf_token %}
-                    <label for="fechaInicio">Fecha de inicio:</label>
-                    <input type="date" name="fechaInicio" id="fechaInicio" required="">
+                <form action="{% url 'fechas_descarga' %}" method="post" enctype="multipart/form-data" class="flex justify-center items-center px-2" onsubmit="return validarFechas()">{% csrf_token %}
+                    <label  for="fechaInicio">Fecha de inicio:</label>
+                    <input class="px-2 mx-4" type="date" name="fechaInicio" id="fechaInicio" required="">
             
-                    <label for="fechaFin">Fecha de fin:</label>
+                    <label class="px-2" for="fechaFin">Fecha de fin:</label>
                     <input type="date" name="fechaFin" id="fechaFin" required="">
             
-                    <button class="py-2 px-2 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white" type="submit">Descargar</button>
+                    <button class=" py-2 px-4 mx-4 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white" type="submit">Descargar</button>
                 </form>
         </div>
 
         {% endif %}
             
-        <div class="flex flex-col content-center px-5 py-5">
+        <div class="flex flex-col content-center px-5 py-2">
             
             <form action="{% url 'mostrar' %}" method="post" enctype="multipart/form-data" class="flex flex-col items-center justify-center">{% csrf_token %}
             {% comment %} <form action="" method="post" enctype="multipart/form-data">{% csrf_token %} {% endcomment %}
