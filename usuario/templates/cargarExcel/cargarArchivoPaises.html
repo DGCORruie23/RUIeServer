@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cargar Estado de Fuerza</title>
+    <title>Cargar Nacionalidades</title>
 </head>
 <body>
     {% if user.is_authenticated %}
     <center>
         <h3>
-            Carga el archivo de los Paises
+            Carga el archivo de las Nacionalidades disponibles
         </h3>
     </center>
     <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}

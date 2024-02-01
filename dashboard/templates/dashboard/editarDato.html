@@ -12,7 +12,7 @@
 
     <div class="grow">
         
-        <form method="post" action="{% url 'mostrar' %}"  enctype="multipart/form-data">{% csrf_token %}
+        <form method="post" action="#"  enctype="multipart/form-data">{% csrf_token %}
 
             <p>
                 <input type="hidden" name="idRescate" value="{{datosR.idRescate}}" required="" id="id_idRescate">
@@ -30,15 +30,11 @@
             <p>
                 <label for="id_tipo_punto">Tipo de punto de Rescate:</label>
                 <select name="tipo_punto" id="id_tipo_punto" onchange="actualizarTipos()">
-                    <option value="aeropuerto">aeropuerto</option>
-                    <option value="carretero">carretero</option>
-                    <option value="central de autobus">central de autobus</option>
-                    <option value="casa de seguridad">casa de seguridad</option>
-                    <option value="ferrocarril">ferrocarril</option>
-                    <option value="hotel">hotel</option>
-                    <option value="puestos a disposicion">puestos a disposicion</option>
-                    <option value="voluntarios">voluntarios</option>
+                    {% for val in tiposPNombre %}
+                        <option value="{{val}}">{{val}}</option>
+                    {% endfor %}
                 </select>
+                
             </p>
             
             <p>
@@ -117,6 +113,7 @@
         var ferro = {{ res_ferro|safe }};
         var mun = {{ municipio|safe }};
         var nacionalidades = {{ nacion|safe }};
+        var opc_vacias = ["Sin Información"];
 
         var miSelect = document.getElementById("id_tipo_punto");
         miSelect.value = "{{datosR.tipo_punto}}";
@@ -132,36 +129,75 @@
         embaraz.value = "{{datosR.embarazo}}";
         
         actualizarTipos()
-        nom_puntos = document.getElementById("id_puntoEstra");
-        nom_puntos.value = "{{datosR.puntoEstra}}";
+        asignarPuntoEstrategico()
+        
 
 
 
+        function asignarPuntoEstrategico() {
+            tipo_punto = document.getElementById("id_tipo_punto").value;
+
+            //aeropuerto
+            if(tipo_punto === "{{tiposPNombre.0}}"){
+
+                nom_puntos = document.getElementById("id_puntoEstra");
+                nom_puntos.value = "{{datosR.puntoEstra}}";
+            //carretero
+            } else if (tipo_punto === "{{tiposPNombre.1}}"){
+
+                nom_puntos = document.getElementById("id_puntoEstra");
+                nom_puntos.value = "{{datosR.puntoEstra}}";
+            //central de autobus
+            } else if (tipo_punto === "{{tiposPNombre.2}}"){
+
+                nom_puntos = document.getElementById("id_puntoEstra");
+                nom_puntos.value = "{{datosR.puntoEstra}}";
+            //casa de seguridad y hotel
+            } else if (tipo_punto === "{{tiposPNombre.3}}" || tipo_punto === "{{tiposPNombre.5}}"){
+
+                nom_puntos = document.getElementById("id_puntoEstra");
+                nom_puntos.value = "{{datosR.puntoEstra}}";
+            //ferrocarril
+            } else if (tipo_punto === "{{tiposPNombre.4}}"){
+
+                nom_puntos = document.getElementById("id_puntoEstra");
+                nom_puntos.value = "{{datosR.puntoEstra}}";
+            //puestos a disposición y voluntarios
+            } else if (tipo_punto === "{{tiposPNombre.6}}" || tipo_punto === "{{tiposPNombre.7}}"){
+
+                nom_puntos = document.getElementById("id_puntoEstra");
+                nom_puntos.value = "Sin Información";
+            }
+        }
 
         function actualizarTipos() {
             tipo_punto = document.getElementById("id_tipo_punto").value;
             nombres_puntos = document.getElementById("id_puntoEstra");
             nombres_puntos.innerHTML = ""
 
-            if(tipo_punto === "aeropuerto"){
+            if(tipo_punto === "{{tiposPNombre.0}}"){
                 for (var i = 0; i < aero.length; i++) {
                     agregarOpcion(nombres_puntos, aero[i], aero[i])
                 }
-            } else if (tipo_punto === "carretero"){
+            } else if (tipo_punto === "{{tiposPNombre.1}}"){
                 for (var i = 0; i < carre.length; i++) {
                     agregarOpcion(nombres_puntos, carre[i], carre[i])
                 } 
-            } else if (tipo_punto === "central de autobus"){
+            } else if (tipo_punto === "{{tiposPNombre.2}}"){
                 for (var i = 0; i < central.length; i++) {
                     agregarOpcion(nombres_puntos, central[i], central[i])
                 } 
-            } else if (tipo_punto === "casa de seguridad" || tipo_punto === "hotel"){
+            } else if (tipo_punto === "{{tiposPNombre.3}}" || tipo_punto === "{{tiposPNombre.5}}"){
                 for (var i = 0; i < mun.length; i++) {
                     agregarOpcion(nombres_puntos, mun[i], mun[i])
                 } 
-            } else if (tipo_punto === "ferrocarril"){
+            } else if (tipo_punto === "{{tiposPNombre.4}}"){
                 for (var i = 0; i < ferro.length; i++) {
                     agregarOpcion(nombres_puntos, ferro[i], ferro[i])
+                } 
+            } else if (tipo_punto === "{{tiposPNombre.6}}" || tipo_punto === "{{tiposPNombre.7}}"){
+                for (var i = 0; i < opc_vacias.length; i++) {
+                    agregarOpcion(nombres_puntos, opc_vacias[i], opc_vacias[i])
                 } 
             }
         }

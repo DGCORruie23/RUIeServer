@@ -25,28 +25,30 @@
 {% block content %}
     {% comment %} <h1 class="text-xl">Dashboard de {{usuario.0.oficinaR}} </h1> {% endcomment %}
 
-    <div class="py-3 flex flex-row center">
-        {% comment %} <label for="filtro_hora">Filtrar por hora:</label> {% endcomment %}
-        <input class="px-2 py-1 rounded border-2 border-inm-marron-100 text-inm-cafe-200 mx-3" type="text" id="myInputOR" onkeyup="myFunction(2, 'myInputOR')" placeholder="Buscar por Oficina" name="filtro_OR">
+    <div class="py-2 flex flex-row center">
+        <input class="px-2 rounded border-2 border-inm-marron-100 text-inm-cafe-200 text-sm text-center mx-3" type="text" id="myInputAG" onkeyup="myFunction(5, 'myInputAG')" placeholder="Buscar por Agente" name="filtro_Agente">
 
-        <input class="px-2 py-1 rounded border-2 border-inm-marron-100 text-inm-cafe-200 mx-3" type="text" id="myInputHRS" onkeyup="myFunction(4, 'myInputHRS')" placeholder="Buscar por hora" name="filtro_hora">
+        <input class="px-2 rounded border-2 border-inm-marron-100 text-inm-cafe-200 text-sm text-center mx-3" type="text" id="myInputOR" onkeyup="myFunction(2, 'myInputOR')" placeholder="Buscar por Oficina" name="filtro_OR">
 
-        {% comment %} <label for="filtro_punto">Filtrar por Punto:</label> {% endcomment %}
-        <input class="px-2 py-1 rounded border-2 border-inm-marron-100 text-inm-cafe-200 mx-3" type="text" id="myInputP" onkeyup="myFunction(7, 'myInputP')" placeholder="Buscar por punto" name="filtro_punto">
+        <input class="px-2 rounded border-2 border-inm-marron-100 text-inm-cafe-200 text-sm text-center mx-3" type="text" id="myInputHRS" onkeyup="myFunction(4, 'myInputHRS')" placeholder="Buscar por Hora" name="filtro_hora">
 
-        {% comment %} <label for="filtro_nacio">Filtrar por Nacionalidad:</label> {% endcomment %}
-        <input class="px-2 py-1 rounded border-2 border-inm-marron-100 text-inm-cafe-200 mx-3" type="text" id="myInputNac" onkeyup="myFunction(8, 'myInputNac')" placeholder="Buscar por Nacionalidad" name="filtro_nacio">
+        <input class="px-2 rounded border-2 border-inm-marron-100 text-inm-cafe-200 text-sm text-center mx-3" type="text" id="myInputP" onkeyup="myFunction(7, 'myInputP')" placeholder="Buscar por Punto" name="filtro_punto">
 
-        <label class="px-2 py-1 text-inm-rojo-200" id="totales"></label>
+        <input class="px-2 rounded border-2 border-inm-marron-100 text-inm-cafe-200 text-sm text-center mx-3" type="text" id="myInputNac" onkeyup="myFunction(8, 'myInputNac')" placeholder="Buscar por Nacionalidad" name="filtro_nacio">
+
+        <label class="px-2 py-2 mx-3 text-inm-rojo-200" id="totales"></label>
 
         <form action="{% url 'descarga_excel' %}" method="post">
             {% csrf_token %}
                 <input name="fechaDescarga" type="hidden" value="{{fecha_P}}" id="id_fechaDescarga">
                 <input name="oficina" type="hidden" value="{{usuario.0.oficinaR}}" id="id_oficina">
-            <button type="submit" class="py-4 px-6 bg-blue-400 rounded-xl text-white hover:text-inm-verde-100">Descargar</button>
+            <button type="submit" class="py-2 px-6 bg-blue-400 rounded-xl text-white hover:text-inm-verde-100">Descargar</button>
         </form>
     </div>
-    
+
+    <form method="post" action="{% url 'eliminar_varios_registros' %}">
+        {% csrf_token %}
+        <input class="py-1 px-2 bg-inm-rojo-300 rounded-xl text-sm text-white hover:bg-inm-rojo-100" type="submit" value="Eliminar">
     <table id="myTable" class="border-separate border border-slate-200 hover:table-fixed" >
         <thead class="bg-inm-cafe-100 text-white">
             <tr>
@@ -85,7 +87,7 @@
         <tbody class="bg-gray-200">
             {% for val in values %}
             <tr>
-                <td class="text-xs text-center"><input type="checkbox" id="cbox{{val.idRescate}}" value="{{val.idRescate}}" class="checkbox" onClick="checkALLT(this)" /></td>
+                <td class="text-xs text-center"><input type="checkbox" id="cbox{{val.idRescate}}" name="registros_seleccionados" value="{{val.idRescate}}" class="checkbox" onClick="checkALLT(this)" /></td>
                 <td class="text-xs text-center">{{ forloop.counter }}</td>
                 <td class="text-xs text-center">{{val.oficinaRepre}}</td>
                 <td class="text-xs text-center">{{val.fecha}}</td>
@@ -105,7 +107,7 @@
                 {% elif val.hotel == True %}
                     <td class="text-xs text-center">Hotel</td>
                 {% elif val.puestosADispo == True %}
-                    <td class="text-xs text-center">Puestos a Disposicion</td>
+                    <td class="text-xs text-center">Puestos a Disposición</td>
                 {% elif val.voluntarios == True %}
                     <td class="text-xs text-center">Voluntarios</td>
                 {% else %}
@@ -151,7 +153,7 @@
             {% endfor %}
         </tbody>
     </table>
-
+</form>
     
 
     <script>

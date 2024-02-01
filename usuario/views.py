@@ -1001,7 +1001,7 @@ def generarExcelORs(request):
         worksheet.append(['Oficina: ', oficinaR])
 
         response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
-        response['Content-Disposition'] = 'attachment; filename={fecha}.xlsm'.format(fecha = fechaR)
+        response['Content-Disposition'] = 'attachment; filename={oficina}_{fecha}.xlsm'.format(fecha = fechaR, oficina=oficinaR)
 
         return response
     

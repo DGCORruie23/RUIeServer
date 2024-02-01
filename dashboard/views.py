@@ -47,7 +47,64 @@ def dashboard(request):
             'form': form,
         }
         return render(request, "dashboard/dashboard.html", context=data) 
+
+def datos_fecha(request):
+    if request.method == 'POST':
+        form = ExcelForm(request.POST)
+        if form.is_valid():
+            # Obtiene la fecha seleccionada del formulario
+            fecha_seleccionada = form.cleaned_data['fechaDescarga']
+            # Redirige a la vista de la tabla de productos con la fecha seleccionada
+            return redirect('tabla_registros_fecha', year=fecha_seleccionada.year, month=fecha_seleccionada.month, day=fecha_seleccionada.day)
+    else:
+        return redirect('/dashboard')
     
+def eliminar_registros(request):
+    if request.method == 'POST':
+        # Obtén los IDs de los productos seleccionados
+        registros_seleccionados = request.POST.getlist('registros_seleccionados')
+
+        # Elimina los productos seleccionados
+        registros_eliminar = RescatePunto.objects.filter(idRescate__in=registros_seleccionados)
+        fechaR = registros_eliminar[0].fecha
+        registros_eliminar.delete()
+
+        # Redirige a la página de la tabla de productos o a donde desees
+        fecha_seleccionada = datetime.datetime.strptime(f"{fechaR}", "%d-%m-%y")
+                # return redirect('../datos/')
+        return redirect('tabla_registros_fecha', year=fecha_seleccionada.year, month=fecha_seleccionada.month, day=fecha_seleccionada.day)
+
+    # Obtén todos los productos para mostrar en la tabla
+    return redirect("/dashboard")
+
+def tabla_registros(request, year=None, month=None, day=None):
+    
+    userDataI = usuarioL.objects.filter(user__username=request.user)
+    fechaR = datetime.datetime.strptime(f"{day}/{month}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+    form = ExcelForm()
+    
+    if request.user.is_superuser:
+        valores = RescatePunto.objects.filter(fecha=fechaR)
+
+        data = {
+        'usuario' : userDataI,
+        'form': form,
+        'values' : valores,
+        'fecha_P' : fechaR,
+        }
+
+        return render(request, "dashboard/datos_diaSU.html", context=data)
+    else:
+        valores = RescatePunto.objects.filter(fecha=fechaR).filter(oficinaRepre=userDataI[0].oficinaR)
+
+        data = {
+        'usuario' : userDataI,
+        'form': form,
+        'values' : valores,
+        'fecha_P' : fechaR,
+        }
+
+        return render(request, "dashboard/datos_dia.html", context=data)
 
 def editarData(request, pk):
     if request.user.is_authenticated:
@@ -87,23 +144,34 @@ def editarData(request, pk):
                     # print(nomS)
                     pass
 
+            tiposPNombre = [
+                'aeropuerto',
+                'carretero',
+                'central de autobus',
+                'casa de seguridad',
+                'ferrocarril',
+                'hotel',
+                'puestos a disposición',
+                'voluntarios',
+            ]
+
             puntoR = ""
             if rescate.aeropuerto:
-                puntoR = 'aeropuerto'
+                puntoR = tiposPNombre[0]
             elif rescate.carretero:
-                puntoR = 'carretero'
+                puntoR = tiposPNombre[1]
             elif rescate.centralAutobus:
-                puntoR = 'central de autobus'
+                puntoR = tiposPNombre[2]
             elif rescate.casaSeguridad:
-                puntoR = 'casa de seguridad'
+                puntoR = tiposPNombre[3]
             elif rescate.ferrocarril:
-                puntoR = 'ferrocarril'
+                puntoR = tiposPNombre[4]
             elif rescate.hotel:
-                puntoR = 'hotel'
+                puntoR = tiposPNombre[5]
             elif rescate.puestosADispo:
-                puntoR = 'puestos a disposicion'
+                puntoR = tiposPNombre[6]
             elif rescate.voluntarios:
-                puntoR = 'voluntarios'
+                puntoR = tiposPNombre[7]
             else: 
                 puntoR = ''
 
@@ -123,6 +191,7 @@ def editarData(request, pk):
                 'sexo': rescate.sexo,
                 'embarazo': rescate.embarazo,
                 'numFamilia': rescate.numFamilia,
+                
             }
             
             form = RegistroNewForm(initial=datosR)
@@ -137,7 +206,12 @@ def editarData(request, pk):
                 "res_ferro": types_PRescateF,
                 "municipio": types_PRescateM,
                 "nacion": types_Naciona,
+                'tiposPNombre': tiposPNombre,
             }
+
+            # print(ofiRep)
+            # print(types_PRescateA)
+            # print(rescate.puntoEstra)
             
             return render(request, "dashboard/editarDato.html", context=datos )
         if request.method == 'POST':
@@ -148,9 +222,15 @@ def editarData(request, pk):
             }
             if form.is_valid():
                 form.save()
+                fecha_form = form.cleaned_data['fecha']
+                # print("entra a guardar info")
+                # print(fecha_form)
                 messages.success(request, "El registro ha sido modificado")
-                return redirect('../datos/')
+                fecha_seleccionada = datetime.datetime.strptime(f"{fecha_form}", "%d-%m-%y")
+                # return redirect('../datos/')
+                return redirect('tabla_registros_fecha', year=fecha_seleccionada.year, month=fecha_seleccionada.month, day=fecha_seleccionada.day)
             else:
+                print(form.errors)
                 print("datos erroneos")
                 messages.success(request, "Datos Erroneos")
                 return render(request, "dashboard/editarDato.html", context=datos )

@@ -47,7 +47,7 @@ types_Puntos = [
         ("casa de seguridad", "casa de seguridad"),
         ("ferrocarril", "ferrocarril"),
         ("hotel", "hotel"),
-        ("puestos a disposicion", "puestos a disposicion"),
+        ("puestos a disposición", "puestos a disposición"),
         ("voluntarios", "voluntarios"),
     ]
 
@@ -91,6 +91,8 @@ for puntos in PuntosInternacion.objects.all():
 
     types_PRescate.append((nomS1, nomS1))
 
+types_PRescate.append(("Sin Información", "Sin Información"))
+
 for mun in Municipios.objects.all():
     nomS = str(mun.nomMunicipio)
     nomS1 = ""
@@ -114,7 +116,7 @@ class ExcelForm(forms.Form):
     fechaDescarga = forms.DateField(
     widget=forms.SelectDateWidget(
         years=YEARS
-    ))
+    ), initial=datetime.date.today )
     # fechaDescarga2 = forms.DateField(widget=forms.SelectDateWidget)
 
 class ExcelFormORs(forms.Form):
@@ -223,6 +225,8 @@ class RegistroNewForm(forms.Form):
         db_puestos = False
         db_volunt = False
 
+        puntoEstra = self.data['puntoEstra']
+
         if(self.data['tipo_punto'] == 'aeropuerto'):
             db_aerop = True
         elif(self.data['tipo_punto'] == 'carretero'):
@@ -235,10 +239,12 @@ class RegistroNewForm(forms.Form):
             db_ferro = True
         elif(self.data['tipo_punto'] == 'hotel'):
             db_hotel = True
-        elif(self.data['tipo_punto'] == 'puestos a disposicion'):
+        elif(self.data['tipo_punto'] == 'puestos a disposición'):
             db_puestos = True
+            puntoEstra = ""
         else:
             db_volunt = True
+            puntoEstra = ""
 
         db_nacionalid = self.data['nacionalidad']
         paisI = Paises.objects.filter(nombre_pais=db_nacionalid)
@@ -264,7 +270,7 @@ class RegistroNewForm(forms.Form):
             fecha=self.data['fecha'],
             hora=self.data['hora'],
 
-            puntoEstra=self.data['puntoEstra'],
+            puntoEstra=puntoEstra,
 
             aeropuerto=db_aerop,
             carretero=db_carre,
