@@ -2,10 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from usuarioL.models import usuarioL
 from .forms import ExcelForm, RegistroForm, RegistroNewForm
-from usuario.models import RescatePunto, EstadoFuerza, PuntosInternacion, Municipios, Paises
+from usuario.models import RescatePunto, EstadoFuerza, PuntosInternacion, Municipios, Paises, Usuario
 from django.contrib import messages
-import datetime
+from datetime import *
 
+from .forms import EstadoFuerzaForm, UsuarioForm
+from usuario.forms import CargarArchivoForm
+from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator, EmptyPage
+from django.contrib.auth.hashers import make_password
 # Create your views here.
 @login_required
 def dashboard(request):
@@ -311,6 +316,182 @@ def mostrarData(request):
         messages.success(request, "Necesitas ingresar para poder modificar la informacion")
         return redirect('')
 
+def prueba_html(request):
+    #total de rescates del 1 de enero al dia de hoy
+    #total de rescates del 1 de enero al dia de hoy filtrado por hombres y mujeres
+    fechaIN = datetime.strptime(f"2024-01-01", "%Y-%m-%d")
+    fechaFN = datetime.today()
+    # fechaFN = datetime.strptime(f"{fechaF}", "%Y-%m-%d")
+
+    # fecha_inicio = datetime(2024, 1, 1)
+    # print(fecha_inicio)
+    print(fechaIN)
+
+    # fecha_inicio = datetime(yearI, mesI, diaI)
+    # fecha_fin = datetime(diaF, mesF, yearF)
+
+    array_fechas = [(fechaIN + timedelta(days=d)).strftime("%d-%m-%y") for d in range((fechaFN - fechaIN).days + 1)]
+    rescatesT = RescatePunto.objects.filter(fecha__in=array_fechas).count()
+    rescatesTH = RescatePunto.objects.filter(fecha__in=array_fechas, sexo = 1).count()
+    rescatesTM = RescatePunto.objects.filter(fecha__in=array_fechas, sexo = 0).count()
+    datos = {
+                "fecha" : fechaFN,
+                "total" : rescatesT,
+                "totalH": rescatesTH,
+                "totalM": rescatesTM,
+                }
+    return render(request, "dashboard/pruebas.html", context=datos)
+
+
+def edoFuerza(request):
+    data = EstadoFuerza.objects.all().order_by('oficinaR',"nomPuntoRevision")
+    form = CargarArchivoForm()
+    context = {"edoFuerza": data,
+               "form": form,
+               }
+    return render(request, "dashboard/edoFuerza.html", context)
+
+def agregar_punto(request):
+    idUltimo = EstadoFuerza.objects.latest('idEdoFuerza')
+    idUltimo = idUltimo.idEdoFuerza
+    print(idUltimo)
+    if request.method == 'POST':
+        
+        try:
+            oficinaR = request.POST.get('oficinaR'),
+            print("El id de oficinaR = "),
+            print(oficinaR),
+            EstadoFuerza.objects.create(
+                idEdoFuerza = idUltimo+1,
+                oficinaR = request.POST.get('oficinaR'),
+                numPunto = request.POST.get('numPunto'),
+                nomPuntoRevision = request.POST.get('nomPuntoRevision'),
+                tipoP = request.POST.get('tipoP'),
+                ubicacion = request.POST.get('ubicacion'),
+                coordenadasTexto = request.POST.get('coordenadasTexto'),
+                latitud = request.POST.get('latitud'),
+                longitud = request.POST.get('longitud'),
+                personalINM = request.POST.get('personalINM'),
+                personalSEDENA = request.POST.get('personalSEDENA'),
+                personalMarina = request.POST.get('personalMarina'),
+                personalGuardiaN = request.POST.get('personalGuardiaN'),
+                personalOTROS = request.POST.get('personalOTROS'),
+                vehiculos = request.POST.get('vehiculos'),
+                seccion = request.POST.get('seccion'),
+            )
+            print('Agregado éxitosamente')
+            return redirect('pagina_pruebas_edoFuerza')
+        except:
+            print('No se ha podido agregar')
+    return render(request, 'dashboard/anadirPunto.html')
+
+def editar_estado_fuerza(request, id_edo_fuerza):
+    #estado_fuerza = get_object_or_404(EstadoFuerza, idEdoFuerza=id_edo_fuerza)
+
+    estado_fuerza = EstadoFuerza.objects.get(idEdoFuerza = id_edo_fuerza)
+
+    data = {
+        'form': estado_fuerza
+    }
+    if request.method == 'POST':
+        print("Entró al POST")
+        formulario = EstadoFuerzaForm(data = request.POST, instance=estado_fuerza)
+
+        if formulario.is_valid():
+            print("Entró a la validación")
+            formulario.save()
+            data['message'] = "Datos Modificados correctamente"
+            data['form'] = formulario
+            return redirect('pagina_pruebas_edoFuerza')
+        else:
+            print("Entró al ELSE")
+            print(formulario.errors)
+
+
+
+    return render(request, 'editarEdoFuerza.html', context= data)
+
+def eliminarEdoFuerza(request, id_edo_fuerza):
+    id_edo_fuerza  = EstadoFuerza.objects.get(idEdoFuerza = id_edo_fuerza)
+    id_edo_fuerza.delete()
+
+    return redirect('pagina_pruebas_edoFuerza')
+
+
+def Usuarios(request):
+    data = Usuario.objects.all().order_by("estado")
+    form = CargarArchivoForm()
+    context = {"usuario": data,
+               "form": form,
+               }
+    return render(request, "dashboard/usuarios.html", context)
+
+def agregar_usuario(request):
+    idUltimo = Usuario.objects.latest('idUser')
+    idUltimo = idUltimo.idUser
+    print(idUltimo)
+    if request.method == 'POST':
+        
+        try:
+            Usuario.objects.create(
+                idUser = idUltimo+1,
+                nickname = request.POST.get('nickname'),
+                nombre = request.POST.get('nombre'),
+                apellido = request.POST.get('apellido'),
+                password = request.POST.get('password'),
+                estado = request.POST.get('estado'),
+                tipo = request.POST.get('tipo'),
+            )
+            print('Agregado éxitosamente')
+            return redirect('pagina_pruebas_usuarios')
+        except:
+            print('No se ha podido agregar')
+    return render(request, 'dashboard/anadirUsuario.html')
+
+
+def editar_usuario(request, id_usuario):
+
+    usuario = Usuario.objects.get(idUser = id_usuario)
+
+    data = {
+        'form': usuario
+    }
+    if request.method == 'POST':
+        print("Entró al POST")
+        formulario = UsuarioForm(data = request.POST, instance=usuario)
+
+        if formulario.is_valid():
+            print("Entró a la validación")
+
+            Usuario.objects.filter(idUser = id_usuario).update(
+                idUser = id_usuario,
+                nickname = request.POST.get('nickname'),
+                nombre = request.POST.get('nombre'),
+                apellido = request.POST.get('apellido'),
+                estado = request.POST.get('estado'),
+                tipo = request.POST.get('tipo'),
+            )
+
+            data['message'] = "Datos Modificados correctamente"
+            data['form'] = formulario
+            return redirect('pagina_pruebas_usuarios')
+        else:
+            print("Entró al ELSE")
+            idUser = request.POST.get('idUser')
+            password = request.POST.get('password')
+            Usuario.objects.filter(idUser = idUser).update(
+                 password = make_password(password)
+             )
+            print('Actualizó contraseña')
+            print(formulario.errors)
+
+    return render(request, 'editarUsuario.html', context= data)
+
+def eliminarUsuario(request, id_usuario):
+    id_usuario  = Usuario.objects.get(idUser = id_usuario)
+    id_usuario.delete()
+
+    return redirect('pagina_pruebas_usuarios')
 
 
 # def update_record(request, pk):

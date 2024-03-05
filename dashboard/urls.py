@@ -8,5 +8,17 @@ urlpatterns = [
      path('datos/fecha', views.datos_fecha, name="datos_por_fecha"),
      path('datos/eliminarM', views.eliminar_registros, name="eliminar_varios_registros"),
      path('datos/<int:year>/<int:month>/<int:day>/', views.tabla_registros, name='tabla_registros_fecha'),
+
+
+     path('edoFuerza', views.edoFuerza, name="pagina_pruebas_edoFuerza"),
+     path('edoFuerza/editarEdoFuerza/<int:id_edo_fuerza>', views.editar_estado_fuerza, name='editar_estado_fuerza'),
+     path('doFuerza/eliminarEdoFuerza/<int:id_edo_fuerza>', views.eliminarEdoFuerza, name='eliminar_estado_fuerza'),
+     path('edoFuerza/anadirPunto', views.agregar_punto, name='agregar_punto'),
+
+
+     path('usuarios', views.Usuarios, name="pagina_pruebas_usuarios"),
+     path('usuarios/editarUsuario/<int:id_usuario>', views.editar_usuario, name='editar_usuario'),
+     path('usuarios/anadirUsuario', views.agregar_usuario, name='agregar_usuario'),
+     path('usuarios/eliminarUsuario/<int:id_usuario>', views.eliminarUsuario, name='eliminar_usuario'),
 ]
 

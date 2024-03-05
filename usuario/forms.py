@@ -3,6 +3,8 @@ from django.contrib.admin import widgets
 import django.forms.widgets 
 import datetime
 
+from django import forms
+from .models import EstadoFuerza
 
 class CargarArchivoForm(forms.Form):
     archivo = forms.FileField()

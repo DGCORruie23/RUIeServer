@@ -1,0 +1,308 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- <script src="{% static 'js/carousel.js' %}"></script> -->
+    <title>{% block title %}{% endblock title %}</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
+
+    <!-- TW Elements styles-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
+
+    <script src="https://cdn.tailwindcss.com/3.3.0"></script>
+    <script src="{% static 'js/tailwind.config.js' %}"></script>
+
+    <style>
+        body {
+            background: url("{% static 'imgs/fondo.png' %}") no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #Footer {
+            height: 70px;
+            flex: 1;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #e1e1e1
+        }
+
+        th {
+            background-colrgb(197, 122, 69)AA6D;
+            color: rgb(165, 27, 27);
+        }
+
+        .bdtable {
+            border: 2px solid #b4b4b4;
+            border-radius: 15px;
+            box-shadow: 0px 1px;
+            margin-left: 100px;
+            margin-right: 100px;
+  
+        }
+        .punto {
+            margin-right: 100px;
+        }
+        
+        #myInput {
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 45%;
+            font-size: 16px;
+            padding: 12px 10px 12px 40px;
+            border: 1px solid #ddd;
+            margin-left: 12%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+          }
+          
+          .flex-container {
+            display: flex;
+            align-items: stretch;
+            }
+
+            .flex-container > div {
+                margin: 10px;
+                text-align: center;
+                line-height: 20px;
+                font-size: 15px;
+            }
+
+            .overlay { 
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.7);
+                transition: opacity 500ms;
+                visibility: hidden;
+                opacity: 0;
+            }
+
+            .overlay:target{
+                visibility: visible;
+                opacity: 1;
+            }
+
+            #popupBody{
+                width: 46%;
+                padding: 2%;
+                border-radius: 15px;
+                box-shadow: 0 0 5px #CCC;
+                background: #FFF;
+                position: relative;
+                margin: 20% auto;
+                transition: all 5s ease-in-out;
+
+            }
+
+
+            #cerrar{
+                position: absolute;
+                top: 20px;
+                right: 30px;
+                font-size: 30px;
+                font-weight: bold;
+                text-decoration: none;
+                color: #F00;
+                transition: all 200ms;
+            }
+
+
+
+
+    </style>
+</head>
+
+<body class="flex flex-col mx-auto my-auto md:h-screen">
+
+    <div class="flex justify-between items-center">
+        <a href="/" class="flex items-center text-white hover:text-inm-marron-100">
+            <img class="w-20 h-20" src="{% static 'icons/ruie.svg' %}" alt="logo" style="margin-right: 10px;">
+        </a>
+        <div class="bg-inm-marron-100 flex-grow">
+            <p class=" font-family: 'Montserrat' text-3xl text-inm-verde-100 font-bold text-center">PANEL DE CONTROL</p>
+            <p class=" font-family: 'Montserrat' text-1xl text-inm-rojo-200 text-center">
+                <strong>R</strong>eporte
+                <strong>Ú</strong>nico
+                de
+                <strong>I</strong>nformación
+                <strong>E</strong>lectrónico
+
+            </p>
+            <p class=" text-inm-rojo-200 text-center font-bold ">RESCATE-CAPTURA</p>
+        </div>
+        <a>
+            <img class="w-25 h-20 " src="{% static 'icons/LOGO2.png' %}" alt="logo" style="margin-right: 2px;">
+        </a>
+    </div>
+
+    {% block content %}
+
+    <br><br>
+    <div class="punto">
+        <a href="{% url 'dashboard' %}" class="ml-24 py-4 px-6 bg-inm-rojo-300 hover:bg-inm-marron-200 rounded-xl text-white ">Panel de Control</a>
+        <a href="{% url 'agregar_punto' %}" class="py-4 px-6 bg-inm-rojo-300 rounded-xl text-white hover:bg-inm-marron-100 float-right btn-sm ml-auto">
+            Agregar Punto
+        </a>
+    </div>
+    
+    <br><br>
+
+    <div class="flex-container">
+        <div style="flex-grow: 6"><input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar..."></div>
+        <div style="flex-grow: 1; margin-top: 25px; margin-right: 20%;"><a href="#popup" class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Carga masiva</a></div> 
+        <div style="flex-grow: 2; margin-top: 25px;"><a href="" class="mr-28 py-3    px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Eliminar seleccionados</a></div> 
+    </div>
+
+    <div id="popup" class="overlay">
+        <div id="popupBody">
+            <a href="#" id="cerrar">&times;</a>
+            <div class="popupContent">
+                {% if user.is_authenticated %}
+                <center>
+                    <h3>
+                        Carga el archivo del Estado de Fuerza
+                    </h3>
+                </center>
+                <form action="{% url 'cargar_fuerza' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <p>
+                        {{ form.archivo }}
+                    </p>
+                    <p>
+                        <input type="submit" value="Cargar" />
+                    </p>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="bdtable bg-inm-marron-100">
+        <table id="myTable">
+            <tr class="header">
+                <th></th>
+                <th>Oficina de Representación</th>
+                <th>Tipo del Punto</th>
+                <th>Nombre del Punto</th>
+                <th>Acciones</th>
+            </tr>
+            {% for item in edoFuerza %}
+                <tr>
+                    <td>
+                     
+
+                            <div class="inline-flex items-center">
+                                <label class="relative flex items-center p-3 rounded-full cursor-pointer" htmlFor="red">
+                                  <input type="checkbox"
+                                    class="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-md border border-blue-gray-200 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-red-500 checked:bg-inm-rojo-300 checked:before:bg-inm-rojo-300 hover:before:opacity-10"
+                                    id="myCheck"  onclick="checkBox()" />
+                                  <span
+                                    class="absolute text-white transition-opacity opacity-0 pointer-events-none top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 peer-checked:opacity-100">
+                                  </span>
+                                </label>
+                              </div>
+              
+            
+                    </td>
+                    <td>{{ item.oficinaR }}</td>
+                    <td>{{ item.tipoP }}</td>
+                    <td>{{ item.nomPuntoRevision }}</td>
+                    <td>
+                        <a href="{% url 'editar_estado_fuerza' id_edo_fuerza=item.idEdoFuerza %}" class="py-2 px-6 bg-inm-verde-200 rounded-xl text-white hover:bg-inm-marron-100">
+                            Editar
+                        </a>
+                        
+                    </td>
+                    <td>
+                        <a href="{% url 'eliminar_estado_fuerza' id_edo_fuerza=item.idEdoFuerza %}" class="
+                        py-2 px-6 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white">
+                            Eliminar
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    
+    
+    
+
+
+    <br><br><br>
+
+    <script>
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+              td = tr[i].getElementsByTagName("td")[0];
+              if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  tr[i].style.display = "";
+                } else {
+                  tr[i].style.display = "none";
+                }
+              }       
+            }
+          }
+
+            function checkBox() {
+              var checkBox = document.getElementById("myCheck");
+              var text = document.getElementById("text");
+              if (checkBox.checked == true){
+                    console.log(item.estado);
+                    console.log("está checado");
+              } else {
+
+              }
+            }
+
+    </script>
+    {% endblock content %}
+
+    <footer id="Footer">
+        <div class="flex justify-between items-center">
+            <a>
+                <img class="w-30 h-20" src="{% static 'icons/felipe.png' %}" alt="logo" style="margin-right: 10px;">
+            </a>
+            <div>
+                <p class=" font-family: 'Montserrat' text-2xl text-inm-marron-100 font-bold margin-right: 5px">
+                    ______________________________________________________________________________________________________________________________________
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
+</body>
+
+</html>

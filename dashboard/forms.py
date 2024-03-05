@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.admin import widgets
 import django.forms.widgets 
-from usuario.models import RescatePunto, Paises, EstadoFuerza, PuntosInternacion, Municipios
+from usuario.models import RescatePunto, Paises, EstadoFuerza, PuntosInternacion, Municipios, Usuario
 import datetime
 
 
@@ -295,3 +295,14 @@ class RegistroNewForm(forms.Form):
         # datosActualizados = RescatePunto.objects.update_or_create(idRescate=self.data['idRescate'], sexo=self.data['sexo'] )
         return datosActualizados
     
+
+class EstadoFuerzaForm(forms.ModelForm):
+    class Meta:
+        model = EstadoFuerza
+        fields = '__all__'
+
+class UsuarioForm(forms.ModelForm):
+    class Meta:
+        model = Usuario
+        fields = '__all__'
+

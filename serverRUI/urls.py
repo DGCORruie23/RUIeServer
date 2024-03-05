@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from usuario import views
 from usuarioL.views import index
+from dashboard import views as viewsDash
 from django.contrib.auth import views as viewsL
 
 urlpatterns = [
@@ -31,6 +32,7 @@ urlpatterns = [
     path('login/', include('usuario.urls')),
     path('info/cargarPais', views.cargarPais, name="cargar_pais"),
     path('info/cargarFuerza', views.cargarEdoFuerza, name="cargar_fuerza"),
+    #path('dashboard/', views.cargarEdoF, name="cargar_f"),
     path('info/cargarMunicipios', views.cargarMunicipios, name="cargar_municipios"),
     path('info/cargarPuntosI', views.cargarPuntoI, name="cargar_puntoI"),
     path('cargar/Usuarios', views.cargaMasivaUser, name="cargar_usuarios"),
@@ -51,4 +53,16 @@ urlpatterns = [
     path('registro/insertC', views.insert_conteo),
     path('descargas/', views.servirApps, name="descargas"),
     path('descargas/apk', views.downloadAPK, name="descarga_android"),
+    
+    path('info/pruebas', viewsDash.prueba_html, name="pagina_pruebas"),
+    # path('info/pruebas/edoFuerza', viewsDash.edoFuerza, name="pagina_pruebas_edoFuerza"),
+    # path('info/pruebas/edoFuerza/editarEdoFuerza/<int:id_edo_fuerza>', viewsDash.editar_estado_fuerza, name='editar_estado_fuerza'),
+    # path('info/pruebas/edoFuerza/eliminarEdoFuerza/<int:id_edo_fuerza>', viewsDash.eliminarEdoFuerza, name='eliminar_estado_fuerza'),
+    # path('info/pruebas/edoFuerza/anadirPunto', viewsDash.agregar_punto, name='agregar_punto'),
+
+
+    # path('info/pruebas/usuarios', viewsDash.Usuarios, name="pagina_pruebas_usuarios"),
+    # path('info/pruebas/usuarios/editarUsuario/<int:id_usuario>', viewsDash.editar_usuario, name='editar_usuario'),
+    # path('info/pruebas/usuarios/anadirUsuario', viewsDash.agregar_usuario, name='agregar_usuario'),
+    # path('info/pruebas/usuarios/eliminarUsuario/<int:id_usuario>', viewsDash.eliminarUsuario, name='eliminar_usuario'),
 ]

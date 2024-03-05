@@ -6,9 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="{% static 'js/tailwind.config.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <link rel="stylesheet" href="{% static 'css/popUp.css' %}">
     <title>{% block title %}{% endblock title %}</title>
     {% block scriptHead %}{% endblock scriptHead %}
 </head>
+
+
+
 <body class="flex flex-col mx-auto md:h-screen">
     <nav class="flex-none py-5 px-6 flex justify-between bg-inm-verde-100">
         <a href="/" class="flex items-center text-white hover:text-inm-marron-100">

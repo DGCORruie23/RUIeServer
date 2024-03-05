@@ -1,141 +1,188 @@
 {% extends "base/base.html" %}
 
 {% block title %}
-    {% comment %} {% for user in usuario %}
-        Dashboard de {{user.oficinaR}}
-    {% endfor %}  {% endcomment %}
-    Dashboard de {{usuario.0.oficinaR}}
+{% comment %} {% for user in usuario %}
+Dashboard de {{user.oficinaR}}
+{% endfor %} {% endcomment %}
+Dashboard de {{usuario.0.oficinaR}}
 {% endblock title %}
 
 {% block navigation %}
-    Panel de Control de {{usuario.0.oficinaR}}
+Panel de Control de {{usuario.0.oficinaR}}
 {% endblock navigation %}
 
+
+
 {% block content %}
-    {% comment %} <h1 class="text-xl">Dashboard de {{usuario.0.oficinaR}} </h1> {% endcomment %}
+{% comment %} <h1 class="text-xl">Dashboard de {{usuario.0.oficinaR}} </h1> {% endcomment %}
 
-    <div class="grow">
-        
-        {% if request.user.is_superuser %}
-        <!--<div class="flex flex-col content-center px-5 py-5">-->
-            
-        <!--    <form action="{% url 'mostrar' %}" method="post" enctype="multipart/form-data" class="flex flex-col items-center justify-center">{% csrf_token %}-->
-        <!--        <p>-->
-        <!--            {{form.fechaDescarga}} -->
-        <!--        </p>-->
-        <!--        <p>-->
-        <!--            {{form.oficina}} -->
-        <!--        </p>-->
-        <!--        <p class="py-4">-->
-        <!--            <input class="py-2 px-2 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white" type="submit" value="Visualizar Datos"/>-->
-        <!--        </p>-->
-        <!--    </form>-->
-        <!--</div>-->
+<div class="grow">
 
-        <div class="flex flex-col content-center px-5 py-5">
-            <center>
+    {% if request.user.is_superuser %}
+    <!--<div class="flex flex-col content-center px-5 py-5">-->
+
+    <!--    <form action="{% url 'mostrar' %}" method="post" enctype="multipart/form-data" class="flex flex-col items-center justify-center">{% csrf_token %}-->
+    <!--        <p>-->
+    <!--            {{form.fechaDescarga}} -->
+    <!--        </p>-->
+    <!--        <p>-->
+    <!--            {{form.oficina}} -->
+    <!--        </p>-->
+    <!--        <p class="py-4">-->
+    <!--            <input class="py-2 px-2 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white" type="submit" value="Visualizar Datos"/>-->
+    <!--        </p>-->
+    <!--    </form>-->
+    <!--</div>-->
+
+    <div class="flex flex-col content-center px-5 py-5">
+        <center>
             <h1>Cargar Información de:</h1>
         </center>
-        </div>
-        <div class="flex flex-col content-center px-5 py-2">
-            
-            <center>
-                <a href="{% url 'cargar_pais' %}" class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Nacionalidades</a>
-                <a href="{% url 'cargar_fuerza' %}" class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Estado de Fuerza</a>
-                <a href="{% url 'cargar_municipios' %}" class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Municipios</a>
-                <a href="{% url 'cargar_puntoI' %}" class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Puntos de Internación</a>
-                <a href="{% url 'cargar_usuarios' %}" class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Usuarios</a>
-            </center>
-        </div>
+    </div>
+    <div class="flex flex-col content-center px-5 py-2">
 
-        <div class="flex flex-col content-center px-5 py-4">
-            <center>
+        <center>
+            <a href="{% url 'cargar_pais' %}"
+                class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Nacionalidades</a>
+            <a href="{% url 'pagina_pruebas_edoFuerza' %}"
+                class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Estado de
+                Fuerza</a>
+            
+            <a href="{% url 'cargar_municipios' %}"
+                class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Municipios</a>
+            <a href="{% url 'cargar_puntoI' %}"
+                class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Puntos de
+                Internación</a>
+            <a href="{% url 'pagina_pruebas_usuarios' %}"
+                class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Usuarios</a>
+        </center>
+    </div>
+
+    <div class="flex flex-col content-center px-5 py-4">
+        <center>
             <h1>Mostrar datos de:</h1>
         </center>
-        </div>
-        
-        <div class="flex flex-col content-center px-5 py-4">
-            <center>
-                <a href="{% url 'descarga_duplicados' %}" class="py-4 px-6 bg-inm-marron-100 hover:bg-inm-marron-200 rounded-xl text-white ">Reincidentes</a>
-            </center>
-        </div>
+    </div>
 
-        <div class="my-6" >
+    <div class="flex flex-col content-center px-5 py-4">
+        <center>
+            <a href="{% url 'descarga_duplicados' %}"
+                class="py-4 px-6 bg-inm-marron-100 hover:bg-inm-marron-200 rounded-xl text-white ">Reincidentes</a>
+        </center>
+    </div>
 
-                <h1 class="flex flex-col items-center justify-center">Descarga archivo por fechas</h1>
-                <form action="{% url 'fechas_descarga' %}" method="post" enctype="multipart/form-data" class="flex justify-center items-center px-2" onsubmit="return validarFechas()">{% csrf_token %}
-                    <label  for="fechaInicio">Fecha de inicio:</label>
-                    <input class="px-2 mx-4" type="date" name="fechaInicio" id="fechaInicio" required="">
-            
-                    <label class="px-2" for="fechaFin">Fecha de fin:</label>
-                    <input type="date" name="fechaFin" id="fechaFin" required="">
-            
-                    <button class=" py-2 px-4 mx-4 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white" type="submit">Descargar</button>
-                </form>
-        </div>
+    <div class="my-6">
 
-        {% endif %}
-            
-        <div class="flex flex-col content-center px-5 py-2">
-            
-            <form action="{% url 'datos_por_fecha' %}" method="post" enctype="multipart/form-data" class="flex flex-col items-center justify-center">{% csrf_token %}
+        <h1 class="flex flex-col items-center justify-center">Descarga archivo por fechas</h1>
+        <form action="{% url 'fechas_descarga' %}" method="post" enctype="multipart/form-data"
+            class="flex justify-center items-center px-2" onsubmit="return validarFechas()">{% csrf_token %}
+            <label for="fechaInicio">Fecha de inicio:</label>
+            <input class="px-2 mx-4" type="date" name="fechaInicio" id="fechaInicio" required="">
+
+            <label class="px-2" for="fechaFin">Fecha de fin:</label>
+            <input type="date" name="fechaFin" id="fechaFin" required="">
+
+            <button class=" py-2 px-4 mx-4 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white"
+                type="submit">Descargar</button>
+        </form>
+    </div>
+
+    {% endif %}
+
+    <div class="flex flex-col content-center px-5 py-2">
+
+        <form action="{% url 'datos_por_fecha' %}" method="post" enctype="multipart/form-data"
+            class="flex flex-col items-center justify-center">{% csrf_token %}
             {% comment %} <form action="" method="post" enctype="multipart/form-data">{% csrf_token %} {% endcomment %}
                 <p>
-                    {{form.fechaDescarga}} 
+                    {{form.fechaDescarga}}
                 </p>
                 <p class="py-4">
-                    <input class="py-2 px-2 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white" type="submit" value="Visualizar Datos"/>
+                    <input class="py-2 px-2 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white" type="submit"
+                        value="Visualizar Datos" />
                 </p>
             </form>
-        </div>
-        
     </div>
-    
-    <script>
-        // Función para obtener la fecha actual en formato 'YYYY-MM-DD'
-        function obtenerFechaActual() {
-            var hoy = new Date();
-            var dd = String(hoy.getDate()).padStart(2, '0');
-            var mm = String(hoy.getMonth() + 1).padStart(2, '0'); // Enero es 0
-            var yyyy = hoy.getFullYear();
-            return yyyy + '-' + mm + '-' + dd;
+
+</div>
+
+<script>
+    // Función para obtener la fecha actual en formato 'YYYY-MM-DD'
+    function obtenerFechaActual() {
+        var hoy = new Date();
+        var dd = String(hoy.getDate()).padStart(2, '0');
+        var mm = String(hoy.getMonth() + 1).padStart(2, '0'); // Enero es 0
+        var yyyy = hoy.getFullYear();
+        return yyyy + '-' + mm + '-' + dd;
+    }
+
+    // Establecer la fecha de fin como la fecha actual al cargar la página
+    document.getElementById('fechaFin').value = obtenerFechaActual();
+
+    function validarFechas() {
+        var fechaInicio = document.getElementById('fechaInicio').value;
+        var fechaFin = document.getElementById('fechaFin').value;
+
+        var fechaInicioObj = new Date(fechaInicio);
+        var fechaFinObj = new Date(fechaFin);
+
+        if (fechaInicioObj > fechaFinObj) {
+            alert('La fecha de inicio no puede ser mayor que la fecha de fin.');
+            return false;
         }
 
-        // Establecer la fecha de fin como la fecha actual al cargar la página
-        document.getElementById('fechaFin').value = obtenerFechaActual();
+        return true;
+    }
 
-        function validarFechas() {
-            var fechaInicio = document.getElementById('fechaInicio').value;
-            var fechaFin = document.getElementById('fechaFin').value;
 
-            var fechaInicioObj = new Date(fechaInicio);
-            var fechaFinObj = new Date(fechaFin);
+</script>
 
-            if (fechaInicioObj > fechaFinObj) {
-                alert('La fecha de inicio no puede ser mayor que la fecha de fin.');
-                return false;
-            }
+<div id="popup" class="overlay">
+    <div id="popupBody">
+        <a href="#" id="cerrar">&times;</a>
+        <div class="popupContent">
+            {% if user.is_authenticated %}
+            <center>
+                <h3>
+                    Carga el archivo del Estado de Fuerza
+                </h3>
+            </center>
+            <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+                <p>
+                    {{ form.archivo }}
+                </p>
+                <p>
+                    <input type="submit" value="Cargar" />
+                </p>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
-            return true;
-        }
-    </script>
+
+
+
 
 {% endblock content %}
 
 <div class="py-3 flex flex-row center">
     {% comment %} <label for="filtro_hora">Filtrar por hora:</label> {% endcomment %}
-    <input class="px-2 py-1 rounded border-2 border-teal-600 mx-3" type="text" id="myInput" onkeyup="myFunction(2, 'myInput')" placeholder="Buscar por hora" name="filtro_hora">
+    <input class="px-2 py-1 rounded border-2 border-teal-600 mx-3" type="text" id="myInput"
+        onkeyup="myFunction(2, 'myInput')" placeholder="Buscar por hora" name="filtro_hora">
 
     {% comment %} <label for="filtro_punto">Filtrar por Punto:</label> {% endcomment %}
-    <input class="px-2 py-1 rounded border-2 border-teal-600 mx-3" type="text" id="myInput1" onkeyup="myFunction(5, 'myInput1')" placeholder="Buscar por punto" name="filtro_punto">
+    <input class="px-2 py-1 rounded border-2 border-teal-600 mx-3" type="text" id="myInput1"
+        onkeyup="myFunction(5, 'myInput1')" placeholder="Buscar por punto" name="filtro_punto">
 
     {% comment %} <label for="filtro_nacio">Filtrar por Nacionalidad:</label> {% endcomment %}
-    <input class="px-2 py-1 rounded border-2 border-teal-600 mx-3" type="text" id="myInput2" onkeyup="myFunction(6, 'myInput2')" placeholder="Buscar por Nacionalidad" name="filtro_nacio">
+    <input class="px-2 py-1 rounded border-2 border-teal-600 mx-3" type="text" id="myInput2"
+        onkeyup="myFunction(6, 'myInput2')" placeholder="Buscar por Nacionalidad" name="filtro_nacio">
 
     <label class="px-2 py-1" id="totales"></label>
 </div>
 
-<table id="myTable" class="border-separate border border-slate-200 hover:table-fixed" >
+<table id="myTable" class="border-separate border border-slate-200 hover:table-fixed">
     <thead class="bg-teal-500 text-white">
         <tr>
             <th class="border border-slate-300">#</th>
@@ -177,23 +224,23 @@
             <td class="text-xs text-center">{{val.nombreAgente}}</td>
 
             {% if val.aeropuerto == True %}
-                <td class="text-xs text-center">Aeropuerto</td>
+            <td class="text-xs text-center">Aeropuerto</td>
             {% elif val.carretero == True %}
-                <td class="text-xs text-center">Carretero</td>
+            <td class="text-xs text-center">Carretero</td>
             {% elif val.casaSeguridad == True %}
-                <td class="text-xs text-center">Casa de Seguridad</td> 
+            <td class="text-xs text-center">Casa de Seguridad</td>
             {% elif val.centralAutobus == True %}
-                <td class="text-xs text-center">Central de Autobus</td>  
+            <td class="text-xs text-center">Central de Autobus</td>
             {% elif val.ferrocarril == True %}
-                <td class="text-xs text-center">Ferrocarril</td>
+            <td class="text-xs text-center">Ferrocarril</td>
             {% elif val.hotel == True %}
-                <td class="text-xs text-center">Hotel</td>
+            <td class="text-xs text-center">Hotel</td>
             {% elif val.puestosADispo == True %}
-                <td class="text-xs text-center">Puestos a Disposicion</td>
+            <td class="text-xs text-center">Puestos a Disposicion</td>
             {% elif val.voluntarios == True %}
-                <td class="text-xs text-center">Voluntarios</td>
+            <td class="text-xs text-center">Voluntarios</td>
             {% else %}
-                <td class="text-xs text-center">Otro</td>
+            <td class="text-xs text-center">Otro</td>
             {% endif %}
             {% comment %} <th>{{val.aeropuerto}}</th>
             <th>{{val.carretero}}</th>
@@ -210,7 +257,8 @@
             <td class="text-xs text-center">{{val.nacionalidad}}</td>
             <td class="text-xs text-center">{{val.iso3}}</td>
             <td class="text-xs text-center">{{val.nombre}}</td>
-            <td class="text-xs text-blue-500 text-center"><a href="{% url 'editar' val.idRescate %}">{{val.apellidos}}</a></td>
+            <td class="text-xs text-blue-500 text-center"><a
+                    href="{% url 'editar' val.idRescate %}">{{val.apellidos}}</a></td>
             <td class="text-xs text-center">{{val.parentesco}}</td>
             <td class="text-xs text-center">{{val.fechaNacimiento}}</td>
             <td class="text-xs text-center">{{val.edad}}</td>
@@ -239,29 +287,31 @@
 
 
 <script>
-    function myFunction(x1,idInput) {
-      // Declare variables 
-      var input, filter, table, tr, td, i, txtValue, conteo;
-      input = document.getElementById(idInput);
-      filter = input.value.toUpperCase();
-      table = document.getElementById("myTable");
-      tr = table.getElementsByTagName("tr");
-    
-      conteo = 0
-      // Loop through all table rows, and hide those who don't match the search query
-      for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[x1];
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-            conteo++
-          } else {
-            tr[i].style.display = "none";
-          }
-        } 
-      }
-      
-      document.getElementById("totales").innerHTML = "Registros: " + conteo
+    function myFunction(x1, idInput) {
+        // Declare variables 
+        var input, filter, table, tr, td, i, txtValue, conteo;
+        input = document.getElementById(idInput);
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+
+        conteo = 0
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[x1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                    conteo++
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+
+        document.getElementById("totales").innerHTML = "Registros: " + conteo
     }
+
+
 </script>

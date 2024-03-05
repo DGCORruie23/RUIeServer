@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Max, Count
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
@@ -7,10 +7,10 @@ from django.contrib.auth.hashers import make_password, check_password
 from .serializers import UserGetSerializer, UserGetSerializerC, PaisesGetSerializer, EstadoFuerzaGetSerializer, FrasesGetSerializer, ListRescatePuntoSerializer, RescatePuntoSerializer
 from .serializers import MunicipiosGetSerializer, PuntosInterGetSerializer, ConteoRapidoSerializer
 from .models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto, ConteoRapidoPunto
-from .forms import CargarArchivoForm, ExcelForm, ExcelFormOr, ExcelFormOrs
+from .forms import CargarArchivoForm, ExcelForm, ExcelFormOr, ExcelFormOrs 
 import openpyxl as opxl
 from openpyxl.writer.excel import save_virtual_workbook
-from datetime import datetime, timedelta
+
 
 # Create your views here.
 
@@ -128,6 +128,7 @@ def cargarPais(request):
         form = CargarArchivoForm()
     return render(request, "cargarExcel/cargarArchivoPaises.html", {"form" : form})
 
+
 @csrf_exempt
 def cargarPuntoI(request):
     if(request.method == "POST"):
@@ -181,6 +182,8 @@ def cargarPuntoI(request):
     else:
         form = CargarArchivoForm()
     return render(request, "cargarExcel/cargarArchivoPuntosInter.html", {"form" : form})
+
+
 
 
 @csrf_exempt
@@ -285,10 +288,15 @@ def cargarEdoFuerza(request):
                     # pasar string de las nacionalidades 
                     # print(edoFuerzaStr) 
                     #------------------------
-            return HttpResponseRedirect("/info/cargarFuerza")
+            # return HttpResponseRedirect("/info/cargarFuerza")
+            return redirect("pagina_pruebas_edoFuerza")
     else:
         form = CargarArchivoForm()
     return render(request, "cargarExcel/cargarArchivoFuerza.html", {"form" : form})
+
+
+
+
 
 @csrf_exempt
 def cargarMunicipios(request):
@@ -510,7 +518,7 @@ def cargaMasivaUser(request):
                         i = i + 1
 
                 #-----------------------------------
-            return HttpResponseRedirect("/cargar/Usuarios")
+            return redirect("pagina_pruebas_usuarios")
     else:
         form = CargarArchivoForm()
     return render(request, "cargarExcel/cargarUsuarios.html", {"form" : form})
@@ -599,12 +607,14 @@ def infoFrases(request):
         serializer = FrasesGetSerializer(snippets, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-
+@csrf_exempt 
 def convertirU(coordenadas):
     strCoor = str(coordenadas)
     lat = float("0.0")
     lon = float("0.0")
     return strCoor, lat, lon
+
+
 
 
 @csrf_exempt
@@ -844,9 +854,12 @@ def downloadDuplicados(request):
                               "1" if valor.embarazo else "",
                               valor.numFamilia if valor.numFamilia != 0 else "",
                               ])
+            
+        worksheet['F1'] = 'Total Registros'
+        worksheet['G1'] = str(RescatePunto.objects.count())
 
         response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
-        response['Content-Disposition'] = 'attachment; filename={fecha}.xlsm'.format(fecha = fechaR)
+        response['Content-Disposition'] = 'attachment; filename=Reincidentes_a_{fecha}.xlsm'.format(fecha = fechaR)
 
         return response
 
@@ -1101,3 +1114,4 @@ def generarExcelFechas(request):
     
     else:
         return render(request, "base/error404.html")
+    
