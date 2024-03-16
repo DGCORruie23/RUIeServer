@@ -1,5 +1,6 @@
-{% extends "base/base.html" %}
 
+{% extends "base/base.html" %}
+{% load static %}
 {% block title %}
 {% comment %} {% for user in usuario %}
 Dashboard de {{user.oficinaR}}
@@ -11,7 +12,56 @@ Dashboard de {{usuario.0.oficinaR}}
 Panel de Control de {{usuario.0.oficinaR}}
 {% endblock navigation %}
 
+{% block styles %}
+    <style>
+        
+            #popupBody{
+                width: 46%;
+                padding: 2%;
+                border-radius: 15px;
+                box-shadow: 0 0 5px #CCC;
+                background: #FFF;
+                position: relative;
+                margin: 20% auto;
+                transition: all 5s ease-in-out;
 
+            }
+
+
+            #cerrar{
+                position: absolute;
+                top: 20px;
+                right: 30px;
+                font-size: 30px;
+                font-weight: bold;
+                text-decoration: none;
+                color: #F00;
+                transition: all 200ms;
+            }
+
+            .overlay { 
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.7);
+                transition: opacity 500ms;
+                visibility: hidden;
+                opacity: 0;
+            }
+
+            .overlay:target{
+                visibility: visible;
+                opacity: 1;
+            }
+
+            .contIcons{
+                width: 55%;
+                margin-bottom: 2%;
+            }
+    </style>
+    {% endblock styles %}
 
 {% block content %}
 {% comment %} <h1 class="text-xl">Dashboard de {{usuario.0.oficinaR}} </h1> {% endcomment %}
@@ -34,7 +84,7 @@ Panel de Control de {{usuario.0.oficinaR}}
     <!--    </form>-->
     <!--</div>-->
 
-    <div class="flex flex-col content-center px-5 py-5">
+    <div class="mt-5 flex flex-col content-center px-5 py-5">
         <center>
             <h1>Cargar Información de:</h1>
         </center>
@@ -42,15 +92,36 @@ Panel de Control de {{usuario.0.oficinaR}}
     <div class="flex flex-col content-center px-5 py-2">
 
         <center>
-            <a href="{% url 'cargar_pais' %}"
-                class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Nacionalidades</a>
+
+            <div class="py-5 contIcons flex flex-row">
+                <div class=" ml-8 basis-1/5">
+                    <img class="w-20 h-20" src="{% static 'icons/INSUMOS/bandera.png' %}" alt="logo" style="margin-right: 10px;">
+                </div>
+                <div class="ml-5 basis-1/5">
+                    <img class="w-20 h-20" src="{% static 'icons/INSUMOS/militar.png' %}" alt="logo" style="margin-right: 10px;">
+                </div>
+                <div class="ml-5 basis-1/5">
+                    <img class="w-20 h-20" src="{% static 'icons/INSUMOS/municipalidad.png' %}" alt="logo" style="margin-right: 10px;">
+                </div>
+                <div class="ml-5 basis-1/5">
+                    <img class="w-20 h-20" src="{% static 'icons/INSUMOS/iniciar-sesion.png' %}" alt="logo" style="margin-right: 10px;">
+                </div>
+                <div class="ml-5 basis-1/5">
+                    <img class="w-20 h-20" src="{% static 'icons/INSUMOS/grupo.png' %}" alt="logo" style="margin-right: 10px;">
+                </div>
+            </div>
+            <a href="#popupNacionalidades"
+                class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">
+                
+                Nacionalidades</a>
+                
             <a href="{% url 'pagina_pruebas_edoFuerza' %}"
                 class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Estado de
                 Fuerza</a>
             
-            <a href="{% url 'cargar_municipios' %}"
+            <a href="#popupMunicipios"
                 class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Municipios</a>
-            <a href="{% url 'cargar_puntoI' %}"
+            <a href="#popupPI"
                 class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Puntos de
                 Internación</a>
             <a href="{% url 'pagina_pruebas_usuarios' %}"
@@ -58,7 +129,82 @@ Panel de Control de {{usuario.0.oficinaR}}
         </center>
     </div>
 
-    <div class="flex flex-col content-center px-5 py-4">
+    <div id="popupNacionalidades" class="overlay">
+        <div id="popupBody">
+            <a href="#" id="cerrar">&times;</a>
+            <div class="popupContent">
+                {% if user.is_authenticated %}
+                <center>
+                    <h3>
+                        Carga el archivo de las Nacionalidades disponibles
+                    </h3>
+                    <br>
+                </center>
+                <form action="{% url 'cargar_pais' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <p class="">
+                        {{ formCargar1.archivo }}
+                    </p>
+                    <br>
+                    <p>
+                        <input class="py-2 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white" type="submit" value="Cargar" />
+                    </p>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div id="popupMunicipios" class="overlay">
+        <div id="popupBody">
+            <a href="#" id="cerrar">&times;</a>
+            <div class="popupContent">
+                {% if user.is_authenticated %}
+                <center>
+                    <h3>
+                        Carga el archivo de los Municipios
+                    </h3>
+                    <br>
+                </center>
+                <form action="{% url 'cargar_municipios' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <p>
+                        {{ formCargar1.archivo }}
+                    </p>
+                    <br>
+                    <p>
+                        <input class="py-2 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white" type="submit" value="Cargar" />
+                    </p>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div id="popupPI" class="overlay">
+        <div id="popupBody">
+            <a href="#" id="cerrar">&times;</a>
+            <div class="popupContent">
+                {% if user.is_authenticated %}
+                <center>
+                    <h3>
+                        Carga el archivo de los Puntos de Internación
+                    </h3>
+                    <br>
+                </center>
+                <form action="{% url 'cargar_puntoI' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <p>
+                        {{ formCargar1.archivo }}
+                    </p>
+                    <br>
+                    <p>
+                        <input class="py-2 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white" type="submit" value="Cargar" />
+                    </p>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 flex flex-col content-center px-5 py-4">
         <center>
             <h1>Mostrar datos de:</h1>
         </center>
@@ -71,11 +217,13 @@ Panel de Control de {{usuario.0.oficinaR}}
         </center>
     </div>
 
-    <div class="my-6">
+    <div class="mt-5 my-6">
 
-        <h1 class="flex flex-col items-center justify-center">Descarga archivo por fechas</h1>
+        <h1 class="flex flex-col items-center justify-center mb-2 ">Descargar archivo por fechas</h1>
         <form action="{% url 'fechas_descarga' %}" method="post" enctype="multipart/form-data"
             class="flex justify-center items-center px-2" onsubmit="return validarFechas()">{% csrf_token %}
+
+           
             <label for="fechaInicio">Fecha de inicio:</label>
             <input class="px-2 mx-4" type="date" name="fechaInicio" id="fechaInicio" required="">
 
@@ -94,9 +242,13 @@ Panel de Control de {{usuario.0.oficinaR}}
         <form action="{% url 'datos_por_fecha' %}" method="post" enctype="multipart/form-data"
             class="flex flex-col items-center justify-center">{% csrf_token %}
             {% comment %} <form action="" method="post" enctype="multipart/form-data">{% csrf_token %} {% endcomment %}
+                <p class="py-3">
+                    Seleccionar la fecha para visualizar
+                </p>
                 <p>
                     {{form.fechaDescarga}}
                 </p>
+
                 <p class="py-4">
                     <input class="py-2 px-2 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white" type="submit"
                         value="Visualizar Datos" />
@@ -137,28 +289,6 @@ Panel de Control de {{usuario.0.oficinaR}}
 
 </script>
 
-<div id="popup" class="overlay">
-    <div id="popupBody">
-        <a href="#" id="cerrar">&times;</a>
-        <div class="popupContent">
-            {% if user.is_authenticated %}
-            <center>
-                <h3>
-                    Carga el archivo del Estado de Fuerza
-                </h3>
-            </center>
-            <form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
-                <p>
-                    {{ form.archivo }}
-                </p>
-                <p>
-                    <input type="submit" value="Cargar" />
-                </p>
-            </form>
-            {% endif %}
-        </div>
-    </div>
-</div>
 
 
 

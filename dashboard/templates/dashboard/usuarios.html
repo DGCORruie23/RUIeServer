@@ -1,22 +1,8 @@
+{% extends "base/base.html" %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- <script src="{% static 'js/carousel.js' %}"></script> -->
-    <title>{% block title %}{% endblock title %}</title>
-
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
-
-    <!-- TW Elements styles-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
-
-    <script src="https://cdn.tailwindcss.com/3.3.0"></script>
-    <script src="{% static 'js/tailwind.config.js' %}"></script>
-
+{% block styles %}
     <style>
         body {
             background: url("{% static 'imgs/fondo.png' %}") no-repeat center center fixed;
@@ -136,46 +122,21 @@
 
 
     </style>
-</head>
+    {% endblock styles %}
 
-<body class="flex flex-col mx-auto my-auto md:h-screen">
-
-    <div class="flex justify-between items-center">
-        <a href="/" class="flex items-center text-white hover:text-inm-marron-100">
-            <img class="w-20 h-20" src="{% static 'icons/ruie.svg' %}" alt="logo" style="margin-right: 10px;">
-        </a>
-        <div class="bg-inm-marron-100 flex-grow">
-            <p class=" font-family: 'Montserrat' text-3xl text-inm-verde-100 font-bold text-center">PANEL DE CONTROL</p>
-            <p class=" font-family: 'Montserrat' text-1xl text-inm-rojo-200 text-center">
-                <strong>R</strong>eporte
-                <strong>Ú</strong>nico
-                de
-                <strong>I</strong>nformación
-                <strong>E</strong>lectrónico
-
-            </p>
-            <p class=" text-inm-rojo-200 text-center font-bold ">RESCATE-CAPTURA</p>
-        </div>
-        <a>
-            <img class="w-25 h-20 " src="{% static 'icons/LOGO2.png' %}" alt="logo" style="margin-right: 2px;">
-        </a>
-    </div>
 
     {% block content %}
 
     <br><br>
-    <div class="punto">
-        <a href="{% url 'dashboard' %}" class="ml-24 py-4 px-6 bg-inm-rojo-300 hover:bg-inm-marron-200 rounded-xl text-white ">Panel de Control</a>
-        <a href="{% url 'agregar_usuario' %}" class="py-4 px-6 bg-inm-rojo-300 rounded-xl text-white hover:bg-inm-marron-100 float-right btn-sm ml-auto">
-            Agregar Usuario
-        </a>
-    </div>
-    
-    <br><br>
+
+
 
     <div class="flex-container">
-        <div style="flex-grow: 6"><input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar..."></div>
+        <div class="px-1" style="flex-grow: 0; width: 600px;"><input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por nombre completo..."></div>
         <div style="flex-grow: 1; margin-top: 25px; margin-right: 30%;"><a href="#popup" class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Carga masiva</a></div> 
+        <div style="flex-grow: 1; margin-top: 25px; margin-right: 8%;"><a href="{% url 'agregar_usuario' %}" class="py-4 px-6 bg-inm-rojo-300 rounded-xl text-white hover:bg-inm-marron-100 btn-sm ml-auto">
+            Agregar Usuario
+        </a></div>
     </div>
 
     <div id="popup" class="overlay">
@@ -187,13 +148,15 @@
                     <h3>
                         Carga el archivo de Usuarios
                     </h3>
+                    <br>
                 </center>
                 <form action="{% url 'cargar_usuarios' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
                     <p>
                         {{ form.archivo }}
                     </p>
+                    <br>
                     <p>
-                        <input type="submit" value="Cargar" />
+                        <input class="py-2 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white" type="submit" value="Cargar" />
                     </p>
                 </form>
                 {% endif %}
@@ -300,20 +263,6 @@
     </script>
     {% endblock content %}
 
-    <footer id="Footer">
-        <div class="flex justify-between items-center">
-            <a>
-                <img class="w-30 h-20" src="{% static 'icons/felipe.png' %}" alt="logo" style="margin-right: 10px;">
-            </a>
-            <div>
-                <p class=" font-family: 'Montserrat' text-2xl text-inm-marron-100 font-bold margin-right: 5px">
-                    ______________________________________________________________________________________________________________________________________
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
 </body>
 
 </html>

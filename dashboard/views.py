@@ -17,10 +17,12 @@ def dashboard(request):
 
     if request.method == 'GET':
         form = ExcelForm()
+        formCargar1 = CargarArchivoForm()
         userDataI = usuarioL.objects.filter(user__username=request.user)
         data = {
             'usuario' : userDataI,
             'form': form,
+            'formCargar1': formCargar1
         }
         return render(request, "dashboard/dashboard.html", context=data)
     
@@ -32,7 +34,7 @@ def dashboard(request):
             mes = request.POST["fechaDescarga_month"]
             year = request.POST["fechaDescarga_year"]
 
-            fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+            fechaR = datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
 
             valores = RescatePunto.objects.filter(fecha=fechaR).filter(oficinaRepre=userDataI[0].oficinaR)
 
@@ -41,15 +43,17 @@ def dashboard(request):
             'form': form,
             'values' : valores,
         }
-
+            
         return render(request, "dashboard/dashboard.html", context=data)
 
     else: 
         form = ExcelForm()
+        
         userDataI = usuarioL.objects.filter(user__username=request.user)
         data = {
             'usuario' : userDataI,
             'form': form,
+            
         }
         return render(request, "dashboard/dashboard.html", context=data) 
 
@@ -75,7 +79,7 @@ def eliminar_registros(request):
         registros_eliminar.delete()
 
         # Redirige a la página de la tabla de productos o a donde desees
-        fecha_seleccionada = datetime.datetime.strptime(f"{fechaR}", "%d-%m-%y")
+        fecha_seleccionada = datetime.strptime(f"{fechaR}", "%d-%m-%y")
                 # return redirect('../datos/')
         return redirect('tabla_registros_fecha', year=fecha_seleccionada.year, month=fecha_seleccionada.month, day=fecha_seleccionada.day)
 
@@ -85,7 +89,7 @@ def eliminar_registros(request):
 def tabla_registros(request, year=None, month=None, day=None):
     
     userDataI = usuarioL.objects.filter(user__username=request.user)
-    fechaR = datetime.datetime.strptime(f"{day}/{month}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+    fechaR = datetime.strptime(f"{day}/{month}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
     form = ExcelForm()
     
     if request.user.is_superuser:
@@ -180,7 +184,7 @@ def editarData(request, pk):
             else: 
                 puntoR = ''
 
-            fecha_Naci = datetime.datetime.strptime(rescate.fechaNacimiento, "%d/%m/%Y").strftime('%Y-%m-%d')
+            fecha_Naci = datetime.strptime(rescate.fechaNacimiento, "%d/%m/%Y").strftime('%Y-%m-%d')
             
             datosR = {
                 'idRescate': pk,
@@ -231,7 +235,7 @@ def editarData(request, pk):
                 # print("entra a guardar info")
                 # print(fecha_form)
                 messages.success(request, "El registro ha sido modificado")
-                fecha_seleccionada = datetime.datetime.strptime(f"{fecha_form}", "%d-%m-%y")
+                fecha_seleccionada = datetime.strptime(f"{fecha_form}", "%d-%m-%y")
                 # return redirect('../datos/')
                 return redirect('tabla_registros_fecha', year=fecha_seleccionada.year, month=fecha_seleccionada.month, day=fecha_seleccionada.day)
             else:
@@ -258,7 +262,7 @@ def mostrarData(request):
                 mes = request.POST["fechaDescarga_month"]
                 year = request.POST["fechaDescarga_year"]
 
-                fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+                fechaR = datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
 
                 if request.user.is_superuser:
                     valores = RescatePunto.objects.filter(fecha=fechaR)
@@ -316,31 +320,7 @@ def mostrarData(request):
         messages.success(request, "Necesitas ingresar para poder modificar la informacion")
         return redirect('')
 
-def prueba_html(request):
-    #total de rescates del 1 de enero al dia de hoy
-    #total de rescates del 1 de enero al dia de hoy filtrado por hombres y mujeres
-    fechaIN = datetime.strptime(f"2024-01-01", "%Y-%m-%d")
-    fechaFN = datetime.today()
-    # fechaFN = datetime.strptime(f"{fechaF}", "%Y-%m-%d")
 
-    # fecha_inicio = datetime(2024, 1, 1)
-    # print(fecha_inicio)
-    print(fechaIN)
-
-    # fecha_inicio = datetime(yearI, mesI, diaI)
-    # fecha_fin = datetime(diaF, mesF, yearF)
-
-    array_fechas = [(fechaIN + timedelta(days=d)).strftime("%d-%m-%y") for d in range((fechaFN - fechaIN).days + 1)]
-    rescatesT = RescatePunto.objects.filter(fecha__in=array_fechas).count()
-    rescatesTH = RescatePunto.objects.filter(fecha__in=array_fechas, sexo = 1).count()
-    rescatesTM = RescatePunto.objects.filter(fecha__in=array_fechas, sexo = 0).count()
-    datos = {
-                "fecha" : fechaFN,
-                "total" : rescatesT,
-                "totalH": rescatesTH,
-                "totalM": rescatesTM,
-                }
-    return render(request, "dashboard/pruebas.html", context=datos)
 
 
 def edoFuerza(request):

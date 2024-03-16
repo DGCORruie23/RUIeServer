@@ -10,7 +10,7 @@ from .models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInt
 from .forms import CargarArchivoForm, ExcelForm, ExcelFormOr, ExcelFormOrs 
 import openpyxl as opxl
 from openpyxl.writer.excel import save_virtual_workbook
-
+from datetime import *
 
 # Create your views here.
 
@@ -123,11 +123,12 @@ def cargarPais(request):
                 # pasar string de las nacionalidades 
                 # print(paisesStr) 
                 #------------------------
-            return HttpResponseRedirect("/info/cargarPais")
+            return redirect("dashboard")
     else:
         form = CargarArchivoForm()
     return render(request, "cargarExcel/cargarArchivoPaises.html", {"form" : form})
 
+            
 
 @csrf_exempt
 def cargarPuntoI(request):
@@ -178,11 +179,10 @@ def cargarPuntoI(request):
                 # pasar string de las nacionalidades 
                 # print(puntoIStr) 
                 #------------------------
-            return HttpResponseRedirect("/info/cargarPuntosI")
+            return redirect("dashboard")
     else:
         form = CargarArchivoForm()
     return render(request, "cargarExcel/cargarArchivoPuntosInter.html", {"form" : form})
-
 
 
 
@@ -453,10 +453,11 @@ def cargarMunicipios(request):
                     # pasar string de las nacionalidades 
                     # print(edoFuerzaStr) 
                     #------------------------
-            return HttpResponseRedirect("/info/cargarMunicipios")
+            return redirect("dashboard")
     else:
         form = CargarArchivoForm()
     return render(request, "cargarExcel/cargarArchivoMunicipios.html", {"form" : form})
+
 
 
 @csrf_exempt

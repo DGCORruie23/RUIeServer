@@ -53,8 +53,7 @@ urlpatterns = [
     path('registro/insertC', views.insert_conteo),
     path('descargas/', views.servirApps, name="descargas"),
     path('descargas/apk', views.downloadAPK, name="descarga_android"),
-    
-    path('info/pruebas', viewsDash.prueba_html, name="pagina_pruebas"),
+
     # path('info/pruebas/edoFuerza', viewsDash.edoFuerza, name="pagina_pruebas_edoFuerza"),
     # path('info/pruebas/edoFuerza/editarEdoFuerza/<int:id_edo_fuerza>', viewsDash.editar_estado_fuerza, name='editar_estado_fuerza'),
     # path('info/pruebas/edoFuerza/eliminarEdoFuerza/<int:id_edo_fuerza>', viewsDash.eliminarEdoFuerza, name='eliminar_estado_fuerza'),

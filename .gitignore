@@ -1,4 +1,4 @@
 /__pycache__
 /entorno
-/tmp
+*.apk
 db.sqlite3

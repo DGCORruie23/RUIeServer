@@ -12,7 +12,7 @@ urlpatterns = [
 
      path('edoFuerza', views.edoFuerza, name="pagina_pruebas_edoFuerza"),
      path('edoFuerza/editarEdoFuerza/<int:id_edo_fuerza>', views.editar_estado_fuerza, name='editar_estado_fuerza'),
-     path('doFuerza/eliminarEdoFuerza/<int:id_edo_fuerza>', views.eliminarEdoFuerza, name='eliminar_estado_fuerza'),
+     path('edoFuerza/eliminarEdoFuerza/<int:id_edo_fuerza>', views.eliminarEdoFuerza, name='eliminar_estado_fuerza'),
      path('edoFuerza/anadirPunto', views.agregar_punto, name='agregar_punto'),
 
 
