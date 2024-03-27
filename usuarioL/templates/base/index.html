@@ -7,10 +7,13 @@
 {% block content %}
 <!-- <section class="grow bg-gray-50 dark:bg-gray-900"> -->
     <br><br><br>
+
+    {% if request.user.is_authenticated %}
+
 <div class="grow">
     <br>
     <div
-        class="bg-inm-marron-100 h-96 w-auto absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4">
+        class="bg-inm-marron-100  w-auto absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4">
 
             
         <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com -->
@@ -65,7 +68,7 @@
                             
             
                   </div>
-                    
+                  
                     <div class="relative float-left hidden h-96 -mr-[100%] w-full mx-auto transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
                          data-te-carousel-item style="backface-visibility: hidden">
                         <img src="{% static 'imgs/hombres.jpeg' %}" class="block w-full" alt="..." />
@@ -124,9 +127,9 @@
                     </div>
 
                 </div>
-                
+              
             </div>
-
+           
 
             <!--Carousel controls - prev item-->
             <button
@@ -156,6 +159,38 @@
     </div>
 </div>
 
+{% else %}
+
+    
+    <div style="height: 45%; width: 50%; margin-left: 25%;" class="py-4 px-4 bg-inm-marron-100 mb-20 grow align-middle grid grid-cols-2 gap-1 text-justify place-content-center ">
+
+        <div class="contp h-16 col-start-1 col-span-2 ...">
+            <div class="p-5 text-3xl font-semibold text-center uppercase"> &nbsp Bienvenidos </div>
+        </div>
+       
+        <div style="margin: 0 auto;" class=" col-start-1 col-span-1 self-auto">
+            <img src="{% static 'imgs/inami.png' %}" class="h-64 " alt="..." />
+        </div>
+        <div class="col-start-2 col-span-1">
+            <label for="username" class="font-medium"> <br><br>Utiliza el RUI electrónico para el registro de datos sobre la población migrante rescatada en México. <br> ¡Únete y contribuye a agilizar la operación migratoria a lo largo del país! </label>
+        </div>
+        <!-- <div class="col-start-2 col-span-4 ...">
+            <div class="pt-1"><label class="font-medium text-center uppercase">¡Datos puntuales, verificados y accesibles!</label></div>
+        </div> -->
+        <div style="margin-left: 15%;" class=" col-start-1 col-span-2 ...">
+            
+            <div class="pt-1"><label style="font-size: 11px;" class=" ">Dirección General de Coordinación de Oficinas de Representación | Dirección General de Control y Verificación Migratoria</label></div>
+        </div>
+    </div>
+        
+
+
+
+
+
+
+
+{% endif %}
 <!-- <div class="txt">
     <p class=" text-2xl text-inm-verde-100 text-center font-bold">Utiliza el RUI electrónico para el registro de datos
         sobre la población migrante rescatada en México.

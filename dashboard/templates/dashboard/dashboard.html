@@ -110,22 +110,24 @@ Panel de Control de {{usuario.0.oficinaR}}
                     <img class="w-20 h-20" src="{% static 'icons/INSUMOS/grupo.png' %}" alt="logo" style="margin-right: 10px;">
                 </div>
             </div>
-            <a href="#popupNacionalidades"
-                class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">
-                
-                Nacionalidades</a>
-                
-            <a href="{% url 'pagina_pruebas_edoFuerza' %}"
-                class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Estado de
-                Fuerza</a>
-            
-            <a href="#popupMunicipios"
-                class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Municipios</a>
-            <a href="#popupPI"
-                class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Puntos de
-                Internación</a>
-            <a href="{% url 'pagina_pruebas_usuarios' %}"
-                class="py-3 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">Usuarios</a>
+            <div class="py-5 contIcons flex items-center ">
+                <div class=" ml-8 basis-1/5 py-5 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">
+                    
+                    <a href="#popupNacionalidades" class="">  Nacionalidades</a>
+                </div>
+                <div class=" ml-5 basis-1/5 py-2 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">
+                    <a href="{% url 'pagina_pruebas_edoFuerza' %}" class="">Estado de Fuerza</a>
+                </div>
+                <div class=" ml-5 basis-1/5 py-5 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">
+                <a href="#popupMunicipios" class=" ">Municipios</a>
+                </div>
+                <div class=" ml-5 basis-1/5 py-2 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">
+                <a href="#popupPI" class="">Puntos de Internación</a>
+            </div>
+            <div class=" ml-5 basis-1/5 py-5 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">
+                <a href="{% url 'pagina_pruebas_usuarios' %}" class="">Usuarios</a>
+            </div>
+        </div>
         </center>
     </div>
 
