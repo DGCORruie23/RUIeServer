@@ -48,6 +48,7 @@ urlpatterns = [
     path('info/descargaD_a', views.downloadDuplicados, name="descarga_duplicados"),
     path('info/descargaTab22', views.generarExcelTab),
     path('info/descargaExcel', views.generarExcelORs, name="descarga_excel"),
+    path('info/updateApp', views.msgUpdateUrl, name="info_app"),
 
     path('registro/insertR', views.insert_rescates),
     path('registro/insertC', views.insert_conteo),

@@ -5,8 +5,8 @@ from rest_framework.parsers import JSONParser
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
 from .serializers import UserGetSerializer, UserGetSerializerC, PaisesGetSerializer, EstadoFuerzaGetSerializer, FrasesGetSerializer, ListRescatePuntoSerializer, RescatePuntoSerializer
-from .serializers import MunicipiosGetSerializer, PuntosInterGetSerializer, ConteoRapidoSerializer
-from .models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto, ConteoRapidoPunto
+from .serializers import MunicipiosGetSerializer, PuntosInterGetSerializer, ConteoRapidoSerializer, MsgUpdateGetSerializer
+from .models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto, ConteoRapidoPunto, MsgUpdate
 from .forms import CargarArchivoForm, ExcelForm, ExcelFormOr, ExcelFormOrs 
 import openpyxl as opxl
 from openpyxl.writer.excel import save_virtual_workbook
@@ -572,6 +572,13 @@ def insert_conteo(request):
                 'guardado' : "error"
             }
             return JsonResponse( dataR, status = 200)
+
+@csrf_exempt
+def msgUpdateUrl(request):
+    if request.method == 'GET':
+        snippets = MsgUpdate.objects.last()
+        serializer = MsgUpdateGetSerializer(snippets, many=False)
+        return JsonResponse(serializer.data, safe=False)
 
 @csrf_exempt
 def infoPaises(request):

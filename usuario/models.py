@@ -75,6 +75,17 @@ class Frases(models.Model):
             quote = self.quote[0:30], 
             author = self.author)
     
+class MsgUpdate(models.Model):
+    idMsg = models.AutoField(primary_key=True)
+    version = models.CharField(max_length=25)
+    msg = models.CharField(max_length=500,blank=True)
+
+    def __str__(self):
+        return "{id} -> {version}v, {msg}".format(
+            id = self.idMsg,
+            version = self.version,
+            msg = self.msg[0:25]) 
+    
 class Municipios(models.Model):
     idMunicipio = models.AutoField(primary_key=True)
     estado = models.CharField(max_length=250)

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from usuario.models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto, ConteoRapidoPunto
+from usuario.models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto, ConteoRapidoPunto, MsgUpdate
 
 class UserGetSerializer(ModelSerializer):
 	class Meta:
@@ -56,6 +56,14 @@ class FrasesGetSerializer(ModelSerializer):
 		fields = [
 			'quote',
 			'author',
+			]
+
+class MsgUpdateGetSerializer(ModelSerializer):
+	class Meta:
+		model = MsgUpdate
+		fields = [
+			'version',
+			'msg',
 			]
 
 class EstadoFuerzaGetSerializer(ModelSerializer):
