@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import handler404
 from usuario import views
-from usuarioL.views import index
+from usuarioL.views import index, pagina404
 from dashboard import views as viewsDash
 from django.contrib.auth import views as viewsL
 
@@ -66,3 +67,5 @@ urlpatterns = [
     # path('info/pruebas/usuarios/anadirUsuario', viewsDash.agregar_usuario, name='agregar_usuario'),
     # path('info/pruebas/usuarios/eliminarUsuario/<int:id_usuario>', viewsDash.eliminarUsuario, name='eliminar_usuario'),
 ]
+
+handler404 = pagina404

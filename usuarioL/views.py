@@ -3,6 +3,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from datetime import datetime, timedelta
 from usuario.models import RescatePunto
 
+
+
 # Create your views here.
 def index(request):
 
@@ -28,6 +30,9 @@ def index(request):
                 "totalM": rescatesTM,
                 }
     return render(request, 'base/index.html',context=datos)
+
+def pagina404(request, exception):
+    return render(request, 'base/error404.html')
 
 # class CustomAuthenticationForm(AuthenticationForm):
 #     def __init__(self, request=None, *args, **kwargs):

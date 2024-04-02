@@ -1,21 +1,8 @@
+{% extends "base/base.html" %}
+
 {% load static %}
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- <script src="{% static 'js/carousel.js' %}"></script> -->
-    <title>{% block title %}{% endblock title %}</title>
-
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap" rel="stylesheet" />
-
-    <!-- TW Elements styles-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/tw-elements.min.css" />
-
-    <script src="https://cdn.tailwindcss.com/3.3.0"></script>
-    <script src="{% static 'js/tailwind.config.js' %}"></script>
+{% block styles %}
 
     <style>
         body {
@@ -87,33 +74,13 @@
             margin-bottom: 15px;
             padding: 8px; 
         }
-    </style>
-</head>
+        </style>
+        {% endblock styles %}
 
-<body class="flex flex-col mx-auto my-auto md:h-screen">
+{% block content %}
 
-    <div class="flex justify-between items-center">
-        <a href="/" class="flex items-center text-white hover:text-inm-marron-100">
-            <img class="w-20 h-20" src="{% static 'icons/ruie.svg' %}" alt="logo" style="margin-right: 10px;">
-        </a>
-        <div class="bg-inm-marron-100 flex-grow">
-            <p class=" font-family: 'Montserrat' text-3xl text-inm-verde-100 font-bold text-center">PANEL DE CONTROL</p>
-            <p class=" font-family: 'Montserrat' text-1xl text-inm-rojo-200 text-center">
-                <strong>R</strong>eporte
-                <strong>Ú</strong>nico
-                de
-                <strong>I</strong>nformación
-                <strong>E</strong>lectrónico
 
-            </p>
-            <p class=" text-inm-rojo-200 text-center font-bold ">RESCATE-CAPTURA</p>
-        </div>
-        <a>
-            <img class="w-25 h-20 " src="{% static 'icons/LOGO2.png' %}" alt="logo" style="margin-right: 2px;">
-        </a>
-    </div>
-
-    {% block content %}
+  
 
 
     <!-- tablas de prueba
@@ -258,26 +225,8 @@
         
         
     </script>
+</div>
+  
+{% endblock content %}
 
-    {% endblock content %}
 
-
-    
-    <br><br>
-    <footer id="Footer">
-        <div class="flex justify-between items-center">
-            <a>
-                <img class="w-30 h-20" src="{% static 'icons/felipe.png' %}" alt="logo" style="margin-right: 10px;">
-            </a>
-            <div>
-                <p class=" font-family: 'Montserrat' text-2xl text-inm-marron-100 font-bold margin-right: 5px">
-                    ______________________________________________________________________________________________________________________________________
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
-</body>
-
-</html>

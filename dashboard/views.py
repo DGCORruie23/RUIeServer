@@ -474,6 +474,7 @@ def eliminarUsuario(request, id_usuario):
     return redirect('pagina_pruebas_usuarios')
 
 
+
 # def update_record(request, pk):
 #     if request.user.is_authenticated:
 #         registro = RescatePunto.objects.get(idRescate=pk)

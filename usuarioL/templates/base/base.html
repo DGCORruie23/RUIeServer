@@ -59,11 +59,7 @@
 
       }
     }
-    footer {
-      position: relative;
-      bottom: 0;
-      width: 100%;
-    }
+
 
 
 
@@ -77,7 +73,7 @@
   
 <div class="flex justify-between items-center">
   <a href="/" class="flex items-center text-white hover:text-inm-marron-100">
-    <img class="w-20 h-20" src="{% static 'icons/logo.png' %}" alt="logo" style="margin-right: 10px;">
+    <img class="w-20 h-20" src="{% static 'icons/logo.png' %}" alt="logo" >
   </a>
 
   <div class="bg-inm-marron-100 flex flex-grow">
@@ -104,7 +100,7 @@
   </div>
 
   <a>
-    <img class="ps-8" width="60%" src="{% static 'icons/inm.png' %}" alt="logo">
+    <img style="margin: 0 auto;" width="60%" src="{% static 'icons/inm.png' %}" alt="logo">
   </a>
 </div>
 <br>
@@ -115,8 +111,8 @@
                 <div class="ml-2 flex-init"><a href="{% url 'logout' %}" class="py-4 px-6 bg-inm-rojo-300 rounded-xl text-white hover:bg-inm-marron-100 float-right btn-sm ml-auto ">Cerrar sesión</a></div>
             </div> -->
 
-            <div class="ml-96 contIcons flex items-center ">
-              <div style="margin-left: 27%;" class="basis-1/8 py-4 px-6 mx-1 bg-inm-gris-200 hover:bg-inm-marron-100 rounded-xl text-white "><a href="{% url 'dashboard' %}" class="">Panel de Control</a></div>
+            <div class=" flex items-center ">
+              <div style="margin-left: 41%;" class="basis-1/8 py-4 px-6 mx-1 bg-inm-gris-200 hover:bg-inm-marron-100 rounded-xl text-white "><a href="{% url 'dashboard' %}" class="">Panel de Control</a></div>
               <div class="ml-2basis-1/8 py-4 px-6 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white"><a href="{% url 'logout' %}" class="">Cerrar sesión</a></div>
             </div>
 
@@ -128,9 +124,9 @@
                     <div class="ml-2 flex-init"><a href="{% url 'log-in' %}" class="py-4 px-6 bg-inm-verde-100 rounded-xl text-white hover:bg-inm-verde-200 float-right btn-sm ml-auto">Ingresar</a></div>
                 </div> -->
 
-                <div class="ml-96 contIcons flex items-center ">
-                  <div style="margin-left: 27%;" class="basis-1/8 py-4 px-6 mx-1 bg-inm-gris-200 hover:bg-inm-verde-200 rounded-xl text-white "><a href="{% url 'descargas' %}" class="">Descargas</a></div>
-                  <div class="ml-2basis-1/8 py-4 px-6 mx-1 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white"><a href="{% url 'log-in' %}" class="">Ingresar</a></div>
+                <div class="  flex items-center ">
+                  <div style="margin-left: 41%;" class="basis-1/8 py-4 px-10 mx-1 bg-inm-gris-200 hover:bg-inm-verde-200 rounded-xl text-white "><a href="{% url 'descargas' %}" class="">Descargas</a></div>
+                  <div class="ml-2basis-1/8 py-4 px-10 mx-1 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white"><a href="{% url 'log-in' %}" class="">Ingresar</a></div>
                 </div>
                 
                 {% endif %}
@@ -140,9 +136,9 @@
   {% endblock content %}
 
   <footer id="Footer">
-    <div class=" flex justify-between items-center">
-        <a>
-            <img class="w-full " src="{% static 'icons/felipe.png' %}" alt="logo" style="margin-right: 10px;">
+    <div class=" flex">
+        <a class="w-full ">
+            <img  src="{% static 'icons/felipe.png' %}" alt="logo" style="margin-right: 150px;">
         </a>
         <div>
             <p class=" font-family: 'Montserrat' text-2xl text-inm-marron-100 font-bold margin-right: 5px">

@@ -14,6 +14,9 @@ from datetime import *
 
 # Create your views here.
 
+def detail(request, question_id):
+  question = Question.objects.get(pk=question_id)
+  
 @csrf_exempt
 def login_user(request):
 
