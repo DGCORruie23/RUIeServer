@@ -4,160 +4,222 @@
 
 {% block title %}Pagina Index{% endblock title %}
 
+{% block styles %}
+ 
+<style>
+
+
+.c {
+  min-width: 400px;
+  width: 800px;
+  height: 350px;
+  border-radius: 12px;
+  padding: 20px;
+  padding-bottom: 40px;
+  box-shadow: 0 8px 48px 2px hsla(10 6% 15% / .4);
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  position: relative;
+  overflow: hidden;
+  background: hsl(0 0% 90%);
+
+  box-sizing: border-box;
+}
+
+.ci {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: inherit;
+  height: inherit;
+  transform-origin: left 50%;
+
+  background: inherit;
+
+  z-index: var(--z);
+  transition: .3s ease-out;
+}
+
+.ci img {
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.ch {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+
+  font-size: 2rem;
+  color: hsla(var(--h) var(--s) var(--l) / .8);
+  text-shadow: 0 2px 10px hsla(var(--h) var(--s) 10% / .3);
+}
+
+input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  z-index: -10;
+}
+
+label {
+  width: 10%;
+  height: 10px;
+  margin-right: 4px;
+  border-radius: 20px;
+
+  background: hsla(0 0% 90% / .3);
+  cursor: pointer;
+
+  position: relative;
+  z-index: 10;
+}
+
+label:last-child {
+  margin-right: 0;
+}
+
+input:checked+label {
+  background: linear-gradient(to right,
+  #BC955C,
+    #DDC9A3,
+    #BC955C);
+}
+
+input:not(:checked)+label+.ci {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+input:checked+label+.ci~.ci {
+  transform: translateX(100%);
+}
+
+input:not(:checked)+label+.ci {
+  transition: 0;
+}
+
+
+
+
+</style>
+
+{% endblock styles %}
+
 {% block content %}
 <!-- <section class="grow bg-gray-50 dark:bg-gray-900"> -->
     <br><br><br>
 
     {% if request.user.is_authenticated %}
+    <div  class="ground">
 
-<div class="grow">
-    <br>
-    <div
-        class="bg-inm-marron-100  w-auto absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 p-4">
+<div class="c">
 
+  <input type="radio" name="a" id="cr-1" checked>
+  <label for="cr-1" style="--hue: 32"></label>
+  <div class="ci" style="--z: 4">
+    <div style="height: 350px;" class="bg-inm-marron-100 align-middle grid grid-cols-2 gap-1 text-justify place-content-center ">
+
+        <div class="contp h-16 col-start-1 col-span-2 ...">
+            <div class="p-5 text-3xl font-semibold text-center uppercase"> &nbsp Bienvenidos </div>
+        </div>
+       
+        <div style="margin: 0 auto;" class=" col-start-1 col-span-1 self-auto">
+            <img src="{% static 'imgs/inami.png' %}" class="h-64 " alt="..." />
+        </div>
+        <div class="col-start-2 col-span-1">
+            <p > <br><br>Utiliza el RUI electrónico para el registro de datos sobre la población migrante rescatada en México. <br> ¡Únete y contribuye a agilizar la operación migratoria a lo largo del país! </p>
+        </div>
+        <!-- <div class="col-start-2 col-span-4 ...">
+            <div class="pt-1"><label class="font-medium text-center uppercase">¡Datos puntuales, verificados y accesibles!</label></div>
+        </div> -->
+        <div class=" col-start-1 col-span-7 ...">
             
-        <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com -->
-        <div id="carouselExampleCaptions" class="relative" data-te-carousel-init data-te-carousel-slide>
-            <!--Carousel indicators-->
-            <div class="absolute bottom-0 left-0 right-0 z-[2] mx-[15%] mb-4 flex list-none justify-center p-0"
-                data-te-carousel-indicators>
-                <button type="button" data-te-target="#carouselExampleCaptions" data-te-slide-to="0"
-                    data-te-carousel-active
-                    class="mx-[3px] box-content h-[3px] w-[30px] flex-initial cursor-pointer border-0 border-y-[10px] border-solid border-transparent bg-white bg-clip-padding p-0 -indent-[999px] opacity-50 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none"
-                    aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-te-target="#carouselExampleCaptions" data-te-slide-to="1"
-                    class="mx-[3px] box-content h-[3px] w-[30px] flex-initial cursor-pointer border-0 border-y-[10px] border-solid border-transparent bg-white bg-clip-padding p-0 -indent-[999px] opacity-50 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none"
-                    aria-label="Slide 2"></button>
-                <button type="button" data-te-target="#carouselExampleCaptions" data-te-slide-to="2"
-                    class="mx-[3px] box-content h-[3px] w-[30px] flex-initial cursor-pointer border-0 border-y-[10px] border-solid border-transparent bg-white bg-clip-padding p-0 -indent-[999px] opacity-50 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none"
-                    aria-label="Slide 3"></button>
-                <button type="button" data-te-target="#carouselExampleCaptions" data-te-slide-to="3"
-                    class="mx-[3px] box-content h-[3px] w-[30px] flex-initial cursor-pointer border-0 border-y-[10px] border-solid border-transparent bg-white bg-clip-padding p-0 -indent-[999px] opacity-50 transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none"
-                    aria-label="Slide 4"></button>
-            </div>
-            <div class="flex justify-center">
-                <!--Carousel items-->
-                
-                <div
-                    class="relative w-full max-w-[80%] overflow-hidden after:clear-both after:block after:content-['']">
-                    <!--First item-->
-                    <div
-                    class="relative float-left hidden -mr-[100%] w-full mx-auto transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-                    data-te-carousel-active data-te-carousel-item style="backface-visibility: hidden ">
-                    
-                        <div style="height: 350px;" class="align-middle grid grid-cols-2 gap-1 text-justify place-content-center ">
-
-                            <div class="contp h-16 col-start-1 col-span-2 ...">
-                                <div class="p-5 text-3xl font-semibold text-center uppercase"> &nbsp Bienvenidos </div>
-                            </div>
-                           
-                            <div style="margin: 0 auto;" class=" col-start-1 col-span-1 self-auto">
-                                <img src="{% static 'imgs/inami.png' %}" class="h-64 " alt="..." />
-                            </div>
-                            <div class="col-start-2 col-span-1">
-                                <label for="username" class="font-medium"> <br><br>Utiliza el RUI electrónico para el registro de datos sobre la población migrante rescatada en México. <br> ¡Únete y contribuye a agilizar la operación migratoria a lo largo del país! </label>
-                            </div>
-                            <!-- <div class="col-start-2 col-span-4 ...">
-                                <div class="pt-1"><label class="font-medium text-center uppercase">¡Datos puntuales, verificados y accesibles!</label></div>
-                            </div> -->
-                            <div class=" col-start-1 col-span-7 ...">
-                                
-                                <div class="pt-1"><label style="font-size: 11px;" class=" text-justify">Dirección General de Coordinación de Oficinas de Representación | Dirección General de Control y Verificación Migratoria</label></div>
-                            </div>
-                        </div>
-                            
-            
-                  </div>
-                  
-                    <div class="relative float-left hidden h-96 -mr-[100%] w-full mx-auto transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-                         data-te-carousel-item style="backface-visibility: hidden">
-                        <img src="{% static 'imgs/hombres.jpeg' %}" class="block w-full" alt="..." />
-                        <div class="static inset-x-[10%] bottom-5 hidden py-5 text-center text-white md:block">
-                            <div class="bg-inm-marron-100 bg-opacity-60 h-auto w-auto absolute left-30 mt-10 top-10">
-                                <p class=" text-3xl text-center font-family: 'Montserrat">
-                                    <span class="text-inm-verde-100">Del </span>
-                                    <span class="text-inm-verde-100 font-bold"> 01 de enero </span>
-                                    <span class="text-inm-verde-100">al </span>
-                                    <span class="text-inm-verde-100 font-bold">{{fecha}}</span>
-                                    <span class="text-inm-rojo-200 font-bold">SE RESCATARON:</span>
-
-                                <p class=" text-5xl text-center font-bold">
-                                    <span id="tot" class="text-inm-cafe-100"></span>
-                                </p>
-                                <p class=" text-3xl text-center font-bold">
-                                    <span class="text-inm-cafe-100">personas</span>
-                                    <span class="text-inm-cafe-100">migrantes</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Second item-->
-                    <div class="relative float-left hidden -mr-[100%] w-full mx-auto transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-                        data-te-carousel-item style="backface-visibility: hidden">
-                        <img src="{% static 'imgs/total.jpg' %}" class="block w-full" alt="..." />
-                        <div class="static inset-x-[10%] bottom-5 hidden py-5 text-center ml-40   text-white md:block">
-                            <div class="bg-inm-marron-100 bg-opacity-60 h-auto w-auto absolute left-60 mt-10 top-20">
-                                </p>
-                                <p class=" text-5xl text-center font-bold">
-                                    
-                                    <span id="totH" class="text-inm-verde-100"></span>
-
-                                </p>
-                                <p class=" text-5xl text-center text-left font-bold">
-                                    <span class="text-inm-verde-100">Hombres</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <!--Third item-->
-                    <div class="relative float-left hidden -mr-[100%] w-full mx-auto transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-                        data-te-carousel-item style="backface-visibility: hidden">
-                        <img src="{% static 'imgs/mujeres.jpeg' %}" class="block w-full" alt="..." />
-                        <div class="static inset-x-[10%] bottom-5 hidden py-5 text-center ml-55 text-white md:block">
-                            <div class="bg-inm-marron-100 bg-opacity-60 h-auto w-auto absolute left-60 mt-10 top-20">
-                                <p class=" text-5xl text-center font-bold">
-                                    <span id="totM" class="text-inm-rojo-100"></span>
-                                </p>
-                                <p class=" text-5xl text-left font-bold">
-                                    <span class="text-inm-rojo-100">Mujeres</span>
-                                </p>
-                            </div>
-                        </div>
-                        
-                    </div>
-
-                </div>
-              
-            </div>
-           
-
-            <!--Carousel controls - prev item-->
-            <button
-                class="absolute bottom-0 left-0 top-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
-                type="button" data-te-target="#carouselExampleCaptions" data-te-slide="prev">
-                <span class="inline-block h-8 w-8">
-                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-                    </svg>
-                </span>
-                <span
-                    class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Previous</span>
-            </button>
-            <!--Carousel controls - next item-->
-            <button
-                class="absolute bottom-0 right-0 top-0 z-[1] flex w-[15%] items-center justify-center border-0 bg-none p-0 text-center text-white opacity-50 transition-opacity duration-150 ease-[cubic-bezier(0.25,0.1,0.25,1.0)] hover:text-white hover:no-underline hover:opacity-90 hover:outline-none focus:text-white focus:no-underline focus:opacity-90 focus:outline-none motion-reduce:transition-none"
-                type="button" data-te-target="#carouselExampleCaptions" data-te-slide="next">
-                <span class="inline-block h-8 w-8">
-                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-                    </svg>
-                </span>
-                <span
-                    class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Next</span>
-            </button>
+            <div  class="pt-1 text-xs text-center"><p>Dirección General de Coordinación de Oficinas de Representación | Dirección General de Control y Verificación Migratoria</p></div>
         </div>
     </div>
+    
+  </div>
+
+  <input type="radio" name="a" id="cr-2">
+  <label for="cr-2" style="--hue: 82"></label>
+  <div class="ci" style="--z: 3">
+    <h2 class="ch" style="--h: 82; --s: 80%; --l: 90%">
+        <div class="bg-inm-marron-100 bg-opacity-60 h-auto w-auto">
+            <p class=" text-3xl text-center font-family: 'Montserrat">
+                <span class="text-inm-verde-100">Del </span>
+                <span class="text-inm-verde-100 font-bold"> 01 de enero </span>
+                <span class="text-inm-verde-100">al </span>
+                <span class="text-inm-verde-100 font-bold">{{fecha}}</span>
+                <span class="text-inm-rojo-200 font-bold">SE RESCATARON:</span>
+
+            <p class=" text-5xl text-center font-bold">
+                <span id="tot" class="text-inm-cafe-100"></span>
+            </p>
+            <p class=" text-3xl text-center font-bold">
+                <span class="text-inm-cafe-100">personas</span>
+                <span class="text-inm-cafe-100">migrantes</span>
+            </p>
+        </div>
+    </h2>
+    <img width="800px" src="{% static 'imgs/total.jpg' %}" alt="Trees">
+    
+  </div>
+
+  <input type="radio" name="a" id="cr-3">
+  <label for="cr-3" style="--hue: 40"></label>
+  <div class="ci" style="--z: 2">
+    <h2 class="ch" style="--h: 40; --s: 100%; --l: 89%">
+        <div class="bg-inm-marron-100 bg-opacity-60 h-auto w-auto absolute">
+        </p>
+        <p class=" text-5xl text-center font-bold">
+            
+            <span id="totH" class="text-inm-verde-100"></span>
+
+        </p>
+        <p class=" text-5xl text-center text-left font-bold">
+            <span class="text-inm-verde-100">Hombres</span>
+        </p>
+    </div>
+</h2>
+    <img width="800px" src="{% static 'imgs/hombres.jpeg' %}" alt="Mountains and houses">
+  </div>
+
+  <input type="radio" name="a" id="cr-4">
+  <label for="cr-4" style="--hue: 40"></label>
+  <div class="ci" style="--z: 2">
+    <h2 class="ch" style="--h: 40; --s: 100%; --l: 89%">
+        <div class="bg-inm-marron-100 bg-opacity-60 h-auto w-auto absolute ">
+            <p class=" text-5xl text-center font-bold">
+                <span id="totM" class="text-inm-rojo-100"></span>
+            </p>
+            <p class=" text-5xl text-left font-bold">
+                <span class="text-inm-rojo-100">Mujeres</span>
+            </p>
+        </div>
+    </h2>
+    <img width="800px" src="{% static 'imgs/mujeres.jpeg' %}" alt="Mountains and houses">
+  </div>
+
+
 </div>
+
+
+</div>
+
+
+    </div>
+        
+          
+          
+ 
+    
 
 {% else %}
 
@@ -197,9 +259,9 @@
         ¡Únete y contribuye a agilizar la operación migratoria a lo largo del país!</p>
 
 </div> -->
-<p class="ml-2 text-2xl text-inm-verde-100 text-center font-bold">¡Datos puntuales, verificados y accesibles!</p>
+<!-- <p class="ml-2 text-2xl text-inm-verde-100 text-center font-bold">¡Datos puntuales, verificados y accesibles!</p> -->
 
-</div>
+<p class="mt-12 text-2xl text-inm-verde-100 text-center font-bold">¡Datos puntuales, verificados y accesibles!</p>
 
 
 <script>
@@ -227,24 +289,11 @@
         }
     };
 
+
     </script>
 
 
 {% endblock content %}
 
-<div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-full lg:py-0">
-    <div class="columns-2">
-        <!-- <div class="w-full bg-white rounded-lg shadow dark:border sm:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"> -->
-        <div class="">
-            <img class="w-30" src="{% static 'imgs/inami.png' %}" width="250" alt="logo">
-        </div>
-        <div class="">
-            <h1 class="">
-                Ingresa al sistema
-            </h1>
 
-        </div>
-    </div>
-    <!-- </div> -->
-</div>
 
