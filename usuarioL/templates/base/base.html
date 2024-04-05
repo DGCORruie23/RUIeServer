@@ -118,13 +118,17 @@ footer{
 }
 h1{
   font-size: 40px;
-  color: #fff;
+
   font-weight: bold;
 }
 
 
 
+.logoGOB {
 
+      margin-top: auto;
+      margin-bottom: auto;
+   }
   </style>
   
 </head>
@@ -154,10 +158,12 @@ h1{
         <p class="text-inm-rojo-200 text-center font-bold">RESCATE-CAPTURA</p>
       </div>
     </div>
-
-    <a>
-      <img class="" src="{% static 'icons/LOGO3.png' %}" alt="logo">
-    </a>
+    <div class="logoGOB">
+      <a >
+        <img  src="{% static 'icons/LOGO3.png' %}" alt="logo">
+      </a>
+    </div>
+    
   </div>
 
   <a>
@@ -173,8 +179,8 @@ h1{
             </div> -->
 
             <div class=" flex items-center ">
-              <div style="margin-left: 41%;" class="basis-1/8 py-4 px-6 mx-1 bg-inm-gris-200 hover:bg-inm-marron-100 rounded-xl text-white "><a href="{% url 'dashboard' %}" class="">Panel de Control</a></div>
-              <div class="ml-2basis-1/8 py-4 px-6 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white"><a href="{% url 'logout' %}" class="">Cerrar sesión</a></div>
+              <div style="margin-left: 41%;" class="basis-1/8 py-3 px-6 mx-1 bg-inm-gris-200 hover:bg-inm-marron-100 rounded-xl text-white "><a href="{% url 'dashboard' %}" class="">Panel de Control</a></div>
+              <div class="ml-2basis-1/8 py-3 px-6 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white"><a href="{% url 'logout' %}" class="">Cerrar sesión</a></div>
             </div>
 
 
@@ -186,8 +192,8 @@ h1{
                 </div> -->
 
                 <div class="  flex items-center ">
-                  <div style="margin-left: 41%;" class="basis-1/8 py-4 px-10 mx-1 bg-inm-gris-200 hover:bg-inm-verde-200 rounded-xl text-white "><a href="{% url 'descargas' %}" class="">Descargas</a></div>
-                  <div class="ml-2basis-1/8 py-4 px-10 mx-1 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white"><a href="{% url 'log-in' %}" class="">Ingresar</a></div>
+                  <div style="margin-left: 41%;" class="basis-1/8 py-3 px-6 mx-1 bg-inm-gris-200 hover:bg-inm-verde-200 rounded-xl text-white "><a href="{% url 'descargas' %}" class="">Descargas</a></div>
+                  <div class="ml-2basis-1/8 py-3 px-6 mx-1 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white"><a href="{% url 'log-in' %}" class="">Ingresar</a></div>
                 </div>
                 
                 {% endif %}

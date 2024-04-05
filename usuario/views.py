@@ -131,6 +131,9 @@ def cargarPais(request):
         form = CargarArchivoForm()
     return render(request, "cargarExcel/cargarArchivoPaises.html", {"form" : form})
 
+
+
+
             
 
 @csrf_exempt
@@ -1126,3 +1129,108 @@ def generarExcelFechas(request):
     else:
         return render(request, "base/error404.html")
     
+
+
+
+@csrf_exempt
+def politica_privacidad(request):
+    
+    return render(request, "politica/politica_privacidad.html")
+
+
+
+
+@csrf_exempt    
+def generarExcelFechasOR(request):
+    if(request.method == "POST"):
+        # print(request.POST)
+        fechaI = request.POST["fechaInicio"]
+        
+        fechaF = request.POST["fechaFin"]
+
+        fechaIN = datetime.strptime(f"{fechaI}", "%Y-%m-%d")
+        fechaFN = datetime.strptime(f"{fechaF}", "%Y-%m-%d")
+        
+        # fecha_inicio = datetime(2024, 1, 1)
+        # print(fecha_inicio)
+        print(fechaIN)
+
+        # fecha_inicio = datetime(yearI, mesI, diaI)
+        # fecha_fin = datetime(diaF, mesF, yearF)
+
+        array_fechas = [(fechaIN + timedelta(days=d)).strftime("%d-%m-%y") for d in range((fechaFN - fechaIN).days + 1)]
+
+        # array_fechas = [(fechaIN + timedelta(days=d)).strftime("%d-%m-%y") for d in range((fechaIN - fechaFN).days + 1)]
+
+        # print(array_fechas)
+        oficinaR = request.POST["oficinaR"]
+        #print(oficinaR)
+        valores = RescatePunto.objects.filter(fecha__in= array_fechas, oficinaRepre= oficinaR )
+
+        # if request.user.is_superuser:
+        #     valores = valores = RescatePunto.objects.filter(fecha= fechaR)
+        # else:
+        #     oficinaR = request.POST["oficina"]
+        #     # fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
+        #     # fechaR = datetime.datetime.strptime(f"{fechaFun}", "%d/%m/%Y").strftime('%d-%m-%y')
+        
+        workbook = opxl.load_workbook('tmp/dup.xlsm', read_only=False, keep_vba=True)
+        worksheet = workbook.active
+            
+        for valor in valores:
+            worksheet.append([valor.oficinaRepre, 
+                                valor.fecha,
+                                valor.hora,
+                                valor.nombreAgente.upper(),
+                                "1" if valor.aeropuerto else "",
+                                "1" if valor.carretero else "",
+                                valor.tipoVehic.upper(),
+                                valor.lineaAutobus.upper(),
+                                valor.numeroEcono.upper(),
+                                valor.placas.upper(),
+                                "1" if valor.vehiculoAseg else "",
+                                "1" if valor.casaSeguridad else "",
+                                "1" if valor.centralAutobus else "",
+                                "1" if valor.ferrocarril else "",
+                                valor.empresa,
+                                "1" if valor.hotel else "",
+                                valor.nombreHotel,
+                                "1" if valor.puestosADispo else "",
+                                "1" if valor.juezCalif else "",
+                                "1" if valor.reclusorio else "",
+                                "1" if valor.policiaFede else "",
+                                "1" if valor.dif else "",
+                                "1" if valor.policiaEsta else "",
+                                "1" if valor.policiaMuni else "",
+                                "1" if valor.guardiaNaci else "",
+                                "1" if valor.fiscalia else "",
+                                "1" if valor.otrasAuto else "",
+                                "1" if valor.voluntarios else "",
+                                "1" if valor.otro else "",
+                                "1" if valor.presuntosDelincuentes else "",
+                                valor.numPresuntosDelincuentes if valor.numPresuntosDelincuentes != 0 else "",
+                                valor.municipio.upper(),
+                                valor.puntoEstra.upper(),
+                                valor.nacionalidad.upper(),
+                                valor.iso3,
+                                valor.nombre.upper(),
+                                valor.apellidos.upper(),
+                                valor.noIdentidad,
+                                valor.parentesco.upper(),
+                                valor.fechaNacimiento,
+                                "Hombre" if valor.sexo else "Mujer",
+                                "1" if valor.embarazo else "",
+                                valor.numFamilia if valor.numFamilia != 0 else "",
+                                valor.edad,
+                                ])
+        
+        worksheet.append(['Rescates Totales: ', valores.count()])
+
+        response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
+        response['Content-Disposition'] = 'attachment; filename= "Rescates_{fecha1}-{fecha2}.xlsm"'.format(fecha1 = fechaI, fecha2=fechaF)
+
+        return response
+        # return render(request, "base/error404.html")
+    
+    else:
+        return render(request, "base/error404.html")

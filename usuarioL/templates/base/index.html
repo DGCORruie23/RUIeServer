@@ -52,7 +52,7 @@
 .ch {
   position: absolute;
   top: 50%;
-  left: 50%;
+
   transform: translateY(-50%);
 
   font-size: 2rem;
@@ -117,7 +117,7 @@ input:not(:checked)+label+.ci {
     <br><br><br>
 
     {% if request.user.is_authenticated %}
-    <div  class="ground">
+    <div  class="ground h-full">
 
 <div class="c">
 
@@ -151,7 +151,7 @@ input:not(:checked)+label+.ci {
   <label for="cr-2" style="--hue: 82"></label>
   <div class="ci" style="--z: 3">
     <h2 class="ch" style="--h: 82; --s: 80%; --l: 90%">
-        <div class="bg-inm-marron-100 bg-opacity-60 h-auto w-auto">
+        <div class="bg-inm-marron-100 bg-opacity-60">
             <p class=" text-3xl text-center font-family: 'Montserrat">
                 <span class="text-inm-verde-100">Del </span>
                 <span class="text-inm-verde-100 font-bold"> 01 de enero </span>
@@ -174,9 +174,9 @@ input:not(:checked)+label+.ci {
 
   <input type="radio" name="a" id="cr-3">
   <label for="cr-3" style="--hue: 40"></label>
-  <div class="ci" style="--z: 2">
+  <div class=" ci " style="--z: 2">
     <h2 class="ch" style="--h: 40; --s: 100%; --l: 89%">
-        <div class="bg-inm-marron-100 bg-opacity-60 h-auto w-auto absolute">
+        <div style="margin-left: 30%;" class="bg-inm-marron-100 bg-opacity-60 h-auto w-auto absolute">
         </p>
         <p class=" text-5xl text-center font-bold">
             
@@ -223,28 +223,32 @@ input:not(:checked)+label+.ci {
 
 {% else %}
 
-    
-    <div style="height: 45%; width: 50%; margin-left: 25%;" class="py-4 px-4 bg-inm-marron-100 mb-20 grow align-middle grid grid-cols-2 gap-1 text-justify place-content-center ">
+<div class="ground h-full" >
+    <div class="h-full w-1/2 bg-inm-marron-100 align-middle grid grid-cols-2 gap-1 text-justify place-content-center ">
 
         <div class="contp h-16 col-start-1 col-span-2 ...">
             <div class="p-5 text-3xl font-semibold text-center uppercase"> &nbsp Bienvenidos </div>
+            
         </div>
-       
+        
         <div style="margin: 0 auto;" class=" col-start-1 col-span-1 self-auto">
             <img src="{% static 'imgs/inami.png' %}" class="h-64 " alt="..." />
         </div>
         <div class="col-start-2 col-span-1">
-            <label for="username" class="font-medium"> <br><br>Utiliza el RUI electrónico para el registro de datos sobre la población migrante rescatada en México. <br> ¡Únete y contribuye a agilizar la operación migratoria a lo largo del país! </label>
+            <p > <br><br>Utiliza el RUI electrónico para el registro de datos sobre la población migrante rescatada en México. <br> ¡Únete y contribuye a agilizar la operación migratoria a lo largo del país! </p>
         </div>
         <!-- <div class="col-start-2 col-span-4 ...">
             <div class="pt-1"><label class="font-medium text-center uppercase">¡Datos puntuales, verificados y accesibles!</label></div>
         </div> -->
-        <div style="margin-left: 15%;" class=" col-start-1 col-span-2 ...">
+        <div class=" col-start-1 col-span-7 ...">
             
-            <div class="pt-1 mb-5"><label style="font-size: 11px;" class=" ">Dirección General de Coordinación de Oficinas de Representación | Dirección General de Control y Verificación Migratoria</label></div>
+            <div  class="pt-1 text-xs text-center"><p>Dirección General de Coordinación de Oficinas de Representación | Dirección General de Control y Verificación Migratoria</p></div>
         </div>
     </div>
-        
+</div>
+
+
+
 
 
 

@@ -46,10 +46,13 @@ urlpatterns = [
     path('info/descargaC', views.generarExcelConteo),
     path('info/descargaD', views.pagDuplicados),
     path('info/fechas', views.generarExcelFechas, name="fechas_descarga"),
+    path('info/fechasOR', views.generarExcelFechasOR, name="fechas_OR"),
     path('info/descargaD_a', views.downloadDuplicados, name="descarga_duplicados"),
     path('info/descargaTab22', views.generarExcelTab),
     path('info/descargaExcel', views.generarExcelORs, name="descarga_excel"),
     path('info/updateApp', views.msgUpdateUrl, name="info_app"),
+
+    path('info/politica_privacidad', views.politica_privacidad, name="info_politica_privacidad"),
 
     path('registro/insertR', views.insert_rescates),
     path('registro/insertC', views.insert_conteo),
