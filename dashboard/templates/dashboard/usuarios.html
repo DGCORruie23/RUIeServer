@@ -38,7 +38,7 @@
 
         th {
             background-colrgb(197, 122, 69)AA6D;
-            color: rgb(165, 27, 27);
+            color: rgb(255, 255, 255);
         }
 
         .bdtable {
@@ -119,7 +119,9 @@
             }
 
 
-
+            tr.header {
+                background-color: #235B4E;
+            }
 
     </style>
     {% endblock styles %}
@@ -181,6 +183,7 @@
                 <th>Nombre completo</th>
                 <th>Tipo de Usuario</th>
                 <th>Acciones</th>
+                <th></th>
             </tr>
             {% for item in usuario %}
                 <tr>

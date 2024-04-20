@@ -28,7 +28,7 @@
         }
 
         th {
-            color: rgb(165, 27, 27);
+            color: rgb(255, 255, 255);
         }
 
         .bdtable {
@@ -107,7 +107,10 @@
                 color: #F00;
                 transition: all 100ms;
             }
-
+            
+            tr.header {
+                background-color: #235B4E;
+            }
 
 
 
@@ -160,6 +163,7 @@
                 <th>Tipo del Punto</th>
                 <th>Nombre del Punto</th>
                 <th>Acciones</th>
+                <th></th>
             </tr>
             {% for item in edoFuerza %}
                 <tr>
