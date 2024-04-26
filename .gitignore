@@ -3,3 +3,4 @@
 /enntorno
 *.apk
 db.sqlite3
+*.pyc
