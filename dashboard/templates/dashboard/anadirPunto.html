@@ -80,7 +80,7 @@
 {% block content %}
 
 
-  
+{% if user.is_authenticated %}
 
 
     <!-- tablas de prueba
@@ -226,6 +226,8 @@
         
     </script>
 </div>
+
+{% endif %}
   
 {% endblock content %}
 

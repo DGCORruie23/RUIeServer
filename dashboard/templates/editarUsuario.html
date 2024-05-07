@@ -120,7 +120,7 @@
         {% endblock styles %}
 
         {% block content %}
-
+        {% if user.is_authenticated %}
     <!-- tablas de prueba
     <div class="bdtable bg-inm-marron-100">
         <table>
@@ -236,4 +236,5 @@
             </div>
         </div>
     </div>
+    {% endif %}
     {% endblock content %}

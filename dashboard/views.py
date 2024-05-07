@@ -12,7 +12,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.hashers import make_password
 # Create your views here.
+
 @login_required
+
 def dashboard(request):
 
     if request.method == 'GET':
@@ -57,6 +59,8 @@ def dashboard(request):
         }
         return render(request, "dashboard/dashboard.html", context=data) 
 
+@login_required
+
 def datos_fecha(request):
     if request.method == 'POST':
         form = ExcelForm(request.POST)
@@ -68,6 +72,8 @@ def datos_fecha(request):
     else:
         return redirect('/dashboard')
     
+@login_required
+
 def eliminar_registros(request):
     if request.method == 'POST':
         # Obtén los IDs de los productos seleccionados
@@ -85,6 +91,8 @@ def eliminar_registros(request):
 
     # Obtén todos los productos para mostrar en la tabla
     return redirect("/dashboard")
+
+@login_required
 
 def tabla_registros(request, year=None, month=None, day=None):
     
@@ -114,6 +122,8 @@ def tabla_registros(request, year=None, month=None, day=None):
         }
 
         return render(request, "dashboard/datos_dia.html", context=data)
+    
+@login_required
 
 def editarData(request, pk):
     if request.user.is_authenticated:
@@ -248,6 +258,8 @@ def editarData(request, pk):
         messages.success(request, "Necesitas ingresar para poder modificar la informacion")
         return redirect('')
 
+@login_required
+
 def mostrarData(request):
 
     if request.user.is_authenticated:
@@ -321,7 +333,7 @@ def mostrarData(request):
         return redirect('')
 
 
-
+@login_required
 
 def edoFuerza(request):
     data = EstadoFuerza.objects.all().order_by('oficinaR',"nomPuntoRevision")
@@ -330,6 +342,8 @@ def edoFuerza(request):
                "form": form,
                }
     return render(request, "dashboard/edoFuerza.html", context)
+
+@login_required
 
 def agregar_punto(request):
     idUltimo = EstadoFuerza.objects.latest('idEdoFuerza')
@@ -365,6 +379,8 @@ def agregar_punto(request):
             print('No se ha podido agregar')
     return render(request, 'dashboard/anadirPunto.html')
 
+@login_required
+
 def editar_estado_fuerza(request, id_edo_fuerza):
     #estado_fuerza = get_object_or_404(EstadoFuerza, idEdoFuerza=id_edo_fuerza)
 
@@ -391,12 +407,15 @@ def editar_estado_fuerza(request, id_edo_fuerza):
 
     return render(request, 'editarEdoFuerza.html', context= data)
 
+@login_required
+
 def eliminarEdoFuerza(request, id_edo_fuerza):
     id_edo_fuerza  = EstadoFuerza.objects.get(idEdoFuerza = id_edo_fuerza)
     id_edo_fuerza.delete()
 
     return redirect('pagina_pruebas_edoFuerza')
 
+@login_required
 
 def Usuarios(request):
     data = Usuario.objects.all().order_by("estado")
@@ -405,6 +424,8 @@ def Usuarios(request):
                "form": form,
                }
     return render(request, "dashboard/usuarios.html", context)
+
+@login_required
 
 def agregar_usuario(request):
     idUltimo = Usuario.objects.latest('idUser')
@@ -428,6 +449,7 @@ def agregar_usuario(request):
             print('No se ha podido agregar')
     return render(request, 'dashboard/anadirUsuario.html')
 
+@login_required
 
 def editar_usuario(request, id_usuario):
 
@@ -466,6 +488,8 @@ def editar_usuario(request, id_usuario):
             print(formulario.errors)
 
     return render(request, 'editarUsuario.html', context= data)
+
+@login_required
 
 def eliminarUsuario(request, id_usuario):
     id_usuario  = Usuario.objects.get(idUser = id_usuario)

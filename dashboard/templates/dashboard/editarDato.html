@@ -9,7 +9,7 @@
 {% endblock navigation %}
 
 {% block content %}
-
+{% if user.is_authenticated %}
     <div class="grow">
         
         <form method="post" action="#"  enctype="multipart/form-data">{% csrf_token %}
@@ -230,5 +230,5 @@
     </div> {% endcomment %}
 
     {% comment %} <h1 class="text-xl">Dashboard de {{usuario.0.oficinaR}} </h1> {% endcomment %}
-
+    {% endif %}
 {% endblock content %}
