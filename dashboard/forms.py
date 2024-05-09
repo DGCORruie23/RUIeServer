@@ -213,6 +213,7 @@ class RegistroNewForm(forms.Form):
     sexo = forms.ChoiceField(choices=choice_sexo, label="Sexo: ")
     embarazo = forms.ChoiceField(choices=choice_embarazo, label="Embarazo: ")
     numFamilia = forms.IntegerField(label="Numero de Familia")
+    oficinaR = forms.CharField(widget=forms.TextInput(attrs={}), label="Oficina:")
 
     def save(self, commit=True):
         
@@ -291,6 +292,7 @@ class RegistroNewForm(forms.Form):
             embarazo=embarazo1,
             numFamilia=self.data['numFamilia'],
             edad=db_edad,
+            oficinaRepre = self.data['oficinaR'],
             )
         # datosActualizados = RescatePunto.objects.update_or_create(idRescate=self.data['idRescate'], sexo=self.data['sexo'] )
         return datosActualizados

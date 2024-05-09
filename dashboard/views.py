@@ -67,6 +67,7 @@ def datos_fecha(request):
         if form.is_valid():
             # Obtiene la fecha seleccionada del formulario
             fecha_seleccionada = form.cleaned_data['fechaDescarga']
+            print(fecha_seleccionada)
             # Redirige a la vista de la tabla de productos con la fecha seleccionada
             return redirect('tabla_registros_fecha', year=fecha_seleccionada.year, month=fecha_seleccionada.month, day=fecha_seleccionada.day)
     else:
@@ -113,7 +114,7 @@ def tabla_registros(request, year=None, month=None, day=None):
         return render(request, "dashboard/datos_diaSU.html", context=data)
     else:
         valores = RescatePunto.objects.filter(fecha=fechaR).filter(oficinaRepre=userDataI[0].oficinaR)
-
+        print("aaaaaaaaaaaaaa")
         data = {
         'usuario' : userDataI,
         'form': form,
@@ -210,9 +211,10 @@ def editarData(request, pk):
                 'sexo': rescate.sexo,
                 'embarazo': rescate.embarazo,
                 'numFamilia': rescate.numFamilia,
-                
+                'oficinaR': rescate.oficinaRepre
             }
-            
+            print(rescate.oficinaRepre)
+            print(rescate.hora)
             form = RegistroNewForm(initial=datosR)
             # print(types_PRescateC)
             datos = {
@@ -242,7 +244,7 @@ def editarData(request, pk):
             if form.is_valid():
                 form.save()
                 fecha_form = form.cleaned_data['fecha']
-                # print("entra a guardar info")
+                print("entra a guardar info")
                 # print(fecha_form)
                 messages.success(request, "El registro ha sido modificado")
                 fecha_seleccionada = datetime.strptime(f"{fecha_form}", "%d-%m-%y")

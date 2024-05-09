@@ -15,6 +15,46 @@
         <form method="post" action="#"  enctype="multipart/form-data">{% csrf_token %}
 
             <p>
+                <label for="id_oficinaRepre">Oficina:</label>
+                <!-- <input type="text" name="idoficinaRepre" value="{{datosR.oficinaR}}" required="" id="id_oficinaRepre"> -->
+                <select type="text" name="oficinaR" value="{{ datosR.oficinaR }}" class="elegant-input" id="id_oficinaRepre">
+                    <option value="AGUASCALIENTES" {% if datosR.oficinaR == 'AGUASCALIENTES' %}selected{% endif %}>AGUASCALIENTES</option>
+                    <option value="BAJA CALIFORNIA" {% if datosR.oficinaR == 'BAJA CALIFORNIA' %}selected{% endif %}>BAJA CALIFORNIA</option>
+                    <option value="BAJA CALIFORNIA SUR" {% if datosR.oficinaR == 'BAJA CALIFORNIA SUR' %}selected{% endif %}>BAJA CALIFORNIA SUR</option>
+                    <option value="CAMPECHE" {% if datosR.oficinaR == 'CAMPECHE' %}selected{% endif %}>CAMPECHE</option>
+                    <option value="CDMX" {% if datosR.oficinaR == 'CDMX' %}selected{% endif %}>CDMX</option>
+                    <option value="CHIAPAS" {% if datosR.oficinaR == 'CHIAPAS' %}selected{% endif %}>CHIAPAS</option>
+                    <option value="CHIHUAHA" {% if datosR.oficinaR == 'CHIHUAHA' %}selected{% endif %}>CHIHUAHA</option>
+                    <option value="COAHUILA" {% if datosR.oficinaR == 'COAHUILA' %}selected{% endif %}>COAHUILA</option>
+                    <option value="COLIMA" {% if datosR.oficinaR == 'COLIMA' %}selected{% endif %}>COLIMA</option>
+                    <option value="DURANGO" {% if datosR.oficinaR == 'DURANGO' %}selected{% endif %}>DURANGO</option>
+                    <option value="EDOMEX" {% if datosR.oficinaR == 'EDOMEX' %}selected{% endif %}>EDOMEX</option>
+                    <option value="GUERRERO" {% if datosR.oficinaR == 'GUERRERO' %}selected{% endif %}>GUERRERO</option>
+                    <option value="GUANAJUATO" {% if datosR.oficinaR == 'GUANAJUATO' %}selected{% endif %}>GUANAJUATO</option>
+                    <option value="HIDALGO" {% if datosR.oficinaR == 'HIDALGO' %}selected{% endif %}>HIDALGO</option>
+                    <option value="JALISCO" {% if datosR.oficinaR == 'JALISCO' %}selected{% endif %}>JALISCO</option>
+                    <option value="MICHOACÁN" {% if datosR.oficinaR == 'MICHOACÁN' %}selected{% endif %}>MICHOACÁN</option>
+                    <option value="MORELOS" {% if datosR.oficinaR == 'MORELOS' %}selected{% endif %}>MORELOS</option>
+                    <option value="NAYARIT" {% if datosR.oficinaR == 'NAYARIT' %}selected{% endif %}>NAYARIT</option>
+                    <option value="NUEVO LEÓN" {% if datosR.oficinaR == 'NUEVO LEÓN' %}selected{% endif %}>NUEVO LEÓN</option>
+                    <option value="OAXACA" {% if datosR.oficinaR == 'OAXACA' %}selected{% endif %}>OAXACA</option>
+                    <option value="PUEBLA" {% if datosR.oficinaR == 'PUEBLA' %}selected{% endif %}>PUEBLA</option>
+                    <option value="QUERÉTARO" {% if datosR.oficinaR == 'QUERÉTARO' %}selected{% endif %}>QUERÉTARO</option>
+                    <option value="QUINTANA ROO" {% if datosR.oficinaR == 'QUINTANA ROO' %}selected{% endif %}>QUINTANA ROO</option>
+                    <option value="SAN LUIS POTOSÍ" {% if datosR.oficinaR == 'SAN LUIS POTOSÍ' %}selected{% endif %}>SAN LUIS POTOSÍ</option>
+                    <option value="SINALOA" {% if datosR.oficinaR == 'SINALOA' %}selected{% endif %}>SINALOA</option>
+                    <option value="SONORA" {% if datosR.oficinaR == 'SONORA' %}selected{% endif %}>SONORA</option>
+                    <option value="TABASCO" {% if datosR.oficinaR == 'TABASCO' %}selected{% endif %}>TABASCO</option>
+                    <option value="TAMAULIPAS" {% if datosR.oficinaR == 'TAMAULIPAS' %}selected{% endif %}>TAMAULIPAS</option>
+                    <option value="TLAXCALA" {% if datosR.oficinaR == 'TLAXCALA' %}selected{% endif %}>TLAXCALA</option>
+                    <option value="VERACRUZ" {% if datosR.oficinaR == 'VERACRUZ' %}selected{% endif %}>VERACRUZ</option>
+                    <option value="YUCATÁN" {% if datosR.oficinaR == 'YUCATÁN' %}selected{% endif %}>YUCATÁN</option>
+                    <option value="ZACATECAS" {% if datosR.oficinaR == 'ZACATECAS' %}selected{% endif %}>ZACATECAS</option>
+
+                </select><br>
+            </p>
+
+            <p>
                 <input type="hidden" name="idRescate" value="{{datosR.idRescate}}" required="" id="id_idRescate">
             </p>
     
