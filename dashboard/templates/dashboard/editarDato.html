@@ -140,13 +140,14 @@
             </p>
 
             <p class="py-4">
-                <input class="py-2 px-2 bg-teal-600 rounded-xl text-white" type="submit" value="Actualizar datos">
+                <input class="py-2 px-2 bg-teal-600 rounded-xl text-white" id="fo" type="submit" value="Actualizar datos">
             </p>
 
         </form>
     </div>
 
     <script>
+
         var aero = {{ res_aero|safe }};
         var carre = {{ res_carre|safe }};
         var central = {{ res_central|safe }};
@@ -155,6 +156,10 @@
         var nacionalidades = {{ nacion|safe }};
         var opc_vacias = ["Sin Información"];
 
+        var fuerza = {{ puntosEstrategicos|safe }};
+        console.log(aero);
+
+        
         var miSelect = document.getElementById("id_tipo_punto");
         miSelect.value = "{{datosR.tipo_punto}}";
 
@@ -258,6 +263,12 @@
             opcion.text = texto;
             select.add(opcion);
           }
+
+          document.getElementById('id_oficinaRepre').addEventListener('change', function() {
+            var selectedValue = this.value;
+            console.log(selectedValue);
+            
+          });
     </script> 
     
     {% comment %} <div class="grow">

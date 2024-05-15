@@ -140,6 +140,12 @@ def editarData(request, pk):
             types_PRescateM = []
             types_Naciona = []
 
+            types_puntosAll = []
+
+            for punt in EstadoFuerza.objects.all():
+                nomS = str(punt.oficinaR)
+                types_puntosAll.append(nomS.strip())
+
             for punt in PuntosInternacion.objects.filter(estadoPunto=ofiRep, tipoPunto="AEREOS"):
                 nomS = str(punt.nombrePunto)
                 types_PRescateA.append(nomS.strip())
@@ -196,10 +202,11 @@ def editarData(request, pk):
                 puntoR = ''
 
             fecha_Naci = datetime.strptime(rescate.fechaNacimiento, "%d/%m/%Y").strftime('%Y-%m-%d')
-            
+            print(EstadoFuerza.objects.all())
             datosR = {
                 'idRescate': pk,
                 'fecha': rescate.fecha,
+                # 'fecha': fecha_res,
                 'hora': rescate.hora,
                 'tipo_punto' : puntoR,
                 'puntoEstra': rescate.puntoEstra,
@@ -213,14 +220,20 @@ def editarData(request, pk):
                 'numFamilia': rescate.numFamilia,
                 'oficinaR': rescate.oficinaRepre
             }
+
+            # datosFuerza = EstadoFuerza.objects.all()
             print(rescate.oficinaRepre)
             print(rescate.hora)
             form = RegistroNewForm(initial=datosR)
             # print(types_PRescateC)
+            pE = str(EstadoFuerza.objects.filter(oficinaR=ofiRep))
+            pE = pE.strip()
+
             datos = {
                 "form" : form,
                 "value": rescate,
                 "datosR": datosR,
+                "puntosEstrategicos": types_puntosAll,       
                 "res_aero": types_PRescateA,
                 "res_carre": types_PRescateC,
                 "res_central": types_PRescateCA,
