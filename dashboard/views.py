@@ -202,7 +202,7 @@ def editarData(request, pk):
                 puntoR = ''
 
             fecha_Naci = datetime.strptime(rescate.fechaNacimiento, "%d/%m/%Y").strftime('%Y-%m-%d')
-            print(EstadoFuerza.objects.all())
+            # print(EstadoFuerza.objects.all())
             datosR = {
                 'idRescate': pk,
                 'fecha': rescate.fecha,
@@ -223,17 +223,62 @@ def editarData(request, pk):
 
             # datosFuerza = EstadoFuerza.objects.all()
             print(rescate.oficinaRepre)
+            print(ofiRep)
             print(rescate.hora)
             form = RegistroNewForm(initial=datosR)
             # print(types_PRescateC)
             pE = str(EstadoFuerza.objects.filter(oficinaR=ofiRep))
             pE = pE.strip()
 
+            datos_puntos_estrategicos = {}
+            for estado_fuerza in EstadoFuerza.objects.all():
+                nombre_oficina = estado_fuerza.oficinaR
+                tipo_punto = estado_fuerza.tipoP
+                if nombre_oficina not in datos_puntos_estrategicos:
+                    datos_puntos_estrategicos[nombre_oficina] = {}
+                if tipo_punto not in datos_puntos_estrategicos[nombre_oficina]:
+                    datos_puntos_estrategicos[nombre_oficina][tipo_punto] = []
+                datos_puntos_estrategicos[nombre_oficina][tipo_punto].append(estado_fuerza.nomPuntoRevision)
+
+
+            # print(datos_puntos_estrategicos)
+
+
+            datos_puntos_internacion = {}
+            for punto_internacion in PuntosInternacion.objects.all():
+                nombre_punto = punto_internacion.nombrePunto
+                estado_punto = punto_internacion.estadoPunto
+                tipo_punto = punto_internacion.tipoPunto
+
+                if estado_punto not in datos_puntos_internacion:
+                    datos_puntos_internacion[estado_punto] = {}
+                if tipo_punto not in datos_puntos_internacion[estado_punto]:
+                    datos_puntos_internacion[estado_punto][tipo_punto] = []
+
+                datos_puntos_internacion[estado_punto][tipo_punto].append(nombre_punto)
+
+            datos_municipios = {}
+
+            for municipio in Municipios.objects.all():
+                oficinaR = municipio.estado
+                nomMunicipio = municipio.nomMunicipio
+
+                if oficinaR not in datos_municipios:
+                    datos_municipios[oficinaR] = []
+                
+                datos_municipios[oficinaR].append(nomMunicipio)
+
+
+            print(datos_municipios)
+            # print("se acabooooooooooooooooooooooooooooooooooooooooooooooooo")
+            # print(datos_puntos_internacion)
             datos = {
                 "form" : form,
                 "value": rescate,
                 "datosR": datosR,
-                "puntosEstrategicos": types_puntosAll,       
+                "puntosEstrategicos": datos_puntos_estrategicos,
+                "puntosInternacion": datos_puntos_internacion,     
+                "municipios": datos_municipios,
                 "res_aero": types_PRescateA,
                 "res_carre": types_PRescateC,
                 "res_central": types_PRescateCA,
