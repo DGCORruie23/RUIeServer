@@ -147,6 +147,13 @@
         <div style="margin-right: 15%;" class=" ml-8 basis-1/8 py-5 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white  "><a href="{% url 'agregar_usuario' %}" >
             Agregar Usuario
         </a></div> 
+        <div style="margin-right: 15%;">
+            <form action="{% url 'descarga_excelUsuarios' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="ml-8 basis-1/8 py-5 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white">Descargar</button>
+            </form>
+        </div>
+
     </div>
 
     <div id="popup" class="overlay">

@@ -11,6 +11,7 @@ from .forms import CargarArchivoForm, ExcelForm, ExcelFormOr, ExcelFormOrs
 import openpyxl as opxl
 from openpyxl.writer.excel import save_virtual_workbook
 from datetime import *
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -955,23 +956,17 @@ def generarExcelTab(request):
 def generarExcelORs(request):
     if(request.method == "POST"):
         form = ExcelFormOrs(request.POST)
-        # print(request.POST["fechaDescarga"])
-        # print(request.POST["oficina"])
-        # dia = request.POST["fechaDescarga_day"]
-        # mes = request.POST["fechaDescarga_month"]
-        # year = request.POST["fechaDescarga_year"]
         fechaR = request.POST["fechaDescarga"]
 
         if request.user.is_superuser:
-            valores = valores = RescatePunto.objects.filter(fecha= fechaR)
+            valores = RescatePunto.objects.filter(fecha= fechaR)
+            oficinaR="Registros_ORs"
         else:
             oficinaR = request.POST["oficina"]
-
             # fechaR = datetime.datetime.strptime(f"{dia}/{mes}/{year}", "%d/%m/%Y").strftime('%d-%m-%y')
             # fechaR = datetime.datetime.strptime(f"{fechaFun}", "%d/%m/%Y").strftime('%d-%m-%y')
 
             valores = RescatePunto.objects.filter(fecha= fechaR).filter( oficinaRepre=oficinaR)
-
         
         
         workbook = opxl.load_workbook('tmp/dup.xlsm', read_only=False, keep_vba=True)
@@ -1034,6 +1029,161 @@ def generarExcelORs(request):
     
     else:
         return render(request, "base/error404.html")
+
+
+
+
+
+
+@login_required
+@csrf_exempt
+def generarExcelEdoFuerza(request):
+    if(request.method == "POST"):
+
+        if request.user.is_superuser:
+                    valores = EstadoFuerza.objects.all().order_by('oficinaR')
+                    
+                    
+                    workbook = opxl.load_workbook('tmp/eF.xlsm', read_only=False, keep_vba=True)
+                    worksheet = workbook.active
+                        
+                    for valor in valores:
+                        worksheet.append([valor.oficinaR, 
+                                            valor.numPunto,
+                                            valor.nomPuntoRevision,
+                                            valor.tipoP,
+                                            valor.ubicacion,
+                                            valor.coordenadasTexto,
+                                            valor.latitud,
+                                            valor.longitud,
+                                            valor.personalINM,
+                                            valor.personalSEDENA,
+                                            valor.personalMarina,
+                                            valor.personalGuardiaN,
+                                            valor.personalOTROS,
+                                            valor.vehiculos,
+                                            valor.seccion
+                                            ])
+                
+
+                    response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
+                    response['Content-Disposition'] = 'attachment; filename=EdoFuerza.xlsm'
+
+                    return response
+        else:
+
+            print("no")
+            
+    
+    else:
+        return render(request, "base/error404.html")
+
+
+
+
+@login_required
+
+@csrf_exempt
+def generarExcelUsuarios(request):
+    if(request.method == "POST"):
+        if request.user.is_superuser:
+            valores = Usuario.objects.all().order_by("estado")
+            workbook = opxl.load_workbook('tmp/us.xlsm', read_only=False, keep_vba=True)
+            worksheet = workbook.active
+            # print(valores)
+            for valor in valores:
+                estado = ""
+                if valor.estado == '1':
+                    estado = "AGUASCALIENTES"
+                elif valor.estado == '2':
+                    estado = "BAJA CALIFORNIA"
+                elif valor.estado == '3':
+                    estado = "BAJA CALIFORNIA SUR"
+                elif valor.estado == '4':
+                    estado = "CAMPECHE"
+                elif valor.estado == '5':
+                    estado = "COAHUILA"
+                elif valor.estado == '6':
+                    estado = "COLIMA"
+                elif valor.estado == '7':
+                    estado = "CHIAPAS"
+                elif valor.estado == '8':
+                    estado = "CHIHUAHUA"
+                elif valor.estado == '9':
+                    estado = "CDMX"
+                elif valor.estado == '10':
+                    estado = "DURANGO"
+                elif valor.estado == '11':
+                    estado = "GUANAJUATO"
+                elif valor.estado == '12':
+                    estado = "GUERRERO"
+                elif valor.estado == '13':
+                    estado = "HIDALGO"
+                elif valor.estado == '14':
+                    estado = "JALISCO"
+                elif valor.estado == '15':
+                    estado = "EDOMEX"
+                elif valor.estado == '16':
+                    estado = "MICHOACÁN"
+                elif valor.estado == '17':
+                    estado = "MORELOS"
+                elif valor.estado == '18':
+                    estado = "NAYARIT"
+                elif valor.estado == '19':
+                    estado = "NUEVO LEÓN"
+                elif valor.estado == '20':
+                    estado = "OAXACA"
+                elif valor.estado == '21':
+                    estado = "PUEBLA"
+                elif valor.estado == '22':
+                    estado = "QUERÉTARO"
+                elif valor.estado == '23':
+                    estado = "QUINTANA ROO"
+                elif valor.estado == '24':
+                    estado = "SAN LUIS POTOSÍ"
+                elif valor.estado == '25':
+                    estado = "SINALOA"
+                elif valor.estado == '26':
+                    estado = "SONORA"
+                elif valor.estado == '27':
+                    estado = "TABASCO"
+                elif valor.estado == '28':
+                    estado = "TAMAULIPAS"
+                elif valor.estado == '29':
+                    estado = "TLAXCALA"
+                elif valor.estado == '30':
+                    estado = "VERACRUZ"
+                elif valor.estado == '31':
+                    estado = "YUCATÁN"
+                elif valor.estado == '32':
+                    estado = "ZACATECAS"
+
+                worksheet.append([
+                    estado,
+                    valor.nickname,
+                    valor.nombre,
+                    valor.apellido,
+                ])
+
+
+            response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
+            response['Content-Disposition'] = 'attachment; filename=Usuarios.xlsm'
+        else:
+            
+            print("no")
+        return response
+    
+    else:
+        return render(request, "base/error404.html")
+
+
+
+
+
+
+
+
+
 
 @csrf_exempt    
 def generarExcelFechas(request):

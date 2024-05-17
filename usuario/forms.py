@@ -73,3 +73,7 @@ class ExcelFormOrs(forms.Form):
     fechaDescarga = forms.DateField()
     oficina = forms.CharField()
     # fechaDescarga2 = forms.DateField(widget=forms.SelectDateWidget)
+
+
+class ExcelFormUsers(forms.Form):
+    oficina = forms.CharField()

@@ -125,30 +125,30 @@
 
     <div class=" contIcons flex items-center ">
         <div class="ml-8 basis-1/2 py-5 "><input type="text" id="myInput" onkeyup="myFunction()" placeholder="Buscar por OR..."></div>
-        <div style="margin-right: 5%;"  class=" ml-8 basis-1/8 py-5 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white "><a href="#popup" class="">Carga masiva</a></div> 
-        <div style="margin-right: 15%;" class=" ml-8 basis-1/8 py-5 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white  "><a href="{% url 'agregar_punto' %}" >
+        <div style="margin-right: 5%;"  class=" ml-8 basis-1/8 py-5 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white "><a href="#popupPI" class="">Carga masiva</a></div> 
+        <div style="margin-right: 15%;" class=" ml-8 basis-1/8 py-5 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white  "><a href="" >
             Agregar Punto
         </a></div>
         <div style="margin-right: 15%;">
-            <form action="{% url 'descarga_excelEdoFuerza' %}" method="post">
+            <form action="" method="post">
                 {% csrf_token %}
                 <button type="submit" class="ml-8 basis-1/8 py-5 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white">Descargar</button>
             </form>
         </div>
     </div>
 
-    <div id="popup" class="overlay">
+    <div id="popupPI" class="overlay">
         <div id="popupBody">
             <a href="#" id="cerrar">&times;</a>
             <div class="popupContent">
                 {% if user.is_authenticated %}
                 <center>
                     <h3>
-                        Carga el archivo del Estado de Fuerza
+                        Carga el archivo de los Puntos de Internación
                     </h3>
                     <br>
                 </center>
-                <form action="{% url 'cargar_fuerza' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+                <form action="{% url 'cargar_puntoI' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
                     <p>
                         {{ form.archivo }}
                     </p>
@@ -171,19 +171,19 @@
                 <th>Acciones</th>
                 <th></th>
             </tr>
-            {% for item in edoFuerza %}
+            {% for item in puntosI %}
                 <tr>
-                    <td>{{ item.oficinaR }}</td>
-                    <td>{{ item.tipoP }}</td>
-                    <td>{{ item.nomPuntoRevision }}</td>
+                    <td>{{ item.estadoPunto }}</td>
+                    <td>{{ item.tipoPunto }}</td>
+                    <td>{{ item.nombrePunto }}</td>
                     <td>
-                        <a href="{% url 'editar_estado_fuerza' id_edo_fuerza=item.idEdoFuerza %}" class="py-2 px-6 bg-inm-verde-200 rounded-xl text-white hover:bg-inm-marron-100">
+                        <a href="" class="py-2 px-6 bg-inm-verde-200 rounded-xl text-white hover:bg-inm-marron-100">
                             Editar
                         </a>
                         
                     </td>
                     <td>
-                        <a href="{% url 'eliminar_estado_fuerza' id_edo_fuerza=item.idEdoFuerza %}" class="
+                        <a href="" class="
                         py-2 px-6 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white">
                             Eliminar
                         </a>

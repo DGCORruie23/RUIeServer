@@ -50,6 +50,8 @@ urlpatterns = [
     path('info/descargaD_a', views.downloadDuplicados, name="descarga_duplicados"),
     path('info/descargaTab22', views.generarExcelTab),
     path('info/descargaExcel', views.generarExcelORs, name="descarga_excel"),
+    path('info/descargaExcelUsuarios', views.generarExcelUsuarios, name="descarga_excelUsuarios"),
+    path('info/descargaExcelEdoFuerza', views.generarExcelEdoFuerza, name="descarga_excelEdoFuerza"),
     path('info/updateApp', views.msgUpdateUrl, name="info_app"),
 
     path('info/politica_privacidad', views.politica_privacidad, name="info_politica_privacidad"),

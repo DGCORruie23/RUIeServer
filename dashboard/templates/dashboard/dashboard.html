@@ -126,7 +126,7 @@ Panel de Control de {{usuario.0.oficinaR}}
                 <a href="#popupMunicipios" class=" ">Municipios</a>
                 </div>
                 <div class=" ml-5 basis-1/5 py-2 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">
-                <a href="#popupPI" class="">Puntos de Internación</a>
+                <a href="{% url 'paginaPuntosI' %}" class="">Puntos de Internación</a>
             </div>
             <div class=" ml-5 basis-1/5 py-5 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white ">
                 <a href="{% url 'pagina_pruebas_usuarios' %}" class="">Usuarios</a>
@@ -185,7 +185,7 @@ Panel de Control de {{usuario.0.oficinaR}}
         </div>
     </div>
 
-    <div id="popupPI" class="overlay">
+    <!-- <div id="popupPI" class="overlay">
         <div id="popupBody">
             <a href="#" id="cerrar">&times;</a>
             <div class="popupContent">
@@ -208,7 +208,7 @@ Panel de Control de {{usuario.0.oficinaR}}
                 {% endif %}
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="mt-5 flex flex-col content-center px-5 py-4">
         <center>
@@ -417,8 +417,7 @@ Panel de Control de {{usuario.0.oficinaR}}
             <td class="text-xs text-center">{{val.nacionalidad}}</td>
             <td class="text-xs text-center">{{val.iso3}}</td>
             <td class="text-xs text-center">{{val.nombre}}</td>
-            <td class="text-xs text-blue-500 text-center"><a
-                    href="{% url 'editar' val.idRescate %}">{{val.apellidos}}</a></td>
+            <td class="text-xs text-blue-500 text-center"><a href="{% url 'editar' val.idRescate %}">{{val.apellidos}}</a></td>
             <td class="text-xs text-center">{{val.parentesco}}</td>
             <td class="text-xs text-center">{{val.fechaNacimiento}}</td>
             <td class="text-xs text-center">{{val.edad}}</td>

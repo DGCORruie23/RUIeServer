@@ -354,7 +354,8 @@
 
          //aeropuerto
          if(tipoPunto === "{{tiposPNombre.0}}"){
-            let datosAeropuerto = datosPuntosEstrategicos[oficina]['Aeropuerto'];
+            if(datosPuntosEstrategicos[oficina]['Aeropuerto'] || datosPuntosInternacion[oficina]['AEREOS']){
+                let datosAeropuerto = datosPuntosEstrategicos[oficina]['Aeropuerto'];
             let datosAereos = datosPuntosInternacion[oficina]['AEREOS'];
 
             let datosCombinados = "";
@@ -367,7 +368,6 @@
                 datosCombinados = datosAereos;
             }
 
-            // Convertir el arreglo de datos combinados a una cadena separada por un separador especial
             let datosCombinadosString = datosCombinados.join('|||');
 
             console.log("oficina");
@@ -382,106 +382,147 @@
             let nomPuntos = document.getElementById("id_puntoEstra");
             nomPuntos.innerHTML = '';
 
-            // Separar los datos combinados en opciones individuales
             let opciones = datosCombinadosString.split('|||');
             opciones.forEach(opcion => {
                 let option = document.createElement('option');
                 option.text = opcion;
                 nomPuntos.add(option);
             });
+            }else{
+                let nomPuntos = document.getElementById("id_puntoEstra");
+                nomPuntos.innerHTML = '';
+            }
+
 
 
         //carretero
         } else if (tipoPunto === "{{tiposPNombre.1}}"){
-            let datosCarretero = datosPuntosEstrategicos[oficina]['Carretero'];
-            let datosTERRESTRES = datosPuntosInternacion[oficina]['TERRESTRES'];
+            if(datosPuntosEstrategicos[oficina]['Carretero'] || datosPuntosInternacion[oficina]['TERRESTRES']){
+                let datosCarretero = datosPuntosEstrategicos[oficina]['Carretero'];
+                let datosTERRESTRES = datosPuntosInternacion[oficina]['TERRESTRES'];
 
-            let datosCombinados = "";
+                let datosCombinados = "";
 
-            if (datosCarretero && datosTERRESTRES) {
-                datosCombinados = [...datosCarretero, ...datosTERRESTRES];
-            } else if (datosCarretero) {
-                datosCombinados = datosCarretero;
-            } else if (datosTERRESTRES) {
-                datosCombinados = datosTERRESTRES;
+                if (datosCarretero && datosTERRESTRES) {
+                    datosCombinados = [...datosCarretero, ...datosTERRESTRES];
+                } else if (datosCarretero) {
+                    datosCombinados = datosCarretero;
+                } else if (datosTERRESTRES) {
+                    datosCombinados = datosTERRESTRES;
+                }
+
+                let datosCombinadosString = datosCombinados.join('|||');
+
+                console.log("oficina");
+                console.log(oficina);
+                console.log("datosCarretero");
+                console.log(datosCarretero);
+                console.log("datosTERRESTRES");
+                console.log(datosTERRESTRES);
+                console.log("datosCombinados");
+                console.log(datosCombinadosString);
+
+                let nomPuntos = document.getElementById("id_puntoEstra");
+                nomPuntos.innerHTML = '';
+
+                let opciones = datosCombinadosString.split('|||');
+                opciones.forEach(opcion => {
+                    let option = document.createElement('option');
+                    option.text = opcion;
+                    nomPuntos.add(option);
+                });
+            }else{
+                let nomPuntos = document.getElementById("id_puntoEstra");
+                nomPuntos.innerHTML = '';
             }
-
-            let datosCombinadosString = datosCombinados.join('|||');
-
-            console.log("oficina");
-            console.log(oficina);
-            console.log("datosCarretero");
-            console.log(datosCarretero);
-            console.log("datosTERRESTRES");
-            console.log(datosTERRESTRES);
-            console.log("datosCombinados");
-            console.log(datosCombinadosString);
-
-            let nomPuntos = document.getElementById("id_puntoEstra");
-            nomPuntos.innerHTML = '';
-
-            // Separar los datos combinados en opciones individuales
-            let opciones = datosCombinadosString.split('|||');
-            opciones.forEach(opcion => {
-                let option = document.createElement('option');
-                option.text = opcion;
-                nomPuntos.add(option);
-            });
+            
 
 
 
 
         //central de autobus
         } else if (tipoPunto === "{{tiposPNombre.2}}"){
-            let datosCentral = datosPuntosEstrategicos[oficina]['Central de autobús'];
-            datosCentral = datosCentral.join('|||');
 
-            console.log("oficina");
-            console.log(oficina);
-            console.log("datosCentral");
-            console.log(datosCentral);
+            if(datosPuntosEstrategicos[oficina]['Central de autobús']){
+                let datosCentral = datosPuntosEstrategicos[oficina]['Central de autobús'];
+                datosCentral = datosCentral.join('|||');
 
-            let nomPuntos = document.getElementById("id_puntoEstra");
-            nomPuntos.innerHTML = '';
+                console.log("oficina");
+                console.log(oficina);
+                console.log("datosCentral");
+                console.log(datosCentral);
 
-            let opciones = datosCentral.split('|||');
-            opciones.forEach(opcion => {
-                let option = document.createElement('option');
-                option.text = opcion;
-                nomPuntos.add(option);
-            });
+                let nomPuntos = document.getElementById("id_puntoEstra");
+                nomPuntos.innerHTML = '';
+
+                let opciones = datosCentral.split('|||');
+                opciones.forEach(opcion => {
+                    let option = document.createElement('option');
+                    option.text = opcion;
+                    nomPuntos.add(option);
+                });
+            }else{
+                let nomPuntos = document.getElementById("id_puntoEstra");
+                nomPuntos.innerHTML = '';
+            }
+            
 
         //casa de seguridad y hotel
         } else if (tipoPunto === "{{tiposPNombre.3}}" || tipoPunto === "{{tiposPNombre.5}}"){
+            if(datosMunicipios[oficina]){
+                let datosMun = datosMunicipios[oficina];
+                datosMun = datosMun.join('|||');
 
-            let datosMunicipios = datosMunicipios[oficina];
-            datosMunicipios = datosMunicipios.join('|||');
+                console.log("oficina");
+                console.log(oficina);
+                console.log("datosMunicipios");
+                console.log(datosMun);
 
-            console.log("oficina");
-            console.log(oficina);
-            console.log("datosMunicipios");
-            console.log(datosMunicipios);
+                let nomPuntos = document.getElementById("id_puntoEstra");
+                nomPuntos.innerHTML = '';
 
-            let nomPuntos = document.getElementById("id_puntoEstra");
-            nomPuntos.innerHTML = '';
-
-            let opciones = datosMunicipios.split('|||');
-            opciones.forEach(opcion => {
-                let option = document.createElement('option');
-                option.text = opcion;
-                nomPuntos.add(option);
+                let opciones = datosMun.split('|||');
+                opciones.forEach(opcion => {
+                    let option = document.createElement('option');
+                    option.text = opcion;
+                    nomPuntos.add(option);
             });
+            }else{
+                let nomPuntos = document.getElementById("id_puntoEstra");
+                nomPuntos.innerHTML = '';
+            }
+            
 
         //ferrocarril
-        } else if (tipo_punto === "{{tiposPNombre.4}}"){
+        } else if (tipoPunto === "{{tiposPNombre.4}}"){
 
-        nom_puntos = document.getElementById("id_puntoEstra");
-        nom_puntos.value = "{{datosR.puntoEstra}}";
+            if(datosPuntosEstrategicos[oficina]['Ferroviario']){
+                let datosferrocarril = datosPuntosEstrategicos[oficina]['Ferroviario'];
+                datosferrocarril = datosferrocarril.join('|||');
+
+                console.log("oficina");
+                console.log(oficina);
+                console.log("datosferrocarril");
+                console.log(datosferrocarril);
+
+                let nomPuntos = document.getElementById("id_puntoEstra");
+                nomPuntos.innerHTML = '';
+
+                let opciones = datosferrocarril.split('|||');
+                opciones.forEach(opcion => {
+                    let option = document.createElement('option');
+                    option.text = opcion;
+                    nomPuntos.add(option);
+                });
+            }else{
+                let nomPuntos = document.getElementById("id_puntoEstra");
+                nomPuntos.innerHTML = '';
+            }
+
         //puestos a disposición y voluntarios
-        } else if (tipo_punto === "{{tiposPNombre.6}}" || tipo_punto === "{{tiposPNombre.7}}"){
-
-        nom_puntos = document.getElementById("id_puntoEstra");
-        nom_puntos.value = "Sin Información";
+        } else if (tipoPunto === "{{tiposPNombre.6}}" || tipoPunto === "{{tiposPNombre.7}}"){
+            let nomPuntos = document.getElementById("id_puntoEstra");
+            nomPuntos.innerHTML = "Sin Información";
         }
 
     //     // Agregar opciones al select

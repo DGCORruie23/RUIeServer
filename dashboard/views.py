@@ -269,7 +269,7 @@ def editarData(request, pk):
                 datos_municipios[oficinaR].append(nomMunicipio)
 
 
-            print(datos_municipios)
+            # print(datos_municipios)
             # print("se acabooooooooooooooooooooooooooooooooooooooooooooooooo")
             # print(datos_puntos_internacion)
             datos = {
@@ -391,6 +391,17 @@ def mostrarData(request):
     else:
         messages.success(request, "Necesitas ingresar para poder modificar la informacion")
         return redirect('')
+
+@login_required
+
+def puntosI(request):
+    data = PuntosInternacion.objects.all().order_by('estadoPunto',"nombrePunto")
+    form = CargarArchivoForm()
+    context = {"puntosI": data,
+               "form": form,
+               }
+    return render(request, "dashboard/puntosInternacion.html", context)
+
 
 
 @login_required
