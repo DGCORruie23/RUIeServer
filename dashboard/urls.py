@@ -16,6 +16,9 @@ urlpatterns = [
      path('edoFuerza/anadirPunto', views.agregar_punto, name='agregar_punto'),
 
      path('puntosI', views.puntosI, name="paginaPuntosI"),
+     path('puntosI/anadirPuntoInternacion', views.agregar_puntoInternacion, name='agregar_puntoInternacion'),
+     path('puntosI/editarPuntoI/<int:id_puntoI>', views.editar_puntoInternacion, name='editar_puntoI'),
+     path('puntosI/eliminarPuntoI/<int:id_puntoI>', views.eliminarPuntoI, name='eliminar_PuntoI'),
 
      path('usuarios', views.Usuarios, name="pagina_pruebas_usuarios"),
      path('usuarios/editarUsuario/<int:id_usuario>', views.editar_usuario, name='editar_usuario'),

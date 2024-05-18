@@ -1179,6 +1179,36 @@ def generarExcelUsuarios(request):
 
 
 
+@login_required
+
+@csrf_exempt
+def generarExcelPuntosI(request):
+    if(request.method == "POST"):
+        if request.user.is_superuser:
+            valores = PuntosInternacion.objects.all().order_by("estadoPunto")
+            workbook = opxl.load_workbook('tmp/pI.xlsm', read_only=False, keep_vba=True)
+            worksheet = workbook.active
+            # print(valores)
+            for valor in valores:
+                worksheet.append([
+                    valor.estadoPunto,
+                    valor.nombrePunto,
+                    valor.tipoPunto,
+                ])
+
+
+            response = HttpResponse(content = save_virtual_workbook(workbook), content_type='application/vnd.ms-excel.sheet.macroEnabled.12')
+            response['Content-Disposition'] = 'attachment; filename=PuntosInternacion.xlsm'
+        else:
+            
+            print("no")
+        return response
+    
+    else:
+        return render(request, "base/error404.html")
+
+
+
 
 
 

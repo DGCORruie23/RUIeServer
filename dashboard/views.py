@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from usuarioL.models import usuarioL
-from .forms import ExcelForm, RegistroForm, RegistroNewForm
+from .forms import ExcelForm, RegistroForm, RegistroNewForm, puntosIForm
 from usuario.models import RescatePunto, EstadoFuerza, PuntosInternacion, Municipios, Paises, Usuario
 from django.contrib import messages
 from datetime import *
@@ -402,6 +402,68 @@ def puntosI(request):
                }
     return render(request, "dashboard/puntosInternacion.html", context)
 
+@login_required
+
+def agregar_puntoInternacion(request):
+    idUltimo = PuntosInternacion.objects.latest('idPuntoInter')
+    idUltimo = idUltimo.idPuntoInter
+    # print(idUltimo)
+    if request.method == 'POST':
+        
+        try:
+            # oficinaR = request.POST.get('estadoPunto'),
+            # print("El id de oficinaR = "),
+            # print(oficinaR),
+            PuntosInternacion.objects.create(
+                idPuntoInter = idUltimo+1,
+                estadoPunto = request.POST.get('estadoPunto'),
+                nombrePunto = request.POST.get('nombrePunto'),
+                tipoPunto = request.POST.get('tipoPunto'),
+
+            )
+            print('Agregado éxitosamente')
+            return redirect('paginaPuntosI')
+        except:
+            print('No se ha podido agregar')
+    return render(request, 'dashboard/anadirPuntoInternacion.html')
+
+
+@login_required
+
+def editar_puntoInternacion(request, id_puntoI):
+    
+
+    puntoI = PuntosInternacion.objects.get(idPuntoInter = id_puntoI)
+
+    data = {
+        'form': puntoI
+    }
+    if request.method == 'POST':
+        print("Entró al POST")
+        formulario = puntosIForm(data = request.POST, instance=puntoI)
+
+        if formulario.is_valid():
+            print("Entró a la validación")
+            formulario.save()
+            data['message'] = "Datos Modificados correctamente"
+            data['form'] = formulario
+            return redirect('paginaPuntosI')
+        else:
+            print("Entró al ELSE")
+            print(formulario.errors)
+
+
+
+    return render(request, 'editarPuntosI.html', context= data)
+
+
+@login_required
+
+def eliminarPuntoI(request, id_puntoI):
+    idPuntoI  = PuntosInternacion.objects.get(idPuntoInter = id_puntoI)
+    idPuntoI.delete()
+
+    return redirect('paginaPuntosI')
 
 
 @login_required

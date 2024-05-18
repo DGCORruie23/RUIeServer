@@ -303,6 +303,12 @@ class EstadoFuerzaForm(forms.ModelForm):
         model = EstadoFuerza
         fields = '__all__'
 
+    
+class puntosIForm(forms.ModelForm):
+    class Meta:
+        model = PuntosInternacion
+        fields = '__all__'
+
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario
