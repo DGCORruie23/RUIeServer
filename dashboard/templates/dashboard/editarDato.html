@@ -253,30 +253,30 @@
             tipo_punto = document.getElementById("id_tipo_punto").value;
 
             //aeropuerto
-            if(tipo_punto === "{{tiposPNombre.0}}"){
-
+            if(tipo_punto === "{{ tiposPNombre.0|escapejs }}") {
                 nom_puntos = document.getElementById("id_puntoEstra");
-                nom_puntos.value = "{{datosR.puntoEstra}}";
+
+                nom_puntos.value = "{{ datosR.puntoEstra|escapejs }}";
             //carretero
             } else if (tipo_punto === "{{tiposPNombre.1}}"){
 
                 nom_puntos = document.getElementById("id_puntoEstra");
-                nom_puntos.value = "{{datosR.puntoEstra}}";
+                nom_puntos.value = "{{datosR.puntoEstra|escapejs }}";
             //central de autobus
             } else if (tipo_punto === "{{tiposPNombre.2}}"){
 
                 nom_puntos = document.getElementById("id_puntoEstra");
-                nom_puntos.value = "{{datosR.puntoEstra}}";
+                nom_puntos.value = "{{datosR.puntoEstra|escapejs }}";
             //casa de seguridad y hotel
             } else if (tipo_punto === "{{tiposPNombre.3}}" || tipo_punto === "{{tiposPNombre.5}}"){
 
                 nom_puntos = document.getElementById("id_puntoEstra");
-                nom_puntos.value = "{{datosR.puntoEstra}}";
+                nom_puntos.value = "{{datosR.puntoEstra|escapejs }}";
             //ferrocarril
             } else if (tipo_punto === "{{tiposPNombre.4}}"){
 
                 nom_puntos = document.getElementById("id_puntoEstra");
-                nom_puntos.value = "{{datosR.puntoEstra}}";
+                nom_puntos.value = "{{datosR.puntoEstra|escapejs }}";
             //puestos a disposición y voluntarios
             } else if (tipo_punto === "{{tiposPNombre.6}}" || tipo_punto === "{{tiposPNombre.7}}"){
 

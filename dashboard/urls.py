@@ -6,6 +6,7 @@ urlpatterns = [
      path('datos/', views.mostrarData, name="mostrar"),
      path('editar/<int:pk>', views.editarData, name="editar"),
      path('datos/fecha', views.datos_fecha, name="datos_por_fecha"),
+     path('datos/fechas', views.datos_fechas, name="datos_por_fechas"),
      path('datos/eliminarM', views.eliminar_registros, name="eliminar_varios_registros"),
      path('datos/<int:year>/<int:month>/<int:day>/', views.tabla_registros, name='tabla_registros_fecha'),
 

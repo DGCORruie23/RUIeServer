@@ -261,9 +261,32 @@ Panel de Control de {{usuario.0.oficinaR}}
 
             <button class=" py-2 px-4 mx-4 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white"
                 type="submit">Descargar</button>
+            
+            </button>
         </form>
     </div>
     {% endif %}
+
+    <div class="mt-5 my-6">
+
+        <p class="flex flex-col items-center justify-center mb-2 ">Visualizar archivo por fechas</p>
+        <form action="{% url 'datos_por_fechas' %}" method="post" enctype="multipart/form-data"
+            class="flex justify-center items-center px-2" onsubmit="return validarFechas()">{% csrf_token %}
+
+            <input type="hidden" value="{{usuario.0.oficinaR}}" id="oficinaR" name="oficinaR"> 
+
+            <label for="fechaInicio">Fecha de inicio:</label>
+            <input class="px-2 mx-4" type="date" name="fechaInicio" id="fechaInicio" required="">
+
+            <label class="px-2" for="fechaFin">Fecha de fin:</label>
+            <input type="date" name="fechaFin" id="fechaFin" required="">
+
+            <button class=" py-2 px-4 mx-4 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white"
+                type="submit">Visualizar Datos</button>
+            
+            </button>
+        </form>
+    </div>
 
     <div class="flex flex-col content-center px-5 py-2">
 

@@ -11,6 +11,8 @@ from usuario.forms import CargarArchivoForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.hashers import make_password
+
+import json
 # Create your views here.
 
 @login_required
@@ -67,9 +69,54 @@ def datos_fecha(request):
         if form.is_valid():
             # Obtiene la fecha seleccionada del formulario
             fecha_seleccionada = form.cleaned_data['fechaDescarga']
+
             print(fecha_seleccionada)
             # Redirige a la vista de la tabla de productos con la fecha seleccionada
             return redirect('tabla_registros_fecha', year=fecha_seleccionada.year, month=fecha_seleccionada.month, day=fecha_seleccionada.day)
+    else:
+        return redirect('/dashboard')
+    
+@login_required
+
+def datos_fechas(request):
+    if request.method == 'POST':
+        form = ExcelForm(request.POST)
+        if form.is_valid():
+            # Obtiene la fecha seleccionada del formulario
+
+
+            userDataI = usuarioL.objects.filter(user__username=request.user)
+            
+            fechaI = request.POST["fechaInicio"]
+            fechaF = request.POST["fechaFin"]
+
+            fechaIN = datetime.strptime(f"{fechaI}", "%Y-%m-%d")
+            fechaFN = datetime.strptime(f"{fechaF}", "%Y-%m-%d")
+            
+            array_fechas = [(fechaIN + timedelta(days=d)).strftime("%d-%m-%y") for d in range((fechaFN - fechaIN).days + 1)]
+            form = ExcelForm()
+                
+            if request.user.is_superuser:
+                valores = RescatePunto.objects.filter(fecha=array_fechas)
+
+                data = {
+                'usuario' : userDataI,
+                'form': form,
+                'values' : valores,
+                'fecha_P' : array_fechas,
+                }
+
+                return render(request, "dashboard/datos_diaSU.html", context=data)
+            else:
+                valores = RescatePunto.objects.filter(fecha=array_fechas).filter(oficinaRepre=userDataI[0].oficinaR)
+                data = {
+                    'usuario' : userDataI,
+                    'form': form,
+                    'values' : valores,
+                    'fecha_P' : array_fechas,
+                }
+
+                return render(request, "dashboard/datos_dia.html", context=data)
     else:
         return redirect('/dashboard')
     
@@ -268,10 +315,10 @@ def editarData(request, pk):
                 
                 datos_municipios[oficinaR].append(nomMunicipio)
 
-
             # print(datos_municipios)
             # print("se acabooooooooooooooooooooooooooooooooooooooooooooooooo")
             # print(datos_puntos_internacion)
+            # print(datosR)
             datos = {
                 "form" : form,
                 "value": rescate,

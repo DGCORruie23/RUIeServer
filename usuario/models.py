@@ -115,7 +115,7 @@ class EstadoFuerza(models.Model):
     idEdoFuerza = models.AutoField(primary_key=True)
     oficinaR = models.CharField(max_length=50)
     numPunto = models.IntegerField()
-    nomPuntoRevision = models.CharField(max_length=100)
+    nomPuntoRevision = models.CharField(max_length=350)
     tipoP = models.CharField(max_length=50)
     ubicacion = models.CharField(max_length=300)
     coordenadasTexto = models.CharField(max_length=300)
