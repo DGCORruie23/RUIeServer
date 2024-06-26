@@ -16,45 +16,52 @@
   <script src="https://cdn.tailwindcss.com/3.3.0"></script>
   <script src="{% static 'js/tailwind.config.js' %}"></script>
 
-  {% block styles %}  {% endblock styles %}
+  {% block styles %} {% endblock styles %}
 
-  <style> 
+  <style>
     body {
       background: url("{% static 'imgs/fondo.png' %}") no-repeat center center fixed;
       background-size: cover;
+      margin: 0;
+      padding: 0;
+      font-family: "Open Sans", sans-serif;
+      background-color: #000;
 
     }
 
     .panel {
       margin-left: 35%;
     }
+
     .txt {
       width: 20%;
       margin-left: 78%;
       margin-bottom: 7%;
     }
+
     .btn1 {
       width: 100%;
-      height: 25%; 
+      height: 25%;
     }
 
 
     .btn-container {
-        margin-left: 38%;
-        width: 22%;
-        height: 7%;
+      margin-left: 38%;
+      width: 22%;
+      height: 7%;
     }
+
     .btn1 {
-        display: inline-block;
-        vertical-align: middle;
+      display: inline-block;
+      vertical-align: middle;
     }
 
 
     @media (max-width: 1024px) {
       .btn-container {
-          margin-left: 38%;
-          width: 22%;
-          height: 7%;
+        margin-left: 38%;
+        width: 22%;
+        height: 7%;
 
       }
     }
@@ -66,151 +73,154 @@
 
 
 
-    body{
-  margin: 0;
-  padding: 0;
-  font-family: "Open Sans",sans-serif;
-  background-color:#000;
-}
 
-.ground{
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-footer{
+    .ground {
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-  padding: 10px 0;
-}
+    footer {
 
-.footer_container{
-  max-width: 2560px;
-  margin: auto;
-  padding: 0 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap-reverse;
-}
+      padding: 10px 0;
+    }
 
-.logo{
-  width: 180px;
-  font-size: 16px;
-  font-weight: bold;
-}
+    .footer_container {
+      max-width: 2560px;
+      margin: auto;
+      padding: 0 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap-reverse;
+    }
 
-.social_media{
-  margin: 0;
-}
+    .logo {
+      width: 180px;
+      font-size: 16px;
+      font-weight: bold;
+    }
 
-.social_media a{
-  color: #000;
-  font-size: 24px;
-  text-decoration: none;
-  transition: .6s;
-}
+    .social_media {
+      margin: 0;
+    }
 
-.social_media a:hover{
-  color: gold;
-}
-h1{
-  font-size: 40px;
+    .social_media a {
+      color: #000;
+      font-size: 24px;
+      text-decoration: none;
+      transition: .6s;
+    }
 
-  font-weight: bold;
-}
+    .social_media a:hover {
+      color: gold;
+    }
+
+    h1 {
+      font-size: 40px;
+
+      font-weight: bold;
+    }
 
 
 
-.logoGOB {
+    .logoGOB {
 
       margin-top: auto;
       margin-bottom: auto;
-   }
+    }
   </style>
-  
+
 </head>
 
 <body class="flex flex-col mx-auto my-auto md:h-screen">
 
-  
-<div class="flex justify-between items-center">
-  <a href="/" class="flex items-center text-white hover:text-inm-marron-100">
-    <img class="w-20 h-20" src="{% static 'icons/logo.png' %}" alt="logo" >
-  </a>
 
-  <div class="bg-inm-marron-100 flex flex-grow">
-    <div class="flex-grow panel">
-      <div class="flex-end">
+  <div class="flex justify-between items-center">
+    <a href="/" class="flex items-center text-white hover:text-inm-marron-100">
+      <img class="w-20 h-20" src="{% static 'icons/logo.png' %}" alt="logo">
+    </a>
 
-        <div class="text-center">
-          <p class="font-family: 'Montserrat' text-3xl text-inm-verde-100 font-bold">PANEL DE CONTROL</p>
+    <div class="bg-inm-marron-100 flex flex-grow">
+      <div class="flex-grow panel">
+        <div class="flex-end">
+
+          <div class="text-center">
+            <p class="font-family: 'Montserrat' text-3xl text-inm-verde-100 font-bold">PANEL DE CONTROL</p>
+          </div>
+          <p class="font-family: 'Montserrat' text-1xl text-inm-rojo-200 text-center">
+            <strong>R</strong>eporte
+            <strong>Ú</strong>nico
+            de
+            <strong>I</strong>nformación
+            <strong>E</strong>lectrónico
+          </p>
+          <p class="text-inm-rojo-200 text-center font-bold">RESCATE-CAPTURA</p>
         </div>
-        <p class="font-family: 'Montserrat' text-1xl text-inm-rojo-200 text-center">
-          <strong>R</strong>eporte
-          <strong>Ú</strong>nico
-          de
-          <strong>I</strong>nformación
-          <strong>E</strong>lectrónico
-        </p>
-        <p class="text-inm-rojo-200 text-center font-bold">RESCATE-CAPTURA</p>
       </div>
-    </div>
-    <div class="logoGOB">
-      <a >
-        <img  src="{% static 'icons/LOGO3.png' %}" alt="logo">
-      </a>
-    </div>
-    
-  </div>
+      <div class="logoGOB">
+        <a>
+          <img src="{% static 'icons/LOGO3.png' %}" alt="logo">
+        </a>
+      </div>
 
-  <a>
-    <img style="margin: 0 auto;" width="60%" src="{% static 'icons/inm.png' %}" alt="logo">
-  </a>
-</div>
-<br>
-            {% if request.user.is_authenticated %}
-          
-            <!-- <div class="flex btn-container   ">
+    </div>
+
+    <a>
+      <img style="margin: 0 auto;" width="60%" src="{% static 'icons/inm.png' %}" alt="logo">
+    </a>
+  </div>
+  <br>
+  {% if request.user.is_authenticated %}
+
+  <!-- <div class="flex btn-container   ">
                 <div class="flex-init"><a href="{% url 'dashboard' %}" class="py-4 px-6 bg-inm-gris-200 rounded-xl text-white hover:bg-inm-marron-100 float-right btn-sm ml-auto ">Panel de Control</a></div>
                 <div class="ml-2 flex-init"><a href="{% url 'logout' %}" class="py-4 px-6 bg-inm-rojo-300 rounded-xl text-white hover:bg-inm-marron-100 float-right btn-sm ml-auto ">Cerrar sesión</a></div>
             </div> -->
 
-            <div class=" flex items-center ">
-              <div style="margin-left: 41%;" class="basis-1/8 py-3 px-6 mx-1 bg-inm-gris-200 hover:bg-inm-marron-100 rounded-xl text-white "><a href="{% url 'dashboard' %}" class="">Panel de Control</a></div>
-              <div class="ml-2basis-1/8 py-3 px-6 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white"><a href="{% url 'logout' %}" class="">Cerrar sesión</a></div>
-            </div>
+  <div class=" flex items-center ">
+    <div style="margin-left: 41%;"
+      class="basis-1/8 py-3 px-6 mx-1 bg-inm-gris-200 hover:bg-inm-marron-100 rounded-xl text-white "><a
+        href="{% url 'dashboard' %}" class="">Panel de Control</a></div>
+    <div class="ml-2basis-1/8 py-3 px-6 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white"><a
+        href="{% url 'logout' %}" class="">Cerrar sesión</a></div>
+  </div>
 
 
-                {% else %}
-                <!-- <div class="flex btn-container">
+  {% else %}
+  <!-- <div class="flex btn-container">
                 <div class="flex-init"><a href="{% url 'descargas' %}" class="py-4 px-6 bg-inm-gris-200 rounded-xl text-white hover:bg-inm-verde-200 float-right btn-sm ml-auto ">Descargas</a></div>
                     <br>
                     <div class="ml-2 flex-init"><a href="{% url 'log-in' %}" class="py-4 px-6 bg-inm-verde-100 rounded-xl text-white hover:bg-inm-verde-200 float-right btn-sm ml-auto">Ingresar</a></div>
                 </div> -->
 
-                <div class="  flex items-center ">
-                  <div style="margin-left: 41%;" class="basis-1/8 py-3 px-6 mx-1 bg-inm-gris-200 hover:bg-inm-verde-200 rounded-xl text-white "><a href="{% url 'descargas' %}" class="">Descargas</a></div>
-                  <div class="ml-2basis-1/8 py-3 px-6 mx-1 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white"><a href="{% url 'log-in' %}" class="">Ingresar</a></div>
-                </div>
-                
-                {% endif %}
-          
+  <div class="  flex items-center ">
+    <div style="margin-left: 41%;"
+      class="basis-1/8 py-3 px-6 mx-1 bg-inm-gris-200 hover:bg-inm-verde-200 rounded-xl text-white "><a
+        href="{% url 'descargas' %}" class="">Descargas</a></div>
+    <div class="ml-2basis-1/8 py-3 px-6 mx-1 bg-inm-verde-100 hover:bg-inm-verde-200 rounded-xl text-white"><a
+        href="{% url 'log-in' %}" class="">Ingresar</a></div>
+  </div>
+
+  {% endif %}
+
   {% block content %}
 
   {% endblock content %}
 
-<footer>
-  <div class="footer_container">
-    <div class="logo">  <img  src="{% static 'icons/felipe.png' %}" width="150px" alt="logo" style="margin-right: 150px;"></div>
+  <footer>
+    <div class="footer_container">
+      <div class="logo"> <img src="{% static 'icons/felipe.png' %}" width="150px" alt="logo"
+          style="margin-right: 150px;"></div>
       <div class="social_media">
-       
-        
+
+
       </div>
 
     </div>
-</footer>
+  </footer>
   <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
 </body>
 

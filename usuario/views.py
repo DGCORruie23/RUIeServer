@@ -1237,7 +1237,7 @@ def generarExcelFechas(request):
 
         # array_fechas = [(fechaIN + timedelta(days=d)).strftime("%d-%m-%y") for d in range((fechaIN - fechaFN).days + 1)]
 
-        # print(array_fechas)
+        print(array_fechas)
 
         valores = RescatePunto.objects.filter(fecha__in= array_fechas)
 
