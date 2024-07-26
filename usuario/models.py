@@ -44,7 +44,7 @@ class Usuario(models.Model):
         ("3", "Capturador"),
     ]
     idUser = models.AutoField(primary_key=True)
-    nickname = models.CharField(max_length = 20)
+    nickname = models.CharField(max_length = 30)
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=200)
     password = models.CharField(max_length=250)
