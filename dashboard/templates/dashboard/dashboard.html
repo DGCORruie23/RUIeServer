@@ -14,6 +14,7 @@ Panel de Control de {{usuario.0.oficinaR}}
 
 {% block styles %}
     <style>
+        .hidden { display: none; }
         
             #popupBody{
                 width: 46%;
@@ -242,7 +243,25 @@ Panel de Control de {{usuario.0.oficinaR}}
         </form>
     </div>
 
- 
+    <div class="text-center">
+        <button onclick="mostrarPopupR()" class="bg-inm-marron-200 text-white px-4 py-2 rounded hover:bg-white hover:text-inm-marron-200">Carga masiva de Rescates</button>
+    </div>
+
+    <div id="popupRescates" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded-lg relative w-full max-w-sm">
+            <button onclick="esconderPopupR()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">&times;</button>
+            <p class="py-4 text-center text-black">Ingresa el Archivo Excel de los Rescates</p>
+            <form action="{% url 'masivo_rescate_excel' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+                <p>
+                    {{ formCargar1.archivo }}
+                </p>
+                <br>
+                <p class="text-center">
+                    <input class="py-2 px-5 mx-1 bg-inm-rojo-300 hover:bg-inm-marron-100 rounded-xl text-white" type="submit" value="Cargar" />
+                </p>
+            </form>
+        </div>
+    </div>
 
     {% else %}
     <div class="mt-5 my-6">
@@ -265,9 +284,10 @@ Panel de Control de {{usuario.0.oficinaR}}
             </button>
         </form>
     </div>
+
     {% endif %}
 
-    <div class="mt-5 my-6">
+    {% comment %} <div class="mt-5 my-6">
 
         <p class="flex flex-col items-center justify-center mb-2 ">Visualizar archivo por fechas</p>
         <form action="{% url 'datos_por_fechas' %}" method="post" enctype="multipart/form-data"
@@ -286,7 +306,7 @@ Panel de Control de {{usuario.0.oficinaR}}
             
             </button>
         </form>
-    </div>
+    </div> {% endcomment %}
 
     <div class="flex flex-col content-center px-5 py-2">
 
@@ -337,6 +357,14 @@ Panel de Control de {{usuario.0.oficinaR}}
         }
 
         return true;
+    }
+
+    function mostrarPopupR() {
+        document.getElementById('popupRescates').classList.remove('hidden');
+    }
+
+    function esconderPopupR() {
+        document.getElementById('popupRescates').classList.add('hidden');
     }
 
 

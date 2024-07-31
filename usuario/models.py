@@ -173,7 +173,7 @@ class RescatePunto(models.Model):
     voluntarios = models.BooleanField(default=False)
     otro = models.BooleanField(default=False)
     presuntosDelincuentes = models.BooleanField(default=False)
-    numPresuntosDelincuentes = models.IntegerField()
+    numPresuntosDelincuentes = models.IntegerField(default=0)
     municipio = models.CharField(max_length=200, blank=True)
     puntoEstra = models.CharField(max_length=250, blank=True)
     
@@ -186,7 +186,7 @@ class RescatePunto(models.Model):
     fechaNacimiento = models.CharField(max_length=10)
     sexo = models.BooleanField(default=False)
     embarazo = models.BooleanField(default=False)
-    numFamilia = models.IntegerField(blank=True)
+    numFamilia = models.IntegerField(blank=True, default=0)
     edad = models.IntegerField()
 
     def __str__(self):

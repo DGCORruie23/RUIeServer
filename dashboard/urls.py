@@ -25,5 +25,7 @@ urlpatterns = [
      path('usuarios/editarUsuario/<int:id_usuario>', views.editar_usuario, name='editar_usuario'),
      path('usuarios/anadirUsuario', views.agregar_usuario, name='agregar_usuario'),
      path('usuarios/eliminarUsuario/<int:id_usuario>', views.eliminarUsuario, name='eliminar_usuario'),
+
+     path('masivoRescate', views.masivoRescatesE, name='masivo_rescate_excel'),
 ]
 

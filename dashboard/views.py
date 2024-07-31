@@ -5,6 +5,7 @@ from .forms import ExcelForm, RegistroForm, RegistroNewForm, puntosIForm
 from usuario.models import RescatePunto, EstadoFuerza, PuntosInternacion, Municipios, Paises, Usuario
 from django.contrib import messages
 from datetime import *
+import openpyxl as opxl
 
 from .forms import EstadoFuerzaForm, UsuarioForm
 from usuario.forms import CargarArchivoForm
@@ -16,7 +17,6 @@ import json
 # Create your views here.
 
 @login_required
-
 def dashboard(request):
 
     if request.method == 'GET':
@@ -677,6 +677,91 @@ def eliminarUsuario(request, id_usuario):
 
     return redirect('pagina_pruebas_usuarios')
 
+@login_required
+def masivoRescatesE(request):
+
+    if request.method == 'POST':
+        form = CargarArchivoForm(request.POST, request.FILES)
+        if(form.is_valid()):
+            excel_file = request.FILES["archivo"]
+            nombreA = str(excel_file.name)
+            extensionA = (nombreA.split(".")[-1]).lower()
+            # print((nombreA.split(".")[-1]).lower())
+            if( extensionA == "xlsx" 
+               or extensionA == ".xlsm" 
+               or extensionA == ".xlsb" 
+               or extensionA == ".xltx" 
+               or extensionA == ".xltm" 
+               or extensionA == ".xls"):
+                dataWB = opxl.load_workbook(excel_file, data_only=True)
+
+                data = dataWB.worksheets[0]
+
+                i = 1
+
+                while not(i == 0):
+                    if(data.cell(i + 5, 2).value == None):
+                        i = 0
+                    else:
+                        oficinaR = data.cell(i + 5, 1).value
+                        fecha = datetime.strftime(data.cell(i + 5, 2).value, "%d-%m-%Y") if data.cell(i + 5, 2).value != None else "01/01/1900" 
+                        horaE = data.cell(i + 5, 3).value
+                        agente = data.cell(i + 5, 4).value
+
+                        aereo = True if data.cell(i + 5, 5).value in ["X","x"] else False
+                        carreteroE = True if data.cell(i + 5, 6).value in ["X","x"] else False
+                        casa = True if data.cell(i + 5, 7).value in ["X","x"] else False
+                        central = True if data.cell(i + 5, 8).value in ["X","x"] else False
+                        ferro = True if data.cell(i + 5, 9).value in ["X","x"] else False
+                        hotelE = True if data.cell(i + 5, 10).value in ["X","x"] else False
+                        puestos = True if data.cell(i + 5, 11).value in ["X","x"] else False
+                        voluntariosE = True if data.cell(i + 5, 12).value in ["X","x"] else False
+
+                        puntoEstrategico = data.cell(i + 5, 14).value
+                        nacionalidad = data.cell(i + 5, 15).value
+                        nombre = data.cell(i + 5, 16).value
+                        apellidos = data.cell(i + 5, 17).value
+                        parentesco = (data.cell(i + 5, 18).value).upper() if data.cell(i + 5, 18).value not in [None, "-"] else 0 
+                        fechaNac = datetime.strftime(data.cell(i + 5, 19).value, "%d/%m/%Y") if data.cell(i + 5, 19).value != None else "01/01/1900"
+                        sexoE = True if data.cell(i + 5, 20).value in ["HOMBRE", "Masculino", "hombre", "Hombre"] else False
+                        edadE = data.cell(i + 5, 21).value
+
+                        iso3A = Paises.objects.filter(nombre_pais=nacionalidad).first()
+                        iso3E = iso3A.iso3 if iso3A != None else "APA"
+                        
+                        RescatePunto.objects.create(
+                            oficinaRepre = oficinaR,
+                            fecha=fecha,
+                            hora= horaE,
+                            nombreAgente= agente,
+                            aeropuerto= aereo,
+                            carretero= carreteroE,
+                            casaSeguridad= casa,
+                            centralAutobus= central,
+                            ferrocarril= ferro,
+                            hotel= hotelE,
+                            puestosADispo= puestos,
+                            voluntarios= voluntariosE,
+
+                            puntoEstra= puntoEstrategico,
+                            nacionalidad= nacionalidad,
+                            iso3= iso3E,
+                            nombre= nombre,
+                            apellidos= apellidos,
+                            parentesco= parentesco,
+                            fechaNacimiento= fechaNac,
+                            sexo= sexoE,
+                            edad= edadE,
+                        )
+
+                        # i = 0
+                        i+=1
+            else: 
+                print("Error:\tEl formato del archivo es incorrecto")
+
+        return redirect('dashboard')
+    else:
+        return redirect('dashboard')
 
 
 # def update_record(request, pk):
