@@ -40,3 +40,6 @@ class usuarioL(models.Model):
     ]
     user = models.OneToOneField(User, related_name="usuarioL", on_delete=models.CASCADE)
     oficinaR = models.CharField(max_length=20, choices=types_ORS, default="CDMX")
+
+    def __str__(self):
+        return "{user} --> {oficinaR}".format(user = self.user, oficinaR = self.oficinaR)

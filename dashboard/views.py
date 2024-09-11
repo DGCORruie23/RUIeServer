@@ -140,8 +140,8 @@ def eliminar_registros(request):
     # Obtén todos los productos para mostrar en la tabla
     return redirect("/dashboard")
 
-@login_required
 
+@login_required
 def tabla_registros(request, year=None, month=None, day=None):
     
     userDataI = usuarioL.objects.filter(user__username=request.user)

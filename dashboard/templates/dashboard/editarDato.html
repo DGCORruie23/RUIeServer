@@ -81,7 +81,7 @@
                     <div class="form-group">
                     <label for="id_oficinaRepre">Oficina:</label>
                     <!-- <input type="text" name="idoficinaRepre" value="{{datosR.oficinaR}}" required="" id="id_oficinaRepre"> -->
-                    <select type="text" name="oficinaR" value="{{ datosR.oficinaR }}" class="elegant-input" id="id_oficinaRepre">
+                    <select type="text" name="oficinaR" value="{{ datosR.oficinaR }}" class="elegant-input" id="id_oficinaRepre" {% if not request.user.is_superuser %} hidden {% endif %}>
                         <option value="AGUASCALIENTES" {% if datosR.oficinaR == 'AGUASCALIENTES' %}selected{% endif %}>AGUASCALIENTES</option>
                         <option value="BAJA CALIFORNIA" {% if datosR.oficinaR == 'BAJA CALIFORNIA' %}selected{% endif %}>BAJA CALIFORNIA</option>
                         <option value="BAJA CALIFORNIA SUR" {% if datosR.oficinaR == 'BAJA CALIFORNIA SUR' %}selected{% endif %}>BAJA CALIFORNIA SUR</option>

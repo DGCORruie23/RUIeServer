@@ -266,8 +266,10 @@ Panel de Control de {{usuario.0.oficinaR}}
         </form>
     </div>
     {% endif %}
+    
+    
 
-    <div class="mt-5 my-6">
+    {% comment %} <div class="mt-5 my-6">
 
         <p class="flex flex-col items-center justify-center mb-2 ">Visualizar archivo por fechas</p>
         <form action="{% url 'datos_por_fechas' %}" method="post" enctype="multipart/form-data"
@@ -286,8 +288,8 @@ Panel de Control de {{usuario.0.oficinaR}}
             
             </button>
         </form>
-    </div>
-
+    </div> {% endcomment %}
+    
     <div class="flex flex-col content-center px-5 py-2">
 
         <form action="{% url 'datos_por_fecha' %}" method="post" enctype="multipart/form-data"
