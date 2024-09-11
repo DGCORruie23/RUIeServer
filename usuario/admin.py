@@ -20,10 +20,10 @@ class InternacionAdmin(admin.ModelAdmin):
 
 admin.site.register(Usuario)
 admin.site.register(Paises)
-admin.site.register(EstadoFuerza)
+admin.site.register(EstadoFuerza, EstadoAdmin)
 admin.site.register(Frases)
 admin.site.register(Municipios)
-admin.site.register(PuntosInternacion)
-admin.site.register(RescatePunto)
+admin.site.register(PuntosInternacion, InternacionAdmin)
+admin.site.register(RescatePunto, RescateAdmin)
 admin.site.register(ConteoRapidoPunto)
 admin.site.register(MsgUpdate)
