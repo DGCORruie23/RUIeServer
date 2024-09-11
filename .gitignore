@@ -3,7 +3,8 @@
 /enntorno
 *.apk
 db.sqlite3
-*.pyc
+.pyc
+.DS_Store
 */*/*/__pycache__/
 */*/__pycache__/
 */__pycache__/
