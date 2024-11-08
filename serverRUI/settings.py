@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'usuario',
     'usuarioL',
     'dashboard',
+    'estadistica',
 ]
 
 MIDDLEWARE = [

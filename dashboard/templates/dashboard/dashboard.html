@@ -66,11 +66,16 @@ Panel de Control de {{usuario.0.oficinaR}}
     </style>
     {% endblock styles %}
 
+{% block estadistica %}
+    {% if request.user.is_superuser %}
+        <a href="{% url 'estadistica' %}" class="bg-inm-verde-100 text-white px-6 py-3 rounded-xl hover:bg-inm-marron-200">Estadistica</a>
+    {% endif %}
+{% endblock estadistica %}
+
+
 {% block content %}
 {% comment %} <h1 class="text-xl">Dashboard de {{usuario.0.oficinaR}} </h1> {% endcomment %}
-
 <div class="grow">
-
     {% if request.user.is_superuser %}
     <!--<div class="flex flex-col content-center px-5 py-5">-->
 
