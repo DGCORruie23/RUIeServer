@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1@t2z1-64=lw%hcy^bt)_0i5v+^0a%%d_^0o_v&!c^r4yov70_'
+# SECRET_KEY = 'django-insecure-1@t2z1-64=lw%hcy^bt)_0i5v+^0a%%d_^0o_v&!c^r4yov70_'
+SECRET_KEY = os.environ.get('SECRET_KEY', default='django-insecure-v1!($nd@2=4ye0j%ko65$^w=o6*3trmobv7m9mygzr+jb=it=c')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = int(os.environ.get("DEBUG", default=1))
 
-ALLOWED_HOSTS = ['ruie.dgcor.com', 'www.ruie.dgcor.com', "192.168.8.2","192.168.8.15", "localhost", "172.22.13.148","127.0.0.1","192.168.42.123"]
+# ALLOWED_HOSTS = ['ruie.dgcor.com', 'www.ruie.dgcor.com', "192.168.8.2","192.168.8.15", "localhost", "172.22.13.148","127.0.0.1","192.168.42.123"]
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", default='localhost 172.22.13.148').split(" ")
+
 
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGIN_URL = 'log-in'
