@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto, ConteoRapidoPunto, MsgUpdate
+from .models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto, ConteoRapidoPunto, MsgUpdate, DisuadidosPunto
 
 class RescateAdmin(admin.ModelAdmin):
     list_display = ['idRescate', 'oficinaRepre', 'puntoEstra']
@@ -25,5 +25,6 @@ admin.site.register(Frases)
 admin.site.register(Municipios)
 admin.site.register(PuntosInternacion, InternacionAdmin)
 admin.site.register(RescatePunto, RescateAdmin)
+admin.site.register(DisuadidosPunto)
 admin.site.register(ConteoRapidoPunto)
 admin.site.register(MsgUpdate)

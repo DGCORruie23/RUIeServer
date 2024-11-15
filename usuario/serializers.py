@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from usuario.models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto, ConteoRapidoPunto, MsgUpdate
+from usuario.models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto, ConteoRapidoPunto, MsgUpdate, DisuadidosPunto
 
 class UserGetSerializer(ModelSerializer):
 	class Meta:
@@ -207,3 +207,20 @@ class ConteoRapidoSerializer(ModelSerializer):
 			]
 	def create(self, validated_data):
 		return ConteoRapidoPunto.objects.create(**validated_data)
+	
+class ConteoDisuadidosSerializer(ModelSerializer):
+	class Meta:
+		model = DisuadidosPunto
+		fields = [
+			'oficinaRepre',
+			'fecha',
+			'hora',
+			'nombreAgente',
+
+			'tipoPuntoRevision',
+			'nombrePuntoRevision',
+			'numDisiadidos',
+		]
+	
+	def create(self, validated_data):
+		return DisuadidosPunto.objects.create(**validated_data)

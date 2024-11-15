@@ -317,3 +317,26 @@ class ConteoRapidoPunto(models.Model):
                        tipo = tipo,
                        iso3 = self.iso3,
                        cuantos = total))
+    
+
+class DisuadidosPunto(models.Model):
+    idDisuadidos = models.AutoField(primary_key=True)
+    oficinaRepre = models.CharField(max_length=50)
+    fecha = models.DateField()
+    hora = models.TimeField()
+    nombreAgente = models.CharField(max_length=300, blank=True)
+
+    tipoPuntoRevision = models.CharField(max_length=300, blank=True)
+    nombrePuntoRevision = models.CharField(max_length=300, blank=True)
+    numDisiadidos = models.IntegerField(default=0)
+
+    def __str__(self):
+        stringReturn = "{id}.- OR: {oficinaRepre}, Fecha: {fecha} {hora}, Tipo: {nombrePunto} --> #{cuantos}".format( 
+            id = self.idDisuadidos,
+            oficinaRepre = self.oficinaRepre,
+            fecha = self.fecha,
+            hora = self.hora,
+            nombrePunto = self.nombrePuntoRevision,
+            cuantos = self.numDisiadidos
+            )
+        return(stringReturn)

@@ -5,7 +5,7 @@ from rest_framework.parsers import JSONParser
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
 from .serializers import UserGetSerializer, UserGetSerializerC, PaisesGetSerializer, EstadoFuerzaGetSerializer, FrasesGetSerializer, ListRescatePuntoSerializer, RescatePuntoSerializer
-from .serializers import MunicipiosGetSerializer, PuntosInterGetSerializer, ConteoRapidoSerializer, MsgUpdateGetSerializer
+from .serializers import MunicipiosGetSerializer, PuntosInterGetSerializer, ConteoRapidoSerializer, MsgUpdateGetSerializer, ConteoDisuadidosSerializer
 from .models import Usuario, Paises, EstadoFuerza, Frases, Municipios, PuntosInternacion, RescatePunto, ConteoRapidoPunto, MsgUpdate
 from .forms import CargarArchivoForm, ExcelForm, ExcelFormOr, ExcelFormOrs 
 import openpyxl as opxl
@@ -579,6 +579,28 @@ def insert_conteo(request):
                 'guardado' : "error"
             }
             return JsonResponse( dataR, status = 200)
+        
+@csrf_exempt
+def insert_disuadidos(request):
+    if request.method == 'POST':
+        datos_recibidos = JSONParser().parse(request)
+        datos_serializados = ConteoDisuadidosSerializer(data=datos_recibidos, many=True)
+        if datos_serializados.is_valid():
+            datos_serializados.save()
+            # print(datos)
+            dataR = {
+                'guardado' : "ok"
+            }
+            return JsonResponse(dataR, status = 200)
+            
+        else:
+            # print(datos_serializados.data)
+            # datos_serializados.is_valid
+            # print(datos_serializados.errors)
+            dataR = {
+                'guardado' : "error"
+            }
+            return JsonResponse(dataR, status = 400)
 
 @csrf_exempt
 def msgUpdateUrl(request):

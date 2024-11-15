@@ -59,6 +59,7 @@ urlpatterns = [
 
     path('registro/insertR', views.insert_rescates),
     path('registro/insertC', views.insert_conteo),
+    path('registro/insertD', views.insert_disuadidos),
     path('descargas/', views.servirApps, name="descargas"),
     path('descargas/apk', views.downloadAPK, name="descarga_android"),
 
