@@ -78,6 +78,7 @@ class Frases(models.Model):
 class MsgUpdate(models.Model):
     idMsg = models.AutoField(primary_key=True)
     version = models.CharField(max_length=25)
+    info = models.BooleanField(default=False)
     msg = models.CharField(max_length=500,blank=True)
 
     def __str__(self):

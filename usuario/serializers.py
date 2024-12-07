@@ -64,6 +64,7 @@ class MsgUpdateGetSerializer(ModelSerializer):
 		fields = [
 			'version',
 			'msg',
+			'info',
 			]
 
 class EstadoFuerzaGetSerializer(ModelSerializer):
