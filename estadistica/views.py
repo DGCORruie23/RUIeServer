@@ -34,22 +34,29 @@ def reincidentes_xdia_ajax(request):
         # Convertir el formato de llegada a formato de hora
         fechaIN = datetime.strptime(f"{fecha}", "%Y-%m-%d")
 
+        # Descomentar para una fecha especifica
+        # fechaIN = datetime.strptime(f"2024-12-01", "%Y-%m-%d")
+        # fechaFIN = datetime.strptime(f"2024-12-15", "%Y-%m-%d")
+
         # fecha_year_less = fechaIN - timedelta(days=365)
 
         array_fechasAnual = [(fechaIN + timedelta(days=d)).strftime("%d-%m-%y") for d in range((365 + 1))]
 
         array_fechasDia = [(fechaIN + timedelta(days=d)).strftime("%d-%m-%y") for d in range((fechaIN - fechaIN).days + 1)]
 
+         # Descomentar para una fecha especifica
+        # array_fechasDia = [(fechaIN + timedelta(days=d)).strftime("%d-%m-%y") for d in range((fechaFIN - fechaIN).days + 1)]
+
         # Rescates por dia de las OR sin chiapas y tabasco
         rescates_por_dia = RescatePunto.objects.filter(fecha__in= array_fechasDia).exclude(oficinaRepre__in=["CHIAPAS", "TABASCO"]) \
-            .values('nombre', 'apellidos', 'iso3', 'puntoEstra') \
+            .values('nombre', 'apellidos', 'iso3', 'puntoEstra', 'oficinaRepre') \
             .order_by('iso3')
 
         datosORs = list(rescates_por_dia)
 
         # Rescates por dia de la OR CHIS
         rescates_por_dia_CHIS = RescatePunto.objects.filter(fecha__in=array_fechasDia, oficinaRepre="CHIAPAS") \
-            .values('nombre', 'apellidos', 'iso3', 'puntoEstra') \
+            .values('nombre', 'apellidos', 'iso3', 'puntoEstra', 'oficinaRepre') \
             .order_by('iso3')
 
         datosCHIS = list(rescates_por_dia_CHIS)

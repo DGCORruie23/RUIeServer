@@ -61,6 +61,7 @@
 
 <script>
     let infoExcel = null;
+    let fechaArchivo = "2024-01-01";
 
     $(document).ready(function() {
         $('#form-fecha').on('submit', function(e) {
@@ -92,6 +93,7 @@
                         infoExcel = response.data[0].resultados;
                         resultados.append(response.data[0].conteo);
                         fechaC.append(response.data[0].fecha);
+                        fechaArchivo = response.data[0].fecha;
                         // Diccionario pasado desde Django
                     } else {
                         resultados.append('<h1>No se encontraron resultados</h1>');
@@ -122,7 +124,7 @@
         XLSX.utils.book_append_sheet(workbook, worksheet, "Datos");
 
         // Descargar el archivo Excel
-        XLSX.writeFile(workbook, "datos.xlsx");
+        XLSX.writeFile(workbook, "Reincidentes_" + fechaArchivo + ".xlsx");
 
         
 
